@@ -3,17 +3,16 @@ package Client.GUI;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Register extends BasePanel {
- 
-    private final JFrame parentFrame;
+public class Register extends JPanel {
+    private final JDialog parentDialog;
 
-    public Register(JFrame parentFrame){
-
-        this.parentFrame = parentFrame;
+    public Register(JDialog parentDialog) {
+        this.parentDialog = parentDialog;
         initComponents();
     }
 
@@ -51,21 +50,15 @@ public class Register extends BasePanel {
         gbc.gridy = 2;
         add(bioText, gbc);
 
-        JButton RegisterButton = new JButton("Register");
+        JButton registerButton = new JButton("Register");
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
-        add(RegisterButton, gbc);
+        add(registerButton, gbc);
 
-        RegisterButton.addActionListener(e -> {
+        registerButton.addActionListener(e -> {
 
-            parentFrame.getContentPane().removeAll();
-            Dashboard dashboardPanel = new Dashboard(parentFrame);
-            parentFrame.add(dashboardPanel);
-            parentFrame.revalidate();
-            parentFrame.repaint();
-
+            parentDialog.dispose();
         });
     }
-    
 }

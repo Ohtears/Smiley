@@ -3,15 +3,16 @@ package Client.GUI;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Login extends BasePanel {
-    private final JFrame parentFrame;
+public class Login extends JPanel {
+    private final JDialog parentDialog;
 
-    public Login(JFrame parentFrame) {
-        this.parentFrame = parentFrame;
+    public Login(JDialog parentDialog) {
+        this.parentDialog = parentDialog;
         initComponents();
     }
 
@@ -47,24 +48,7 @@ public class Login extends BasePanel {
 
         loginButton.addActionListener(e -> {
 
-            parentFrame.getContentPane().removeAll();
-            Dashboard dashboardPanel = new Dashboard(parentFrame);
-            parentFrame.add(dashboardPanel);
-            parentFrame.revalidate();
-            parentFrame.repaint();
-
-        //     //
-        // loginButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-
-        //         parentFrame.getContentPane().removeAll();
-        //         Dashboard dashboardPanel = new Dashboard(parentFrame);
-        //         parentFrame.add(dashboardPanel);
-        //         parentFrame.revalidate();
-        //         parentFrame.repaint();
-        //     }
-        // }); 
+            parentDialog.dispose();
         });
     }
 }
