@@ -15,17 +15,46 @@ public class MainApp {
 
             JPanel leftsidep = new JPanel();
             JPanel imagetwitter = new ImageHandler("twittericon.png");
+            leftsidep.setPreferredSize(new Dimension(700, 600));
             imagetwitter.setPreferredSize(new Dimension(700, 600));
             leftsidep.add(imagetwitter);
+            leftsidep.setBackground(Color.BLACK);
 
             JPanel footerp = new JPanel();
-            JLabel labelfooterp = new JLabel("Footer");
-            footerp.add(labelfooterp);
-
+            footerp.setLayout(new BoxLayout(footerp, BoxLayout.Y_AXIS));
             footerp.setPreferredSize(new Dimension(1200, 120));
-            leftsidep.setPreferredSize(new Dimension(700, 600));
+            footerp.setBackground(Color.BLACK);
+
+            JLabel labelfooterp1 = new JLabel("Contact Us");
+            JLabel labelfooterp2 = new JLabel("+98 912 779 8614");
+            JLabel labelfooterp3 = new JLabel("This project was made by Ashkan Marali aka Tears");
+            JLabel labelfooterp4 = new JLabel("Student of University of Guilan");
+
+            Font footerFont = new Font("Arial", Font.PLAIN, 12);
+            Color footerColor = Color.WHITE;
+
+            labelfooterp1.setFont(footerFont);
+            labelfooterp1.setForeground(footerColor);
+            labelfooterp2.setFont(footerFont);
+            labelfooterp2.setForeground(footerColor);
+            labelfooterp3.setFont(footerFont);
+            labelfooterp3.setForeground(footerColor);
+            labelfooterp4.setFont(footerFont);
+            labelfooterp4.setForeground(footerColor);
+
+            labelfooterp1.setAlignmentX(Component.CENTER_ALIGNMENT);
+            labelfooterp2.setAlignmentX(Component.CENTER_ALIGNMENT);
+            labelfooterp3.setAlignmentX(Component.CENTER_ALIGNMENT);
+            labelfooterp4.setAlignmentX(Component.CENTER_ALIGNMENT);
             
-            footerp.setBackground(Color.GREEN);
+            footerp.add(Box.createVerticalStrut(55));
+            footerp.add(labelfooterp1);
+            footerp.add(labelfooterp2);
+            footerp.add(labelfooterp3);
+            footerp.add(labelfooterp4);
+            
+            
+            footerp.setBackground(Color.GRAY);
             
             JPanel mainp = new JPanel();
             mainp.setLayout(new BoxLayout(mainp, BoxLayout.Y_AXIS));
@@ -46,6 +75,7 @@ public class MainApp {
             registerButton.setForeground(Color.WHITE);
             registerButton.setFont(new Font("Arial", Font.BOLD, 22));
             registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
             JPanel termsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
             termsPanel.setBackground(Color.BLACK);

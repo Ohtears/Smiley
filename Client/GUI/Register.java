@@ -1,12 +1,7 @@
 package Client.GUI;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.*;
+import javax.swing.*;
 
 public class Register extends JPanel {
     private final JDialog parentDialog;
@@ -17,47 +12,94 @@ public class Register extends JPanel {
     }
 
     private void initComponents() {
+        setBackground(Color.BLACK);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10); 
 
-        JLabel userLabel = new JLabel("Email:");
+        JLabel titleLabel = new JLabel("Create your account");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        add(userLabel, gbc);
+        gbc.gridwidth = 2;
+        add(titleLabel, gbc);
 
-        JTextField userText = new JTextField(15);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        add(userText, gbc);
-
-        JLabel passwordLabel = new JLabel("Password:");
+        gbc.gridwidth = 1;
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 1;
-        add(passwordLabel, gbc);
+        add(nameLabel, gbc);
 
-        JTextField passwordText = new JTextField(15);
+        JTextField nameText = new JTextField(15);
         gbc.gridx = 1;
         gbc.gridy = 1;
-        add(passwordText, gbc);
+        add(nameText, gbc);
 
-        JLabel bioLabel = new JLabel("BIO:");
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 2;
-        add(bioLabel, gbc);
+        add(emailLabel, gbc);
 
-        JTextField bioText = new JTextField(15);
+        JTextField emailText = new JTextField(15);
         gbc.gridx = 1;
         gbc.gridy = 2;
-        add(bioText, gbc);
+        add(emailText, gbc);
 
-        JButton registerButton = new JButton("Register");
+        JLabel dobLabel = new JLabel("Date of Birth:");
+        dobLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 3;
+        add(dobLabel, gbc);
+
+        JPanel dobPanel = new JPanel();
+        dobPanel.setBackground(Color.BLACK);
+
+        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        JComboBox<String> monthCombo = new JComboBox<>(months);
+        dobPanel.add(monthCombo);
+
+        Integer[] days = new Integer[31];
+        for (int i = 0; i < 31; i++) {
+            days[i] = i + 1;
+        }
+        JComboBox<Integer> dayCombo = new JComboBox<>(days);
+        dobPanel.add(dayCombo);
+
+        Integer[] years = new Integer[100];
+        for (int i = 0; i < 100; i++) {
+            years[i] = 1924 + i;
+        }
+        JComboBox<Integer> yearCombo = new JComboBox<>(years);
+        dobPanel.add(yearCombo);
+
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        add(dobPanel, gbc);
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        add(passwordLabel, gbc);
+
+        JPasswordField passwordText = new JPasswordField(15);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        add(passwordText, gbc);
+
+        JButton registerButton = new JButton("Create Account");
+        registerButton.setForeground(Color.BLACK);
+        registerButton.setBackground(Color.CYAN);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         add(registerButton, gbc);
 
         registerButton.addActionListener(e -> {
-
             parentDialog.dispose();
         });
     }
