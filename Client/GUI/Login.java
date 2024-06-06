@@ -1,5 +1,6 @@
 package Client.GUI;
 
+import Server.Database.MYSQLHandler;
 import java.awt.*;
 import javax.swing.*;
 
@@ -58,7 +59,31 @@ public class Login extends JPanel {
         add(loginButton, gbc);
 
         loginButton.addActionListener(e -> {
-            parentDialog.dispose();
+
+            String email = userText.getText();
+
+            String password = new String(passwordText.getPassword());
+
+            if (email == null || email.isEmpty() || password.isEmpty()
+
+            ) {
+                JOptionPane.showMessageDialog(null, "All fields are required.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+
+                String hashedPassword = HashPassword.hashwithsha256(password);
+
+                if (MYSQLHandler.Checkpassword(email, hashedPassword)){
+                    
+                    parentDialog.dispose();
+
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Password Incorrect", "Error", JOptionPane.ERROR_MESSAGE);
+
+                }
+
+            }
         });
 
         JLabel noAccountLabel = new JLabel("Don't have an account?");

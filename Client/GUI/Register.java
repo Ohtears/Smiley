@@ -115,6 +115,7 @@ public class Register extends JPanel {
             password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "All fields are required.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                
             else {
                     
                 String hashedPassword = HashPassword.hashwithsha256(password);
