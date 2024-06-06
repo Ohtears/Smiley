@@ -1,5 +1,7 @@
 package Client.GUI;
 
+import Client.Models.TimeDate;
+import Client.Models.User;
 import java.awt.*;
 import javax.swing.*;
 
@@ -100,7 +102,29 @@ public class Register extends JPanel {
         add(registerButton, gbc);
 
         registerButton.addActionListener(e -> {
-            parentDialog.dispose();
+            String username = nameText.getText();
+            String email = emailText.getText();
+            int day = Integer.parseInt(dayCombo.getSelectedItem().toString());
+            String month = monthCombo.getSelectedItem().toString();
+            int year = Integer.parseInt(yearCombo.getSelectedItem().toString());
+            String password = new String(passwordText.getPassword());
+
+            if (username == null || username.isEmpty() ||
+            email == null || email.isEmpty() ||
+            month == null || month.isEmpty() ||
+            password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "All fields are required.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                
+                TimeDate birthday = new TimeDate(day, month, year);
+                User user = new User(10, username , email, password, birthday);
+                
+                parentDialog.dispose();
+
+            }
+            
+
         });
     }
 }
