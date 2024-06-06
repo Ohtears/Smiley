@@ -1,5 +1,7 @@
 package Client.Models;
 
+import Server.Database.MYSQLHandler;
+
 public class User{
 
     private int userid;
@@ -15,15 +17,8 @@ public class User{
         this.Email = Email;
         this.Password = Password;
         this.Birthday = Birthday;
-        init2database();
+        MYSQLHandler.InsertUserQuery(Username, Email, Password, Birthday);
     }
     
-    private void init2database(){
-
-        
-
-    }
-
-
 
 }

@@ -1,8 +1,6 @@
 package Client.GUI;
 
 
-
-public class Dashboard extends BasePanel {
-
+public class Dashboard {
     
 }
