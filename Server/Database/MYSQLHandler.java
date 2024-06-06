@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -46,7 +47,7 @@ public class MYSQLHandler {
 
     public static void InsertUserQuery(String username, String email, String password, TimeDate birth){
 
-        String insertSQL = "INSERT INTO users (username, email, password, birthday) VALUES (?, ?, ?, ?)";
+        String insertSQL = QueryEnum.INSERTUSER.query;
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
@@ -60,9 +61,6 @@ public class MYSQLHandler {
 
             preparedStatement.setDate(4, birthdaysql);
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            System.out.println(rowsAffected + " row(s) inserted.");
-
         } 
         catch (SQLException e) {
             System.out.println("Failed to insert user.");
@@ -71,8 +69,27 @@ public class MYSQLHandler {
 
     }
     
+    public static boolean Checkpassword(String email, String password) {
+
+        String selectSQL = QueryEnum.FETCHPASS.query;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+
+                preparedStatement.setString(1, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String storedPassword = resultSet.getString("password");
+                        return password.equals(storedPassword);
+                    }
+                }
     
+            } 
+            catch (SQLException e) {
+                System.out.println("Failed to check password.");
+            }
+        return false;
     
-    
-    
+    }
 }
