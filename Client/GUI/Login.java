@@ -1,14 +1,17 @@
 package Client.GUI;
 
+import Client.GUI.MainApp.App;
 import Server.Database.MYSQLHandler;
 import java.awt.*;
 import javax.swing.*;
 
 public class Login extends JPanel {
     private final JDialog parentDialog;
+    private final JFrame mainFrame;
 
-    public Login(JDialog parentDialog) {
+    public Login(JDialog parentDialog, JFrame mainFrame) {
         this.parentDialog = parentDialog;
+        this.mainFrame = mainFrame;
         initComponents();
     }
 
@@ -76,6 +79,7 @@ public class Login extends JPanel {
                 if (MYSQLHandler.Checkpassword(email, hashedPassword)){
                     
                     parentDialog.dispose();
+                    openApp();
 
                 }
                 else {
@@ -119,4 +123,19 @@ public class Login extends JPanel {
 
         registerDialog.setVisible(true);
     }
+
+    private void openApp(){
+
+        SwingUtilities.invokeLater(() -> {
+
+            App app = new App();
+
+            app.setVisible(true);
+
+
+        });
+
+    }
+
+
 }
