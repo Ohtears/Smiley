@@ -120,6 +120,7 @@ public class Register extends JPanel {
                     
                 String hashedPassword = HashPassword.hashwithsha256(password);
                 TimeDate birthday = new TimeDate(day, month, year);
+                @SuppressWarnings("unused")
                 User user = new User(10, username , email, hashedPassword, birthday);
                 parentDialog.dispose();
 

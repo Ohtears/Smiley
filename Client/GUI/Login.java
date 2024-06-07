@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class Login extends JPanel {
     private final JDialog parentDialog;
+    @SuppressWarnings("unused")
     private final JFrame mainFrame;
 
     public Login(JDialog parentDialog, JFrame mainFrame) {
