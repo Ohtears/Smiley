@@ -60,7 +60,7 @@ public class MYSQLHandler {
             Date birthdaysql = Date.valueOf(birthday);
 
             preparedStatement.setDate(4, birthdaysql);
-
+            preparedStatement.executeUpdate();
         } 
         catch (SQLException e) {
             System.out.println("Failed to insert user.");
