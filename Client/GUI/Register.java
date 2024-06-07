@@ -115,13 +115,12 @@ public class Register extends JPanel {
             password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "All fields are required.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                
+
             else {
                     
                 String hashedPassword = HashPassword.hashwithsha256(password);
                 TimeDate birthday = new TimeDate(day, month, year);
                 User user = new User(10, username , email, hashedPassword, birthday);
-                
                 parentDialog.dispose();
 
             }
