@@ -23,6 +23,12 @@ public class TimeDate {
         this.year = calendar.get(Calendar.YEAR);
     }
 
+    public TimeDate(TimeDate date) {
+        this.day = date.day;
+        this.month = date.month; 
+        this.year = date.year;
+    }
+
     private int month2int(String month){
 
         String[] months = {"January", "February", "March", "April", "May", "June", "July",
@@ -35,6 +41,13 @@ public class TimeDate {
         return 0;
 
     }
+    @Override
+    public String toString(){
+
+        return day + ":" + month + ":" + year;
+
+    }
+
 
     public int getDay() {
         return day;
