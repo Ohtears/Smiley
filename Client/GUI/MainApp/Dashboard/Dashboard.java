@@ -1,21 +1,22 @@
 package Client.GUI.MainApp.Dashboard;
 
+import Client.Models.User;
+
 import java.awt.*;
 import javax.swing.*;
 
 public class Dashboard extends JPanel {
 
-    public Dashboard() {
+    public Dashboard(User user) {
 
-        setBorder(BorderFactory.createTitledBorder("trhrhtrh"));
+
+        setBorder(BorderFactory.createTitledBorder("Profile"));
         setBackground(Color.WHITE);
-        setLayout(new GridLayout(2, 1)); // Split screen top and bottom
+        setLayout(new GridLayout(2, 1)); 
 
-        // Profile Panel
         JPanel profilePanel = new JPanel();
         profilePanel.setLayout(new BorderLayout());
 
-        // Labels and Button
         JPanel labelsPanel = new JPanel();
         labelsPanel.setLayout(new GridLayout(4, 1));
         JLabel nameLabel = new JLabel("Name:");
@@ -32,11 +33,9 @@ public class Dashboard extends JPanel {
         profilePanel.add(labelsPanel, BorderLayout.CENTER);
         profilePanel.add(button, BorderLayout.SOUTH);
 
-        // Posts Dashboard Panel
         JPanel postsDashboardPanel = new JPanel();
         postsDashboardPanel.setLayout(new BorderLayout());
 
-        // Header Panel
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new GridLayout(1, 3));
 
@@ -64,5 +63,6 @@ public class Dashboard extends JPanel {
 
         add(profilePanel);
         add(postsDashboardPanel);
+
     }
 }

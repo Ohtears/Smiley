@@ -114,11 +114,12 @@ public class MYSQLHandler {
                 int userId = resultSet.getInt("user_id");
                 String username = resultSet.getString("username");
                 String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
                 String bio = resultSet.getString("bio");
                 Date birthday = resultSet.getDate("birthday");
                 TimeDate birthdaydate = new TimeDate(birthday);
 
-                userList.add(new User(userId, username, name, null, null, birthdaydate, bio));
+                userList.add(new User(userId, username, name, email, null, birthdaydate, bio));
             }
         } catch (SQLException e) {
             e.printStackTrace();
