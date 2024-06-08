@@ -14,5 +14,9 @@ public class HeaderPanel extends JPanel {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(titleLabel, BorderLayout.CENTER);
+    
+        Dimension preferredSize = new Dimension(1280, 50);
+        setPreferredSize(preferredSize);
+
     }
 }

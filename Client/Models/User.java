@@ -14,15 +14,19 @@ public class User{
     private String Password;
     @SuppressWarnings("unused")
     private TimeDate Birthday;
+    @SuppressWarnings("unused")
+    private String Name;
 
-    public User(int userid, String Username, String Email, String Password, TimeDate Birthday){
+    public User(int userid, String Username, String Name, String Email, String Password, TimeDate Birthday){
 
         this.userid = userid;
         this.Username = Username;
+        this.Name = Name;
         this.Email = Email;
         this.Password = Password;
         this.Birthday = Birthday;
-        MYSQLHandler.InsertUserQuery(Username, Email, Password, Birthday);
+        
+        MYSQLHandler.InsertUserQuery(Username, Name, Email, Password, Birthday);
     }
     
 

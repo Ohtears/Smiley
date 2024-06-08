@@ -45,7 +45,7 @@ public class MYSQLHandler {
         }
     }
 
-    public static void InsertUserQuery(String username, String email, String password, TimeDate birth){
+    public static void InsertUserQuery(String username, String name, String email, String password, TimeDate birth){
 
         String insertSQL = QueryEnum.INSERTUSER.query;
 
@@ -53,13 +53,14 @@ public class MYSQLHandler {
              PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
 
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, email);
-            preparedStatement.setString(3, password);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, password);
 
             LocalDate birthday = LocalDate.of(birth.getYear(), birth.getMonth(), birth.getDay());
             Date birthdaysql = Date.valueOf(birthday);
 
-            preparedStatement.setDate(4, birthdaysql);
+            preparedStatement.setDate(5, birthdaysql);
             preparedStatement.executeUpdate();
         } 
         catch (SQLException e) {
@@ -88,6 +89,7 @@ public class MYSQLHandler {
             } 
             catch (SQLException e) {
                 System.out.println("Failed to check password.");
+                System.out.println(e);
             }
         return false;
     

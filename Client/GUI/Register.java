@@ -40,21 +40,32 @@ public class Register extends JPanel {
         gbc.gridy = 1;
         add(nameText, gbc);
 
+        JLabel usernameLabel = new JLabel("Username:");
+        usernameLabel.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(usernameLabel, gbc);
+
+        JTextField usernameText = new JTextField(15);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        add(usernameText, gbc);
+
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         add(emailLabel, gbc);
 
         JTextField emailText = new JTextField(15);
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         add(emailText, gbc);
 
         JLabel dobLabel = new JLabel("Date of Birth:");
         dobLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         add(dobLabel, gbc);
 
         JPanel dobPanel = new JPanel();
@@ -79,54 +90,51 @@ public class Register extends JPanel {
         dobPanel.add(yearCombo);
 
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         add(dobPanel, gbc);
 
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         add(passwordLabel, gbc);
 
         JPasswordField passwordText = new JPasswordField(15);
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         add(passwordText, gbc);
 
         JButton registerButton = new JButton("Create Account");
         registerButton.setForeground(Color.BLACK);
         registerButton.setBackground(Color.CYAN);
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.gridwidth = 2;
         add(registerButton, gbc);
 
         registerButton.addActionListener(e -> {
-            String username = nameText.getText();
+            String name = nameText.getText();
+            String username = usernameText.getText();
             String email = emailText.getText();
             int day = Integer.parseInt(dayCombo.getSelectedItem().toString());
             String month = monthCombo.getSelectedItem().toString();
             int year = Integer.parseInt(yearCombo.getSelectedItem().toString());
             String password = new String(passwordText.getPassword());
 
-            if (username == null || username.isEmpty() ||
-            email == null || email.isEmpty() ||
-            month == null || month.isEmpty() ||
-            password.isEmpty()) {
+            if (name == null || name.isEmpty() ||
+                username == null || username.isEmpty() ||
+                email == null || email.isEmpty() ||
+                month == null || month.isEmpty() ||
+                password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "All fields are required.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-            else {
-                    
+            } else {
                 String hashedPassword = HashPassword.hashwithsha256(password);
                 TimeDate birthday = new TimeDate(day, month, year);
+
                 @SuppressWarnings("unused")
-                User user = new User(10, username , email, hashedPassword, birthday);
+                User user = new User(0, username, name, email, hashedPassword, birthday);
                 parentDialog.dispose();
-
             }
-            
-
         });
     }
 }
