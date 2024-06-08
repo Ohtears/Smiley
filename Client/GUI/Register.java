@@ -131,8 +131,8 @@ public class Register extends JPanel {
                 String hashedPassword = HashPassword.hashwithsha256(password);
                 TimeDate birthday = new TimeDate(day, month, year);
 
-                @SuppressWarnings("unused")
-                User user = new User(0, username, name, email, hashedPassword, birthday);
+                User user = new User(0, username, name, email, hashedPassword, birthday, null);
+                user.send2db();
                 parentDialog.dispose();
             }
         });
