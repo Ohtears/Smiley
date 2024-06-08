@@ -80,6 +80,7 @@ public class Login extends JPanel {
                 if (MYSQLHandler.Checkpassword(email, hashedPassword)){
                     
                     parentDialog.dispose();
+                    mainFrame.dispose();
                     openApp();
 
                 }
