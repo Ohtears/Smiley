@@ -29,7 +29,11 @@ public class User{
 
         MYSQLHandler.InsertUserQuery(Username, Name, Email, Password, Birthday);
 
+    }
 
+    public int getID(){
+
+        return userid;
     }
 
     public String getName() {
