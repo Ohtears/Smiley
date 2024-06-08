@@ -1,19 +1,23 @@
 package Client.GUI.MainApp;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+import Client.Models.User;
+import Server.Database.MYSQLHandler;
 
 public class DMListPanel extends JPanel {
 
     public DMListPanel() {
         setBorder(BorderFactory.createTitledBorder("DM List"));
         setBackground(Color.WHITE);
-        setLayout(new GridLayout(2, 1));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
 
-        // Add subcomponents or customize as needed
-        JLabel label1 = new JLabel("DM 1");
-        JLabel label2 = new JLabel("DM 2");
-        add(label1);
-        add(label2);
+        List<User> users = MYSQLHandler.getAllUsers();
+        for (User user : users) {
+            ImageIcon userIcon = new ImageIcon("Untitled.jpeg");  
+            ChatPanel chatPanel = new ChatPanel(user.Username, userIcon);
+            add(chatPanel);
+        }
     }
 }
