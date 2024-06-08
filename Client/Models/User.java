@@ -11,7 +11,6 @@ public class User{
     private String Password;
     private TimeDate Birthday;
     private String Name;
-    @SuppressWarnings("unused")
     private String bio;
 
     public User(int userid, String Username, String Name, String Email, String Password, TimeDate Birthday, String bio){
@@ -31,5 +30,20 @@ public class User{
         MYSQLHandler.InsertUserQuery(Username, Name, Email, Password, Birthday);
 
 
+    }
+
+    public String getName() {
+
+        return Name;
+    }
+
+    public TimeDate getBirthday() {
+
+        return Birthday;
+    }
+
+    public String getBio() {
+
+        return bio;
     }
 }
