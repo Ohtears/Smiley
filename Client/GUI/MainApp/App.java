@@ -3,17 +3,12 @@ package Client.GUI.MainApp;
 import java.awt.*;
 import javax.swing.*;
 
-import Client.Models.User;
-import Client.GUI.MainApp.Dashboard.Dashboard;
-
 public class App extends JFrame {
 
-    private boolean displayDashboard = false; 
     private JPanel mainPanel;
 
-    public void setDisplayDashboard(boolean displayDashboard, User targetuser) {
-        this.displayDashboard = displayDashboard;
-        refreshMainPanel(targetuser);  
+    public void setDisplayPanel(JPanel desiredPanel) {
+        refreshMainPanel(desiredPanel);
     }
 
     public App() {
@@ -27,12 +22,12 @@ public class App extends JFrame {
         HeaderPanel headerPanel = new HeaderPanel(this);
         add(headerPanel, BorderLayout.NORTH);
 
-        refreshMainPanel(null);  
+        refreshMainPanel(new PostsListPanel());  
         int minPanelWidth = (int) ((0.5 + 1.5 + 5.0 + 3.0) / (0.5 + 1.5 + 5.0 + 3.0) * 1280); 
         setMinimumSize(new Dimension(minPanelWidth, 720));
     }
 
-    private void refreshMainPanel(User targetuser) {
+    private void refreshMainPanel(JPanel DesiredPanel) {
         if (mainPanel != null) {
             remove(mainPanel);  
         }
@@ -46,8 +41,6 @@ public class App extends JFrame {
         ForumsListPanel forumsListPanel = new ForumsListPanel();
         DMListPanel dmListPanel = new DMListPanel();
         MiscellaneousPanel miscellaneousPanel = new MiscellaneousPanel();
-        Dashboard dashboard = new Dashboard(targetuser);
-        PostsListPanel postsListPanel = new PostsListPanel();
 
         gbc.weightx = 0.5;
         gbc.gridx = 0;
@@ -57,15 +50,9 @@ public class App extends JFrame {
         gbc.gridx = 1;
         mainPanel.add(dmListPanel, gbc);
 
-        if (displayDashboard) {
-            gbc.weightx = 5.0;
-            gbc.gridx = 2;
-            mainPanel.add(dashboard, gbc);
-        } else {
-            gbc.weightx = 5.0;
-            gbc.gridx = 2;
-            mainPanel.add(postsListPanel, gbc);
-        }
+        gbc.weightx = 5.0;
+        gbc.gridx = 2;
+        mainPanel.add(DesiredPanel, gbc);
 
         gbc.weightx = 3.0;
         gbc.gridx = 3;
