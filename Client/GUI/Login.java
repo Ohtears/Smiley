@@ -2,12 +2,14 @@ package Client.GUI;
 
 import Client.GUI.MainApp.App;
 import Server.Database.MYSQLHandler;
+import Client.Models.CurrentUser;
+import Client.Models.User;
+
 import java.awt.*;
 import javax.swing.*;
 
 public class Login extends JPanel {
     private final JDialog parentDialog;
-    @SuppressWarnings("unused")
     private final JFrame mainFrame;
 
     public Login(JDialog parentDialog, JFrame mainFrame) {
@@ -79,6 +81,10 @@ public class Login extends JPanel {
 
                 if (MYSQLHandler.Checkpassword(email, hashedPassword)){
                     
+                    User currentuser = MYSQLHandler.currentuser(email);
+
+                    CurrentUser.getInstance().setUser(currentuser);
+
                     parentDialog.dispose();
                     mainFrame.dispose();
                     openApp();
@@ -129,7 +135,6 @@ public class Login extends JPanel {
     private void openApp(){
 
         SwingUtilities.invokeLater(() -> {
-
             App app = new App();
 
             app.setVisible(true);

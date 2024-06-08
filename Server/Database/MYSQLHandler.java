@@ -70,7 +70,6 @@ public class MYSQLHandler {
             preparedStatement.executeUpdate();
         } 
         catch (SQLException e) {
-            System.out.println("Failed to insert user.");
             System.out.println(e);
         }
 
@@ -88,6 +87,7 @@ public class MYSQLHandler {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         String storedPassword = resultSet.getString("password");
+
                         return password.equals(storedPassword);
                     }
                 }
@@ -95,12 +95,42 @@ public class MYSQLHandler {
             } 
             catch (SQLException e) {
                 System.out.println("Failed to check password.");
-                System.out.println(e);
             }
         return false;
     
     }
+    
+    public static User currentuser(String email) {
 
+        String selectSQL = QueryEnum.FETCHPASS.query;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+
+                preparedStatement.setString(1, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String storedPassword = resultSet.getString("password");
+                        int userId = resultSet.getInt("user_id");
+                        String username = resultSet.getString("username");
+                        String name = resultSet.getString("name");
+                        String bio = resultSet.getString("bio");
+                        Date birthday = resultSet.getDate("birthday");
+                        TimeDate birthdaydate = new TimeDate(birthday);
+
+                        User user = new User(userId, username, name, email, storedPassword, birthdaydate, bio);
+
+                        return user;
+                    }
+                }
+            
+            } 
+            catch (SQLException e) {
+                System.out.println("Failed to check password.");
+            }
+        return null;
+    }
       public static List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
 
@@ -122,10 +152,24 @@ public class MYSQLHandler {
                 userList.add(new User(userId, username, name, email, null, birthdaydate, bio));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         return userList;
+    }
+
+    public static void addFollower(int targetuserfollow, int followerId) {
+        String query = QueryEnum.ADDFOLLOWER.query;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, targetuserfollow);
+            statement.setInt(2, followerId);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
 }

@@ -1,7 +1,9 @@
 package Client.GUI.MainApp.Dashboard;
 
+import Client.Models.CurrentUser;
 import Client.Models.TimeDate;
 import Client.Models.User;
+import Server.Database.MYSQLHandler;
 
 import java.awt.*;
 import javax.swing.*;
@@ -9,12 +11,15 @@ import javax.swing.*;
 public class Dashboard extends JPanel {
 
     public Dashboard(User user) {
+
         setBorder(BorderFactory.createTitledBorder("Profile"));
         setBackground(Color.WHITE);
         setLayout(new GridLayout(2, 1)); 
 
         if (user != null){
             
+            //1st panel
+
             JPanel profilePanel = new JPanel();
             profilePanel.setLayout(new BorderLayout());
     
@@ -32,11 +37,13 @@ public class Dashboard extends JPanel {
             labelsPanel.add(bioLabel);
             labelsPanel.add(birthdayLabel);
     
-            JButton button = new JButton("Update Profile");
+            JButton followbutton = new JButton("follow");
     
             profilePanel.add(labelsPanel, BorderLayout.CENTER);
-            profilePanel.add(button, BorderLayout.SOUTH);
+            profilePanel.add(followbutton, BorderLayout.EAST);
     
+            //2nd panel
+
             JPanel postsDashboardPanel = new JPanel();
             postsDashboardPanel.setLayout(new BorderLayout());
     
@@ -67,6 +74,15 @@ public class Dashboard extends JPanel {
     
             add(profilePanel);
             add(postsDashboardPanel);
+
+
+            followbutton.addActionListener(e -> {
+
+                User currentUser = CurrentUser.getInstance().getUser();
+
+                MYSQLHandler.addFollower(user.getID(), currentUser.getID());
+
+            });
 
 
         }
