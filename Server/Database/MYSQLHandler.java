@@ -1,6 +1,8 @@
 package Server.Database;
 
 import Client.Models.TimeDate;
+import Client.Models.User;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -9,6 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.plugins.tiff.TIFFDirectory;
 
 
 public class MYSQLHandler {
@@ -94,4 +100,31 @@ public class MYSQLHandler {
         return false;
     
     }
+
+      public static List<User> getAllUsers() {
+        List<User> userList = new ArrayList<>();
+
+        String SelectQuery = QueryEnum.PARSEUSERS.query;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(SelectQuery);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                String username = resultSet.getString("username");
+                String name = resultSet.getString("name");
+                String bio = resultSet.getString("bio");
+                Date birthday = resultSet.getDate("birthday");
+                TimeDate birthdaydate = new TimeDate(birthday);
+
+                userList.add(new User(userId, username, name, null, null, birthdaydate, bio));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userList;
+    }
+
 }

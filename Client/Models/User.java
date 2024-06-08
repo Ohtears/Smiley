@@ -6,18 +6,15 @@ public class User{
 
     @SuppressWarnings("unused")
     private int userid;
-    @SuppressWarnings("unused")
-    private String Username;
-    @SuppressWarnings("unused")
+    public String Username;
     private String Email;
-    @SuppressWarnings("unused")
     private String Password;
-    @SuppressWarnings("unused")
     private TimeDate Birthday;
-    @SuppressWarnings("unused")
     private String Name;
+    @SuppressWarnings("unused")
+    private String bio;
 
-    public User(int userid, String Username, String Name, String Email, String Password, TimeDate Birthday){
+    public User(int userid, String Username, String Name, String Email, String Password, TimeDate Birthday, String bio){
 
         this.userid = userid;
         this.Username = Username;
@@ -25,9 +22,14 @@ public class User{
         this.Email = Email;
         this.Password = Password;
         this.Birthday = Birthday;
+        this.bio = bio;
         
-        MYSQLHandler.InsertUserQuery(Username, Name, Email, Password, Birthday);
     }
     
+    public void send2db(){
 
+        MYSQLHandler.InsertUserQuery(Username, Name, Email, Password, Birthday);
+
+
+    }
 }

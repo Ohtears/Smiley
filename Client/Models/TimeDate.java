@@ -1,5 +1,8 @@
 package Client.Models;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 public class TimeDate {
     
     private int day;
@@ -10,6 +13,14 @@ public class TimeDate {
         this.day = day;
         this.month = month2int(monthString); 
         this.year = year;
+    }
+
+    public TimeDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        this.day = calendar.get(Calendar.DAY_OF_MONTH);
+        this.month = calendar.get(Calendar.MONTH) + 1; 
+        this.year = calendar.get(Calendar.YEAR);
     }
 
     private int month2int(String month){
