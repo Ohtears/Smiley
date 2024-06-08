@@ -74,8 +74,19 @@ public class HeaderPanel extends JPanel {
         for (String result : matchedUsernames) {
             JMenuItem resultItem = new JMenuItem(result);
             resultItem.addActionListener(e -> {
-                searchResultsPopup.setVisible(false);
-                appInstance.setDisplayDashboard(true);  // Set displayDashboard to true
+            searchResultsPopup.setVisible(false);
+            
+            User targetuser = null;
+            for (User user: users){
+                    if (user.Username.equals(resultItem.getText())){
+                        targetuser = user;
+                        break;
+                    }
+
+                }
+            appInstance.setDisplayDashboard(true, targetuser);  
+
+
             });
             searchResultsPopup.add(resultItem);
         }

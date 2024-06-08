@@ -3,6 +3,7 @@ package Client.GUI.MainApp;
 import java.awt.*;
 import javax.swing.*;
 
+import Client.Models.User;
 import Client.GUI.MainApp.Dashboard.Dashboard;
 
 public class App extends JFrame {
@@ -10,9 +11,9 @@ public class App extends JFrame {
     private boolean displayDashboard = false; 
     private JPanel mainPanel;
 
-    public void setDisplayDashboard(boolean displayDashboard) {
+    public void setDisplayDashboard(boolean displayDashboard, User targetuser) {
         this.displayDashboard = displayDashboard;
-        refreshMainPanel();  // Refresh the main panel to show the correct panel
+        refreshMainPanel(targetuser);  
     }
 
     public App() {
@@ -26,15 +27,14 @@ public class App extends JFrame {
         HeaderPanel headerPanel = new HeaderPanel(this);
         add(headerPanel, BorderLayout.NORTH);
 
-        refreshMainPanel();  // Initial call to set up the main panel
-
+        refreshMainPanel(null);  
         int minPanelWidth = (int) ((0.5 + 1.5 + 5.0 + 3.0) / (0.5 + 1.5 + 5.0 + 3.0) * 1280); 
         setMinimumSize(new Dimension(minPanelWidth, 720));
     }
 
-    private void refreshMainPanel() {
+    private void refreshMainPanel(User targetuser) {
         if (mainPanel != null) {
-            remove(mainPanel);  // Remove the old main panel
+            remove(mainPanel);  
         }
 
         mainPanel = new JPanel();
@@ -46,7 +46,7 @@ public class App extends JFrame {
         ForumsListPanel forumsListPanel = new ForumsListPanel();
         DMListPanel dmListPanel = new DMListPanel();
         MiscellaneousPanel miscellaneousPanel = new MiscellaneousPanel();
-        Dashboard dashboard = new Dashboard();
+        Dashboard dashboard = new Dashboard(targetuser);
         PostsListPanel postsListPanel = new PostsListPanel();
 
         gbc.weightx = 0.5;
@@ -71,7 +71,7 @@ public class App extends JFrame {
         gbc.gridx = 3;
         mainPanel.add(miscellaneousPanel, gbc);
 
-        add(mainPanel, BorderLayout.CENTER);  // Add the new main panel
+        add(mainPanel, BorderLayout.CENTER);  
         revalidate();
         repaint();
     }
