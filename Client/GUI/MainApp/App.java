@@ -3,10 +3,19 @@ package Client.GUI.MainApp;
 import java.awt.*;
 import javax.swing.*;
 
+import Client.GUI.MainApp.Dashboard.Dashboard;
+
 public class App extends JFrame {
 
-    public App() {
+    private boolean displayDashboard = false; 
+    private JPanel mainPanel;
 
+    public void setDisplayDashboard(boolean displayDashboard) {
+        this.displayDashboard = displayDashboard;
+        refreshMainPanel();  // Refresh the main panel to show the correct panel
+    }
+
+    public App() {
         setTitle("Smiley");
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -14,10 +23,21 @@ public class App extends JFrame {
 
         setLayout(new BorderLayout());
 
-        HeaderPanel headerPanel = new HeaderPanel();
+        HeaderPanel headerPanel = new HeaderPanel(this);
         add(headerPanel, BorderLayout.NORTH);
 
-        JPanel mainPanel = new JPanel();
+        refreshMainPanel();  // Initial call to set up the main panel
+
+        int minPanelWidth = (int) ((0.5 + 1.5 + 5.0 + 3.0) / (0.5 + 1.5 + 5.0 + 3.0) * 1280); 
+        setMinimumSize(new Dimension(minPanelWidth, 720));
+    }
+
+    private void refreshMainPanel() {
+        if (mainPanel != null) {
+            remove(mainPanel);  // Remove the old main panel
+        }
+
+        mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -25,8 +45,9 @@ public class App extends JFrame {
 
         ForumsListPanel forumsListPanel = new ForumsListPanel();
         DMListPanel dmListPanel = new DMListPanel();
-        PostsListPanel postsListPanel = new PostsListPanel();
         MiscellaneousPanel miscellaneousPanel = new MiscellaneousPanel();
+        Dashboard dashboard = new Dashboard();
+        PostsListPanel postsListPanel = new PostsListPanel();
 
         gbc.weightx = 0.5;
         gbc.gridx = 0;
@@ -36,24 +57,29 @@ public class App extends JFrame {
         gbc.gridx = 1;
         mainPanel.add(dmListPanel, gbc);
 
-        gbc.weightx = 5.0;
-        gbc.gridx = 2;
-        mainPanel.add(postsListPanel, gbc);
+        if (displayDashboard) {
+            gbc.weightx = 5.0;
+            gbc.gridx = 2;
+            mainPanel.add(dashboard, gbc);
+        } else {
+            gbc.weightx = 5.0;
+            gbc.gridx = 2;
+            mainPanel.add(postsListPanel, gbc);
+        }
 
         gbc.weightx = 3.0;
         gbc.gridx = 3;
         mainPanel.add(miscellaneousPanel, gbc);
 
-        add(mainPanel, BorderLayout.CENTER);
-
-        int minPanelWidth = (int) ((0.5 + 1.5 + 5.0 + 3.0) / (0.5 + 1.5 + 5.0 + 3.0) * 1280); 
-        setMinimumSize(new Dimension(minPanelWidth, 720));
+        add(mainPanel, BorderLayout.CENTER);  // Add the new main panel
+        revalidate();
+        repaint();
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            App dashboard = new App();
-            dashboard.setVisible(true);
+            App app = new App();
+            app.setVisible(true);
         });
     }
 }

@@ -16,10 +16,12 @@ import Server.Database.RegexHandler;
 public class HeaderPanel extends JPanel {
     private JTextField searchBar;
     private JPopupMenu searchResultsPopup;
-
     private Timer timer = new Timer();
+    private App appInstance;
 
-    public HeaderPanel() {
+    public HeaderPanel(App appInstance) {
+        this.appInstance = appInstance;
+
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setBackground(Color.LIGHT_GRAY);
         setLayout(new BorderLayout());
@@ -29,12 +31,12 @@ public class HeaderPanel extends JPanel {
 
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         searchBar = new JTextField();
-        searchBar.setPreferredSize(new Dimension(600, 30)); 
+        searchBar.setPreferredSize(new Dimension(530, 30));
         searchPanel.add(searchBar);
         add(searchPanel, BorderLayout.SOUTH);
 
         searchResultsPopup = new JPopupMenu();
-        searchResultsPopup.setPopupSize(new Dimension(600, 200)); 
+        searchResultsPopup.setPopupSize(new Dimension(530, 200));
 
         searchBar.addKeyListener(new KeyAdapter() {
             @Override
@@ -52,7 +54,7 @@ public class HeaderPanel extends JPanel {
                             searchResultsPopup.setVisible(false);
                         }
                     }
-                }, 1000); 
+                }, 1000);
             }
         });
     }
@@ -63,17 +65,17 @@ public class HeaderPanel extends JPanel {
         List<User> users = new ArrayList<>(MYSQLHandler.getAllUsers());
         List<String> usernames = new ArrayList<>();
 
-        for (User user: users){
+        for (User user : users) {
             usernames.add(user.Username);
         }
 
         List<String> matchedUsernames = new ArrayList<>(RegexHandler.findTopMatches(usernames, query, 5));
 
-        for (String result: matchedUsernames) {
+        for (String result : matchedUsernames) {
             JMenuItem resultItem = new JMenuItem(result);
             resultItem.addActionListener(e -> {
-
                 searchResultsPopup.setVisible(false);
+                appInstance.setDisplayDashboard(true);  // Set displayDashboard to true
             });
             searchResultsPopup.add(resultItem);
         }
