@@ -17,3 +17,12 @@ CREATE TABLE followers (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (follower_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE chats (
+    chat_id INT AUTO_INCREMENT PRIMARY KEY,
+    user1_id INT NOT NULL,
+    user2_id INT NOT NULL,
+    last_message_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user1_id) REFERENCES users(user_id),
+    FOREIGN KEY (user2_id) REFERENCES users(user_id)
+);

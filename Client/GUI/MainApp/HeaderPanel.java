@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import javax.swing.*;
 
 import Client.GUI.MainApp.Dashboard.Dashboard;
+import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.User;
 import Server.Database.MYSQLHandler;
 import Server.Database.RegexHandler;
@@ -19,9 +20,11 @@ public class HeaderPanel extends JPanel {
     private JPopupMenu searchResultsPopup;
     private Timer timer = new Timer();
     private App appInstance;
+    private PanelSwitchListener panelSwitchListener;
 
-    public HeaderPanel(App appInstance) {
+    public HeaderPanel(App appInstance, PanelSwitchListener panelSwitchListener) {
         this.appInstance = appInstance;
+        this.panelSwitchListener = panelSwitchListener;
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setBackground(Color.LIGHT_GRAY);
@@ -85,7 +88,7 @@ public class HeaderPanel extends JPanel {
                     }
 
                 }
-            appInstance.setDisplayPanel(new Dashboard(targetuser));  
+            appInstance.setDisplayPanel(new Dashboard(targetuser, panelSwitchListener));  
 
 
             });
