@@ -1,6 +1,5 @@
-package Client.GUI.MenuApp;
+package Client.GUI;
 
-import Client.GUI.HashPassword;
 import Client.Models.TimeDate;
 import Client.Models.User;
 import java.awt.*;
