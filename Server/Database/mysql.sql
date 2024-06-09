@@ -24,8 +24,10 @@ CREATE TABLE chats (
     user2_id INT NOT NULL,
     last_message_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user1_id) REFERENCES users(user_id),
-    FOREIGN KEY (user2_id) REFERENCES users(user_id)
+    FOREIGN KEY (user2_id) REFERENCES users(user_id),
+    UNIQUE (user1_id, user2_id)
 );
+
 
 CREATE TABLE ChatMessages (
     message_id INT AUTO_INCREMENT PRIMARY KEY,

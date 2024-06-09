@@ -205,6 +205,7 @@ public class MYSQLHandler {
     public static List<Message> getChatBetweenUsers(int user1Id, int user2Id) {
         List<Message> messages = new ArrayList<>();
         String selectQuery = QueryEnum.FETCHCHAT.query;
+        
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
