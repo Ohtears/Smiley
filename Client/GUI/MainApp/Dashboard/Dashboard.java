@@ -1,5 +1,6 @@
 package Client.GUI.MainApp.Dashboard;
 
+import Client.GUI.MainApp.Chat;
 import Client.Models.CurrentUser;
 import Client.Models.Message;
 import Client.Models.TimeDate;
