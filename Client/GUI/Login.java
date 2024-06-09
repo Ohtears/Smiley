@@ -79,9 +79,9 @@ public class Login extends JPanel {
 
                 String hashedPassword = HashPassword.hashwithsha256(password);
 
-                if (MYSQLHandler.Checkpassword(email, hashedPassword)){
+                if (MYSQLHandler.checkPassword(email, hashedPassword)){
                     
-                    User currentuser = MYSQLHandler.currentuser(email);
+                    User currentuser = MYSQLHandler.getCurrentUser(email);
 
                     CurrentUser.getInstance().setUser(currentuser);
 
