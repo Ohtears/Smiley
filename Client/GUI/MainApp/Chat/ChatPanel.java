@@ -1,9 +1,8 @@
-package Client.GUI.MainApp;
+package Client.GUI.MainApp.Chat;
 
 import javax.swing.*;
 
-import Client.GUI.MainApp.Dashboard.Chat;
-import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
+import Client.GUI.MainApp.PanelSwitchListener;
 import Client.Models.CurrentUser;
 import Client.Models.User;
 import Server.Database.MYSQLHandler;
@@ -13,7 +12,9 @@ import java.awt.*;
 
 public class ChatPanel extends JPanel {
 
+    @SuppressWarnings("unused")
     private PanelSwitchListener listener; 
+    @SuppressWarnings("unused")
     private User user;
 
     public ChatPanel(User user, PanelSwitchListener listener) {

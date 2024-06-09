@@ -1,4 +1,4 @@
-package Client.GUI;
+package Client.Models.Images;
 
 import java.awt.*;
 import javax.swing.ImageIcon;
