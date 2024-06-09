@@ -2,7 +2,6 @@ package Client.GUI.MainApp;
 
 import javax.swing.*;
 
-import Client.GUI.MainApp.Dashboard.Chat;
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.CurrentUser;
 import Client.Models.User;
