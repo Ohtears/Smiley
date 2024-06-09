@@ -4,8 +4,9 @@ import javax.swing.*;
 
 import Client.GUI.MainApp.Dashboard.Chat;
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
-
+import Client.Models.CurrentUser;
 import Client.Models.User;
+import Server.Database.MYSQLHandler;
 
 import java.awt.*;
 
@@ -32,8 +33,10 @@ public class ChatPanel extends JPanel {
         JButton chatButton = new JButton("Chat");
         chatButton.addActionListener(e -> {
 
-            listener.onPanelSwitch(new Chat(user)); 
+            User currentUser = CurrentUser.getInstance().getUser();
 
+            MYSQLHandler.startChat(currentUser.getID(), user.getID());
+            listener.onPanelSwitch(new Chat(user, MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID()))); 
 
         });
 

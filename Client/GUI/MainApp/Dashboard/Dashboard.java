@@ -1,11 +1,14 @@
 package Client.GUI.MainApp.Dashboard;
 
 import Client.Models.CurrentUser;
+import Client.Models.Message;
 import Client.Models.TimeDate;
 import Client.Models.User;
 import Server.Database.MYSQLHandler;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class Dashboard extends JPanel {
@@ -94,7 +97,7 @@ public class Dashboard extends JPanel {
 
                 MYSQLHandler.startChat(currentUser.getID(), user.getID());
 
-                listener.onPanelSwitch(new Chat(user)); 
+                listener.onPanelSwitch(new Chat(user, MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID()))); 
 
             });   
     }

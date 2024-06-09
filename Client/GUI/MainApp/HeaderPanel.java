@@ -16,6 +16,7 @@ import Server.Database.MYSQLHandler;
 import Server.Database.RegexHandler;
 
 public class HeaderPanel extends JPanel {
+    
     private JTextField searchBar;
     private JPopupMenu searchResultsPopup;
     private Timer timer = new Timer();
@@ -23,6 +24,7 @@ public class HeaderPanel extends JPanel {
     private PanelSwitchListener panelSwitchListener;
 
     public HeaderPanel(App appInstance, PanelSwitchListener panelSwitchListener) {
+
         this.appInstance = appInstance;
         this.panelSwitchListener = panelSwitchListener;
 
