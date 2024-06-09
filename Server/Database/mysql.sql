@@ -26,3 +26,13 @@ CREATE TABLE chats (
     FOREIGN KEY (user1_id) REFERENCES users(user_id),
     FOREIGN KEY (user2_id) REFERENCES users(user_id)
 );
+
+CREATE TABLE ChatMessages (
+    message_id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    message_content TEXT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(user_id),
+    FOREIGN KEY (receiver_id) REFERENCES users(user_id)
+);

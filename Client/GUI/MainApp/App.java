@@ -41,7 +41,7 @@ public class App extends JFrame implements PanelSwitchListener {
         gbc.weighty = 1.0;
 
         ForumsListPanel forumsListPanel = new ForumsListPanel();
-        DMListPanel dmListPanel = new DMListPanel();
+        DMListPanel dmListPanel = new DMListPanel(this);
         MiscellaneousPanel miscellaneousPanel = new MiscellaneousPanel();
 
         gbc.weightx = 0.5;

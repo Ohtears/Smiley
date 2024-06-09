@@ -94,12 +94,10 @@ public class Dashboard extends JPanel {
 
                 MYSQLHandler.startChat(currentUser.getID(), user.getID());
 
-                listener.onPanelSwitch(new Chat("salam")); 
+                listener.onPanelSwitch(new Chat(user)); 
 
-            });
-        
+            });   
     }
-
 
     }
 

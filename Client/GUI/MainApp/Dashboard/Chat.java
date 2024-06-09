@@ -1,23 +1,23 @@
 package Client.GUI.MainApp.Dashboard;
 import javax.swing.*;
+
+import Client.Models.User;
+
 import java.awt.*;
 
 public class Chat extends JPanel {
 
-    public Chat(String userName) {
+    public Chat(User user) {
         setBorder(BorderFactory.createTitledBorder("Chat"));
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
-        // Header Panel
-        HeaderPanel headerPanel = new HeaderPanel(userName);
+        HeaderPanel headerPanel = new HeaderPanel(user.getName());
         add(headerPanel, BorderLayout.NORTH);
 
-        // Main Panel
         MainPanel mainPanel = new MainPanel();
         add(mainPanel, BorderLayout.CENTER);
 
-        // Footer Panel
         FooterPanel footerPanel = new FooterPanel();
         add(footerPanel, BorderLayout.SOUTH);
     }
@@ -39,7 +39,7 @@ public class Chat extends JPanel {
 
             JTextArea chatArea = new JTextArea();
             JScrollPane scrollPane = new JScrollPane(chatArea);
-            scrollPane.setPreferredSize(new Dimension(200, 150)); // Adjust as needed
+            scrollPane.setPreferredSize(new Dimension(200, 150)); 
             add(scrollPane);
         }
     }
