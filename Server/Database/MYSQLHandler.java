@@ -202,33 +202,52 @@ public class MYSQLHandler {
         }
     }
 
-    public static List<Message> getChatBetweenUsers(int user1Id, int user2Id) {
+    public static List<Message> getChatBetweenUsers(int user1ID, int user2ID) {
         List<Message> messages = new ArrayList<>();
-        String selectQuery = QueryEnum.FETCHCHAT.query;
-        
+        String selectquery = QueryEnum.FETCHCHAT.query;
+
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(selectquery)) {
+        
+            preparedStatement.setInt(1, user1ID);
+            preparedStatement.setInt(2, user2ID);
+            preparedStatement.setInt(3, user2ID);
+            preparedStatement.setInt(4, user1ID);
 
-            preparedStatement.setInt(1, user1Id);
-            preparedStatement.setInt(2, user2Id);
-            preparedStatement.setInt(3, user1Id);
-            preparedStatement.setInt(4, user2Id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    int messageId = rs.getInt("message_id");
+                    int senderId = rs.getInt("sender_id");
+                    int receiverId = rs.getInt("receiver_id");
+                    String content = rs.getString("message_content");
+                    Timestamp timestamp = rs.getTimestamp("timestamp");
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    messages.add(new Message(
-                            resultSet.getInt("message_id"),
-                            resultSet.getInt("sender_id"),
-                            resultSet.getInt("receiver_id"),
-                            resultSet.getString("content"),
-                            resultSet.getTimestamp("timestamp")
-                    ));
+                    Message message = new Message(messageId, senderId, receiverId, content, timestamp);
+                    messages.add(message);
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
+
         return messages;
     }
+
+
+    public static void sendmessageschat(int user1Id, int user2Id, String content) {
+        String insertChatQuery = QueryEnum.INSERTCHAT.query;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertChatQuery)) {
+
+            preparedStatement.setInt(1, user1Id);
+            preparedStatement.setInt(2, user2Id);
+            preparedStatement.setString(3, content);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+    }
+
 }
 

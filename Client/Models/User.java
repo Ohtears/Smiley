@@ -27,7 +27,7 @@ public class User{
     
     public void send2db(){
 
-        MYSQLHandler.InsertUserQuery(Username, Name, Email, Password, Birthday);
+        MYSQLHandler.insertUser(Username, Name, Email, Password, Birthday);
 
     }
 
