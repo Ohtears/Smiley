@@ -1,5 +1,5 @@
 package Server.Services;
 
-public class UserService {
+public class User {
     
 }
