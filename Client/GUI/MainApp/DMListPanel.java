@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
+import Client.GUI.MainApp.Chat.ChatPanel;
 import Client.Models.CurrentUser;
 import Client.Models.User;
 import Server.Database.MYSQLHandler;
