@@ -15,8 +15,8 @@ public enum QueryEnum {
                 "WHERE (c.user1_id = ? OR c.user2_id = ?)\n" + //
                 "ORDER BY c.last_message_time DESC"),
     STARTCHAT("INSERT INTO chats (user1_id, user2_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE last_message_time = CURRENT_TIMESTAMP"),
-    INSERTCHAT("INSERT INTO ChatMessages (sender_id, receiver_id, message_content) VALUES (?, ?, ?) "),
-    FETCHCHAT("SELECT * FROM ChatMessages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)")
+    INSERTCHAT("INSERT INTO chatmessages (sender_id, receiver_id, message_content) VALUES (?, ?, ?) "),
+    FETCHCHAT("SELECT * FROM chatmessages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)")
     ;
     public String query;
 
