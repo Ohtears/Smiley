@@ -10,7 +10,8 @@ import javax.swing.*;
 
 public class Dashboard extends JPanel {
 
-    public Dashboard(User user) {
+
+    public Dashboard(User user, PanelSwitchListener listener) {
 
         setBorder(BorderFactory.createTitledBorder("Profile"));
         setBackground(Color.WHITE);
@@ -37,11 +38,14 @@ public class Dashboard extends JPanel {
             labelsPanel.add(bioLabel);
             labelsPanel.add(birthdayLabel);
     
-            JButton followbutton = new JButton("follow");
+            JButton followbutton = new JButton("Follow");
+            JButton messagebutton = new JButton("Message");
+
     
             profilePanel.add(labelsPanel, BorderLayout.CENTER);
             profilePanel.add(followbutton, BorderLayout.EAST);
-    
+            profilePanel.add(messagebutton, BorderLayout.SOUTH);
+
             //2nd panel
 
             JPanel postsDashboardPanel = new JPanel();
@@ -84,8 +88,19 @@ public class Dashboard extends JPanel {
 
             });
 
+            messagebutton.addActionListener(e -> {
 
-        }
+                User currentUser = CurrentUser.getInstance().getUser();
+
+                MYSQLHandler.startChat(currentUser.getID(), user.getID());
+
+                listener.onPanelSwitch(new Chat("salam")); 
+
+            });
+        
+    }
+
+
     }
 
 }

@@ -131,7 +131,7 @@ public class MYSQLHandler {
             }
         return null;
     }
-      public static List<User> getAllUsers() {
+    public static List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
 
         String SelectQuery = QueryEnum.PARSEUSERS.query;
@@ -169,6 +169,106 @@ public class MYSQLHandler {
 
         } catch (SQLException e) {
             System.out.println(e);
+        }
+    }
+    public static List<Integer> getAllFollowers(int follower_id) {
+        List<Integer> followerlist = new ArrayList<>();
+        String selectQuery = QueryEnum.FETCHFOLLOWERS.query;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+
+            preparedStatement.setInt(1, follower_id);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int userId = resultSet.getInt("user_id");
+                    followerlist.add(userId);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return followerlist;
+    }
+
+    public static User fetchuserswithID(int user_id) {
+
+        String selectSQL = QueryEnum.FETCHPASS.query;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+
+                preparedStatement.setLong(0, user_id);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String username = resultSet.getString("username");
+                        String name = resultSet.getString("name");
+                        String bio = resultSet.getString("bio");
+                        Date birthday = resultSet.getDate("birthday");
+                        TimeDate birthdaydate = new TimeDate(birthday);
+
+                        User user = new User(user_id, username, name, null, null, birthdaydate, bio);
+
+                        return user;
+                    }
+                }
+
+            } 
+            catch (SQLException e) {
+            }
+        return null;
+    }
+    public static List<User> getChatList(int userId) {
+        List<User> userList = new ArrayList<>();
+
+        String selectQuery = QueryEnum.FETCHCHATS.query;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, userId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int userIdResult = resultSet.getInt("user_id");
+                    String username = resultSet.getString("username");
+                    String name = resultSet.getString("name");
+                    String bio = resultSet.getString("bio");
+                    Date birthday = resultSet.getDate("birthday");
+
+                    TimeDate birthdaydate = new TimeDate(birthday);
+
+                    if (userIdResult != userId) {  
+                        User user = new User(userIdResult, username, name, null, null , birthdaydate, bio);
+                        userList.add(user);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userList;
+    }
+
+    public static void startChat(int user1Id, int user2Id) {
+        String insertChatQuery = QueryEnum.STARTCHAT.query;
+        
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertChatQuery)) {
+
+            preparedStatement.setInt(1, user1Id);
+            preparedStatement.setInt(2, user2Id);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

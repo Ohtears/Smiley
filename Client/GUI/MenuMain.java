@@ -10,7 +10,7 @@ public class MenuMain {
             JFrame frame = new JFrame("Smiley");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout());
-            frame.setLocationRelativeTo(null);
+            // frame.setLocationRelativeTo(null);
             frame.setSize(1200, 720);
 
             JPanel leftsidep = new JPanel();

@@ -3,7 +3,9 @@ package Client.GUI.MainApp;
 import java.awt.*;
 import javax.swing.*;
 
-public class App extends JFrame {
+import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
+
+public class App extends JFrame implements PanelSwitchListener {
 
     private JPanel mainPanel;
 
@@ -19,7 +21,7 @@ public class App extends JFrame {
 
         setLayout(new BorderLayout());
 
-        HeaderPanel headerPanel = new HeaderPanel(this);
+        HeaderPanel headerPanel = new HeaderPanel(this, this);
         add(headerPanel, BorderLayout.NORTH);
 
         refreshMainPanel(new PostsListPanel());  
@@ -63,10 +65,8 @@ public class App extends JFrame {
         repaint();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            App app = new App();
-            app.setVisible(true);
-        });
+    @Override
+    public void onPanelSwitch(JPanel newPanel) {
+        refreshMainPanel(newPanel);
     }
 }
