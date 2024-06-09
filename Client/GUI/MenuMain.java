@@ -1,10 +1,7 @@
-package Client.GUI.MenuApp;
+package Client.GUI;
 
 import java.awt.*;
 import javax.swing.*;
-
-import Client.GUI.ConstsMessages;
-import Client.Models.Images.ImageHandler;
 
 public class MenuMain {
     public static void main(String[] args){
@@ -17,7 +14,7 @@ public class MenuMain {
             frame.setSize(1200, 720);
 
             JPanel leftsidep = new JPanel();
-            JPanel imagetwitter = new ImageHandler("/home/tears/Desktop/CodingWorkspace/Smiley/Smiley/Client/Models/Images/twittericon.png");
+            JPanel imagetwitter = new ImageHandler("twittericon.png");
             leftsidep.setPreferredSize(new Dimension(700, 600));
             imagetwitter.setPreferredSize(new Dimension(700, 600));
             leftsidep.add(imagetwitter);

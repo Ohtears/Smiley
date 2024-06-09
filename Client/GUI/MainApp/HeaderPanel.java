@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import javax.swing.*;
 
 import Client.GUI.MainApp.Dashboard.Dashboard;
+import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.User;
 import Server.Database.MYSQLHandler;
 import Server.Database.RegexHandler;

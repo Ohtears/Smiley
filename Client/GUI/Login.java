@@ -1,6 +1,5 @@
-package Client.GUI.MenuApp;
+package Client.GUI;
 
-import Client.GUI.HashPassword;
 import Client.GUI.MainApp.App;
 import Server.Database.MYSQLHandler;
 import Client.Models.CurrentUser;

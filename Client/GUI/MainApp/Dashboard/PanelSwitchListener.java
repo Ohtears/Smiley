@@ -1,4 +1,4 @@
-package Client.GUI.MainApp;
+package Client.GUI.MainApp.Dashboard;
 
 import javax.swing.JPanel;
 

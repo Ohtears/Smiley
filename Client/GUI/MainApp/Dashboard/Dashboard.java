@@ -1,13 +1,14 @@
 package Client.GUI.MainApp.Dashboard;
 
-import Client.GUI.MainApp.PanelSwitchListener;
-import Client.GUI.MainApp.Chat.Chat;
 import Client.Models.CurrentUser;
+import Client.Models.Message;
 import Client.Models.TimeDate;
 import Client.Models.User;
 import Server.Database.MYSQLHandler;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class Dashboard extends JPanel {
