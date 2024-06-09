@@ -23,13 +23,13 @@ CREATE TABLE chats (
     user1_id INT NOT NULL,
     user2_id INT NOT NULL,
     last_message_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE INDEX user_pair_unique ((LEAST(user1_id, user2_id)), (GREATEST(user1_id, user2_id))),
     FOREIGN KEY (user1_id) REFERENCES users(user_id),
-    FOREIGN KEY (user2_id) REFERENCES users(user_id),
-    UNIQUE (user1_id, user2_id)
+    FOREIGN KEY (user2_id) REFERENCES users(user_id)
 );
 
 
-CREATE TABLE ChatMessages (
+CREATE TABLE chatmessages (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
     sender_id INT NOT NULL,
     receiver_id INT NOT NULL,
