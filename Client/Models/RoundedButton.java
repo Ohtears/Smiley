@@ -1,4 +1,4 @@
-package Client.GUI;
+package Client.Models;
 
 import javax.swing.*;
 import javax.swing.border.*;

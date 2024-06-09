@@ -3,8 +3,6 @@ package Client.GUI.MainApp;
 import java.awt.*;
 import javax.swing.*;
 
-import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
-
 public class App extends JFrame implements PanelSwitchListener {
 
     private JPanel mainPanel;

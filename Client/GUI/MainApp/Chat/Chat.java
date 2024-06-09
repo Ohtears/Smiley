@@ -1,4 +1,4 @@
-package Client.GUI.MainApp.Dashboard;
+package Client.GUI.MainApp.Chat;
 
 import javax.swing.*;
 import java.util.List;
@@ -30,48 +30,6 @@ public class Chat extends JPanel {
     
         FooterPanel footerPanel = new FooterPanel(user);
         add(footerPanel, BorderLayout.SOUTH);
-    }
-
-    private class HeaderPanel extends JPanel {
-        public HeaderPanel(String userName) {
-            setBackground(Color.LIGHT_GRAY);
-            setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-            JLabel nameLabel = new JLabel(userName);
-            add(nameLabel);
-        }
-    }
-
-    private class MainPanel extends JPanel {
-
-        public MainPanel(List<Message> messages) {
-            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-            setBackground(Color.WHITE);
-            setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-            for (Message message : messages) {
-                MessagePanel messagePanel = new MessagePanel(message);
-                add(messagePanel);
-            }
-
-        }
-    }
-    
-    private class MessagePanel extends JPanel {
-        public MessagePanel(Message message) {
-            setBackground(Color.LIGHT_GRAY);
-            setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            setLayout(new BorderLayout());
-            
-            Dimension maxsize = new Dimension(900, 100);
-            setMaximumSize(maxsize);
-
-            JLabel userIdLabel = new JLabel("User ID: " + message.getSenderId());
-            JLabel messageLabel = new JLabel("Message: " + message.getContent());
-    
-            add(userIdLabel, BorderLayout.NORTH);
-            add(messageLabel, BorderLayout.CENTER);
-        }
     }
 
     private class FooterPanel extends JPanel {
