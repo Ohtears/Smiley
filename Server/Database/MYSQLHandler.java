@@ -2,7 +2,7 @@ package Server.Database;
 
 import Server.Services.MessageService;
 import Server.Services.UserService;
-import Server.Services.TimeDate;
+import Server.Services.TimeDateService;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -91,7 +91,7 @@ public class MYSQLHandler {
                       resultSet.getString("name"),
                        resultSet.getString("email"),
                         null,
-                         new TimeDate(resultSet.getDate("birthday")),
+                         new TimeDateService(resultSet.getDate("birthday")),
                           resultSet.getString("bio")
                           ));
                 }
@@ -147,7 +147,7 @@ public class MYSQLHandler {
                             resultSet.getString("name"),
                             resultSet.getString("email"),
                             resultSet.getString("password"),
-                            new TimeDate(resultSet.getDate("birthday")),
+                            new TimeDateService(resultSet.getDate("birthday")),
                             resultSet.getString("bio")
                     );
                 }
@@ -176,7 +176,7 @@ public class MYSQLHandler {
                                 resultSet.getString("name"),
                                 null,
                                 null,
-                                new TimeDate(resultSet.getDate("birthday")),
+                                new TimeDateService(resultSet.getDate("birthday")),
                                 resultSet.getString("bio")
                         ));
                     }
