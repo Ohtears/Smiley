@@ -2,14 +2,14 @@ package Server.Services;
 
 import java.sql.Timestamp;
 
-public class Message {
+public class MessageService {
     private int messageId;
     private int senderId;
     private int receiverId;
     private String content;
     private Timestamp timestamp;
 
-    public Message(int messageId, int senderId, int receiverId, String content, Timestamp timestamp) {
+    public MessageService(int messageId, int senderId, int receiverId, String content, Timestamp timestamp) {
         this.messageId = messageId;
         this.senderId = senderId;
         this.receiverId = receiverId;

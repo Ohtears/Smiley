@@ -1,6 +1,6 @@
 package Server.Database;
 
-import Client.Models.Message;
+import Server.Services.MessageService;
 import Server.Services.UserService;
 import Server.Services.TimeDate;
 
@@ -202,8 +202,8 @@ public class MYSQLHandler {
     }
 
 
-    public static List<Message> getChatBetweenUsers(UserService user1, UserService user2) {
-        List<Message> messages = new ArrayList<>();
+    public static List<MessageService> getChatBetweenUsers(UserService user1, UserService user2) {
+        List<MessageService> messages = new ArrayList<>();
         String selectquery = QueryEnum.FETCHCHAT.query;
 
         try (Connection connection = getConnection();
@@ -222,7 +222,7 @@ public class MYSQLHandler {
                     String content = rs.getString("message_content");
                     Timestamp timestamp = rs.getTimestamp("timestamp");
 
-                    Message message = new Message(messageId, senderId, receiverId, content, timestamp);
+                    MessageService message = new MessageService(messageId, senderId, receiverId, content, timestamp);
                     messages.add(message);
                 }
             }
