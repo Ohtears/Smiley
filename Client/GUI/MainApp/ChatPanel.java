@@ -12,7 +12,9 @@ import java.awt.*;
 
 public class ChatPanel extends JPanel {
 
+    @SuppressWarnings("unused")
     private PanelSwitchListener listener; 
+    @SuppressWarnings("unused")
     private User user;
 
     public ChatPanel(User user, PanelSwitchListener listener) {
