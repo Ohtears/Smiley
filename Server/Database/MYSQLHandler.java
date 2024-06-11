@@ -1,8 +1,8 @@
 package Server.Database;
 
 import Client.Models.Message;
-import Client.Models.TimeDate;
-import Client.Models.User;
+import Server.Services.UserService;
+import Server.Services.TimeDate;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MYSQLHandler {
-
-    private static final String URL = "jdbc:mysql://localhost:3306/smiley"; 
+    private static final String URL = "jdbc:mysql://localhost:3306/smiley";
     private static final String USER = "tears";
     private static final String PASSWORD = "REMOVED";
 
@@ -19,131 +18,131 @@ public class MYSQLHandler {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-
-    public static void insertUser(String username, String name, String email, String password, TimeDate birth) {
+    public static void insertUser(UserService user) {
         String insertSQL = QueryEnum.INSERTUSER.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
 
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, password);
-            LocalDate birthday = LocalDate.of(birth.getYear(), birth.getMonth(), birth.getDay());
+            preparedStatement.setString(1, user.Username);
+            preparedStatement.setString(2, user.getName());
+            preparedStatement.setString(3, user.getemail());
+            preparedStatement.setString(4, user.getpassword());
+            LocalDate birthday = LocalDate.of(user.getBirthday().getYear(), user.getBirthday().getMonth(), user.getBirthday().getDay());
             preparedStatement.setDate(5, Date.valueOf(birthday));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
     }
 
-    public static boolean checkPassword(String email, String password) {
+    public static boolean checkPassword(UserService user) {
         String selectSQL = QueryEnum.FETCHPASS.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
 
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(1, user.getemail());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return password.equals(resultSet.getString("password"));
+                    return user.getpassword().equals(resultSet.getString("password"));
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return false;
     }
 
-    public static User getCurrentUser(String email) {
+    public static UserService getCurrentUser(UserService user) {
         String selectSQL = QueryEnum.FETCHPASS.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
 
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(1, user.getemail());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new User(
+                    return new UserService(
                             resultSet.getInt("user_id"),
                             resultSet.getString("username"),
                             resultSet.getString("name"),
-                            email,
+                            user.getemail(),
                             resultSet.getString("password"),
-                            new TimeDate(resultSet.getDate("birthday")),
+                            user.getBirthday(),
                             resultSet.getString("bio")
                     );
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return null;
     }
 
-    public static List<User> getAllUsers() {
-        List<User> userList = new ArrayList<>();
+    public static List<UserService> getAllUsers() {
+        List<UserService> userList = new ArrayList<>();
         String selectQuery = QueryEnum.PARSEUSERS.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            while (resultSet.next()) {
-                userList.add(new User(
-                        resultSet.getInt("user_id"),
-                        resultSet.getString("username"),
-                        resultSet.getString("name"),
-                        resultSet.getString("email"),
+                while (resultSet.next()) {
+                    userList.add(new UserService(
+                    resultSet.getInt("user_id"),
+                     resultSet.getString("username"),
+                      resultSet.getString("name"),
+                       resultSet.getString("email"),
                         null,
-                        new TimeDate(resultSet.getDate("birthday")),
-                        resultSet.getString("bio")
-                ));
-            }
+                         new TimeDate(resultSet.getDate("birthday")),
+                          resultSet.getString("bio")
+                          ));
+                }
+                
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return userList;
     }
 
-    public static void addFollower(int targetUserId, int followerId) {
+    public static void addFollower(UserService targetUser, UserService follower) {
         String query = QueryEnum.ADDFOLLOWER.query;
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setInt(1, targetUserId);
-            statement.setInt(2, followerId);
+            statement.setInt(1, targetUser.getID());
+            statement.setInt(2, follower.getID());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
     }
 
-    public static List<Integer> getAllFollowers(int userId) {
+    public static List<Integer> getAllFollowers(UserService user) {
         List<Integer> followerList = new ArrayList<>();
         String selectQuery = QueryEnum.FETCHFOLLOWERS.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(1, user.getID());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     followerList.add(resultSet.getInt("user_id"));
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return followerList;
     }
 
-    public static User getUserById(int userId) {
+    public static UserService getUserById(UserService user) {
         String selectSQL = QueryEnum.FETCHWITHID.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
 
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(1, user.getID());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new User(
-                            userId,
+                    return new UserService(
+                            user.getID(),
                             resultSet.getString("username"),
                             resultSet.getString("name"),
                             resultSet.getString("email"),
@@ -154,24 +153,24 @@ public class MYSQLHandler {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return null;
     }
 
-    public static List<User> getChatList(int userId) {
-        List<User> userList = new ArrayList<>();
+    public static List<UserService> getChatList(UserService user) {
+        List<UserService> userList = new ArrayList<>();
         String selectQuery = QueryEnum.FETCHCHATS.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, userId);
+            preparedStatement.setInt(1, user.getID());
+            preparedStatement.setInt(2, user.getID());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     int userIdResult = resultSet.getInt("user_id");
-                    if (userIdResult != userId) {
-                        userList.add(new User(
+                    if (userIdResult != user.getID()) {
+                        userList.add(new UserService(
                                 userIdResult,
                                 resultSet.getString("username"),
                                 resultSet.getString("name"),
@@ -184,35 +183,36 @@ public class MYSQLHandler {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return userList;
     }
 
-    public static void startChat(int user1Id, int user2Id) {
+    public static void startChat(UserService user1, UserService user2) {
         String insertChatQuery = QueryEnum.STARTCHAT.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertChatQuery)) {
 
-            preparedStatement.setInt(1, user1Id);
-            preparedStatement.setInt(2, user2Id);
+            preparedStatement.setInt(1, user1.getID());
+            preparedStatement.setInt(2, user2.getID());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
     }
 
-    public static List<Message> getChatBetweenUsers(int user1ID, int user2ID) {
+
+    public static List<Message> getChatBetweenUsers(UserService user1, UserService user2) {
         List<Message> messages = new ArrayList<>();
         String selectquery = QueryEnum.FETCHCHAT.query;
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectquery)) {
-        
-            preparedStatement.setInt(1, user1ID);
-            preparedStatement.setInt(2, user2ID);
-            preparedStatement.setInt(3, user2ID);
-            preparedStatement.setInt(4, user1ID);
+
+            preparedStatement.setInt(1, user1.getID());
+            preparedStatement.setInt(2, user2.getID());
+            preparedStatement.setInt(3, user2.getID());
+            preparedStatement.setInt(4, user1.getID());
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
@@ -233,21 +233,23 @@ public class MYSQLHandler {
         return messages;
     }
 
-
-    public static void sendmessageschat(int user1Id, int user2Id, String content) {
+    public static void sendMessagesChat(UserService user1, UserService user2, String content) {
         String insertChatQuery = QueryEnum.INSERTCHAT.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertChatQuery)) {
 
-            preparedStatement.setInt(1, user1Id);
-            preparedStatement.setInt(2, user2Id);
+            preparedStatement.setInt(1, user1.getID());
+            preparedStatement.setInt(2, user2.getID());
             preparedStatement.setString(3, content);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
     }
+        
+        
+
 
 }
 
