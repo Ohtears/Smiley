@@ -10,7 +10,6 @@ public class ForumsListPanel extends JPanel {
         setBackground(Color.WHITE);
         setLayout(new GridLayout(2, 1));
 
-        // Add subcomponents or customize as needed
         JLabel label1 = new JLabel("Forum 1");
         JLabel label2 = new JLabel("Forum 2");
         add(label1);
