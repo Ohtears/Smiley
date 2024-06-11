@@ -3,8 +3,7 @@ package Server.Network;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Client.Models.User;
-import Client.Network.RequestType;
+import Server.Services.MessageService;
 import Server.Services.TimeDateService;
 import Server.Services.UserService;
 
@@ -39,18 +38,17 @@ public class JsonConverter {
         return new UserRequest(users, requestType);
     }
 
-    public static JSONObject usersToJson(List<User> users, RequestType type) {
+    public static JSONObject usersToJson(List<UserService> users) {
         JSONObject requestJson = new JSONObject();
-        requestJson.put("requestType", type.toString());
         
         JSONArray jsonArray = new JSONArray();
-        for (User user : users) {
+        for (UserService user : users) {
             JSONObject userJson = new JSONObject();
             userJson.put("userid", user.getID());
             userJson.put("Username", user.Username);
             userJson.put("Name", user.getName());
-            userJson.put("Email", user.getEmail());
-            userJson.put("Password", user.getPassword());
+            userJson.put("Email", user.getemail());
+            userJson.put("Password", user.getpassword());
             userJson.put("Birthday", user.getBirthday().toString());
             userJson.put("bio", user.getBio());
             
@@ -60,6 +58,29 @@ public class JsonConverter {
         requestJson.put("users", jsonArray);
         return requestJson;
     }
+    public static JSONObject messagesToJson(List<MessageService> messages) {
+        JSONArray jsonArray = new JSONArray();
 
+        for (MessageService message : messages) {
+            JSONObject messageJson = new JSONObject();
+            messageJson.put("messageId", message.getMessageId());
+            messageJson.put("senderId", message.getSenderId());
+            messageJson.put("receiverId", message.getReceiverId());
+            messageJson.put("content", message.getContent());
+            messageJson.put("timestamp", message.getTimestamp().toString()); 
 
+            jsonArray.put(messageJson);
+        }
+
+        JSONObject messagesJson = new JSONObject();
+        messagesJson.put("messages", jsonArray);
+
+        return messagesJson;
+    }
+
+    public static JSONObject booleanToJson(boolean value) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("value", value);
+        return jsonObject;
+    }
 }

@@ -1,12 +1,19 @@
 package Client.GUI;
 
 import Client.GUI.MainApp.App;
-import Server.Database.MYSQLHandler;
 import Client.Models.CurrentUser;
 import Client.Models.User;
+import Client.Network.JsonConverter;
+import Client.Network.RequestHandler;
+import Client.Network.RequestType;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
+
+import org.json.JSONObject;
 
 public class Login extends JPanel {
     private final JDialog parentDialog;
@@ -79,9 +86,22 @@ public class Login extends JPanel {
 
                 String hashedPassword = HashPassword.hashwithsha256(password);
 
-                if (MYSQLHandler.checkPassword(email, hashedPassword)){
+                List<User> userList = new ArrayList<>();
+                User user4check = new User(0, null, null, email, hashedPassword, null, null);
+                userList.add(user4check);
+                JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.CHECKPASSWORD);
+                JSONObject responseServer = RequestHandler.call(jsonRequest);
+
+                boolean passwordIsValid = JsonConverter.jsonToBoolean(responseServer);
+                // MYSQLHandler.checkPassword(email, hashedPassword)
+
+                if (passwordIsValid){
                     
-                    User currentuser = MYSQLHandler.getCurrentUser(email);
+                    JSONObject jsonRequest_USER = JsonConverter.usersToJson(userList, RequestType.GETCURRENTUSER);
+                    JSONObject responseServer_USER = RequestHandler.call(jsonRequest_USER);
+
+                    User currentuser = (JsonConverter.jsonToUsers(responseServer_USER)).get(0);
+                    // User currentuser = MYSQLHandler.getCurrentUser(email);
 
                     CurrentUser.getInstance().setUser(currentuser);
 

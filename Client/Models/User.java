@@ -3,7 +3,10 @@ package Client.Models;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import Client.Network.JsonConverter;
+import Client.Network.RequestHandler;
 import Client.Network.RequestType;
 
 public class User{
@@ -33,7 +36,8 @@ public class User{
         // MYSQLHandler.insertUser(Username, Name, Email, Password, Birthday);
         List<User> userList = new ArrayList<>();
         userList.add(user);
-        JsonConverter.usersToJson(userList, RequestType.INSERTUSER);
+        JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.INSERTUSER);
+        RequestHandler.call(jsonRequest);
 
     }
 

@@ -1,13 +1,19 @@
 package Client.GUI.MainApp;
 
 import javax.swing.*;
+
+import org.json.JSONObject;
+
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.CurrentUser;
 import Client.Models.User;
-import Server.Database.MYSQLHandler;
+import Client.Network.JsonConverter;
+import Client.Network.RequestHandler;
+import Client.Network.RequestType;
 
 public class DMListPanel extends JPanel {
 
@@ -18,7 +24,14 @@ public class DMListPanel extends JPanel {
 
         User currentUser = CurrentUser.getInstance().getUser();
 
-        List<User> users = MYSQLHandler.getChatList(currentUser.getID());
+        List<User> userList = new ArrayList<>();
+        userList.add(currentUser);
+        JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.GETCHATLIST);
+        JSONObject responseServer = RequestHandler.call(jsonRequest);
+
+        List<User> users = JsonConverter.jsonToUsers(responseServer);
+
+        // List<User> users = MYSQLHandler.getChatList(currentUser.getID());
         for (User user : users) {
             // ImageIcon userIcon = new ImageIcon("Untitled.jpeg");  
             ChatPanel chatPanel = new ChatPanel(user, listener);

@@ -1,35 +1,37 @@
 package Client.Network;
 
+import org.json.JSONObject;
 import java.io.*;
 import java.net.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class RequestHandler {
-    private static int portnumber = 12345;
-    private static String ipaddress = "localhost";
+    private static int portNumber = 12345;
+    private static String ipAddress = "localhost";
 
-    public static void call(JSONArray jsonArray){
-        try (Socket socket = new Socket(ipaddress, portnumber)) {
+    public static JSONObject call(JSONObject jsonObject) {
+        try (Socket socket = new Socket(ipAddress, portNumber)) {
 
-            JSONObject user1 = new JSONObject();
-            user1.put("userid", 1);
-            user1.put("Username", "john_doe");
-            user1.put("Name", "John Doe");
-            jsonArray.put(user1);
-
-            String jsonString = jsonArray.toString();
+            String jsonString = jsonObject.toString();
 
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(jsonString.getBytes());
-            outputStream.flush(); 
+            outputStream.flush();
 
+            InputStream inputStream = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder responseBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                responseBuilder.append(line);
+            }
 
-    } catch (IOException e) {
-        System.out.println("Client exception: " + e.getMessage());
+            JSONObject jsonResponse = new JSONObject(responseBuilder.toString());
+
+            return jsonResponse;
+
+        } catch (IOException e) {
+            System.out.println("Client exception: " + e.getMessage());
+            return null;
+        }
     }
-
-    }
-
-
 }

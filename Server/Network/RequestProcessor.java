@@ -3,12 +3,15 @@ import Server.Database.MYSQLHandler;
 import Server.Services.MessageService;
 import Server.Services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONObject;
 
 public class RequestProcessor {
     
 
-    public void processRequests(UserRequest userRequest) {
+    public static JSONObject processRequests(UserRequest userRequest) {
         
         RequestTypeService type = userRequest.requestType;
         
@@ -19,21 +22,22 @@ public class RequestProcessor {
         switch (type) {
             case INSERTUSER:
                 MYSQLHandler.insertUser(user);
+
             break;
             case CHECKPASSWORD:
                 boolean validation = MYSQLHandler.checkPassword(user);
-
-            break;
+                return JsonConverter.booleanToJson(validation);
+                
             case GETCURRENTUSER:
 
                 UserService currentuser = MYSQLHandler.getCurrentUser(user);
-
-            break;
+                List <UserService> tempuserlist = new ArrayList<>();
+                tempuserlist.add(currentuser);
+                return JsonConverter.usersToJson(tempuserlist);
             case GETALLUSERS:
 
                 List<UserService> getallusers = MYSQLHandler.getAllUsers();
-
-            break;
+                return JsonConverter.usersToJson(getallusers);
             case ADDFOLLOWER:
 
                 MYSQLHandler.addFollower(user, user2);
@@ -41,10 +45,17 @@ public class RequestProcessor {
             break;
             case GETCHATLIST: 
                 List<UserService> chatlist = MYSQLHandler.getChatList(user);
-            break;
+                
+                return JsonConverter.usersToJson(chatlist);
+
             case GETUSERBYID:
                 UserService userbyid = MYSQLHandler.getUserById(user);
-            break;
+
+                List <UserService> tempuserlist1 = new ArrayList<>();
+                tempuserlist1.add(userbyid);
+
+                return JsonConverter.usersToJson(tempuserlist1);
+
             case STARTCHAT:
             
                 MYSQLHandler.startChat(user, user2);
@@ -53,15 +64,23 @@ public class RequestProcessor {
 
                 List<MessageService> chatbetweenusers = MYSQLHandler.getChatBetweenUsers(user, user2);
                 
-            break;
+                return JsonConverter.messagesToJson(chatbetweenusers);
+
             case SENDMESSAGESCHAT:
+                
                 MYSQLHandler.sendMessagesChat(user, user2, null); //NEEDS FURTHER WORK
-            break;
+                
+
+                break;
             case GETALLFOLLOWERS:
-                List<Integer> allfollowers = MYSQLHandler.getAllFollowers(user);
+                
+                // List<Integer> allfollowers = MYSQLHandler.getAllFollowers(user);
+
+                //needs adjustment
 
             break;
 
-    }
+        }
+    return null;
 }
 }

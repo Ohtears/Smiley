@@ -6,14 +6,16 @@ import Client.Models.Message;
 import Client.Models.TimeDate;
 import Client.Models.User;
 import Client.Network.JsonConverter;
+import Client.Network.RequestHandler;
 import Client.Network.RequestType;
-import Server.Database.MYSQLHandler;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
+
+import org.json.JSONObject;
 
 public class Dashboard extends JPanel {
 
@@ -106,10 +108,17 @@ public class Dashboard extends JPanel {
                 List<User> userListB = new ArrayList<>();
                 userListB.add(currentUser);
                 userListB.add(user);
-                JsonConverter.usersToJson(userListB, RequestType.STARTCHAT);
+                JSONObject jsonRequest =  JsonConverter.usersToJson(userListB, RequestType.STARTCHAT);
+                RequestHandler.call(jsonRequest);
                 // MYSQLHandler.startChat(currentUser.getID(), user.getID());
 
-                listener.onPanelSwitch(new Chat(user, MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID()))); 
+                JSONObject jsonRequest1 =  JsonConverter.usersToJson(userListB, RequestType.GETCHATBETWEENUSERS);
+                JSONObject responseServer1 = RequestHandler.call(jsonRequest1);
+                
+                List <Message> messages = JsonConverter.jsonToMessages(responseServer1);
+
+                // MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID()))
+                listener.onPanelSwitch(new Chat(user, messages)); 
 
             });   
     }

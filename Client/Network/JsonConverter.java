@@ -3,12 +3,11 @@ package Client.Network;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import Client.Models.Message;
+import Client.Models.TimeDate;
 import Client.Models.User;
-import Server.Network.RequestTypeService;
-import Server.Network.UserRequest;
-import Server.Services.TimeDateService;
-import Server.Services.UserService;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +34,10 @@ public class JsonConverter {
         requestJson.put("users", jsonArray);
         return requestJson;
     }
-        public static UserRequest jsonToUsers(JSONObject jsonObject) {
-        RequestTypeService requestType = RequestTypeService.valueOf(jsonObject.getString("requestType"));
+    public static List<User> jsonToUsers(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("users");
 
-        List<UserService> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject userJson = jsonArray.getJSONObject(i);
@@ -50,14 +48,35 @@ public class JsonConverter {
             String Email = userJson.getString("Email");
             String Password = userJson.getString("Password");
             String Birthday = userJson.getString("Birthday");
-            TimeDateService bday = new TimeDateService(Birthday);
+            TimeDate bday = new TimeDate(Birthday);
 
             String bio = userJson.getString("bio");
 
-            UserService user = new UserService(userid, Username, Name, Email, Password, bday, bio);
+            User user = new User(userid, Username, Name, Email, Password, bday, bio);
             users.add(user);
         }
 
-        return new UserRequest(users, requestType);
+        return users;
+    }
+        public static List<Message> jsonToMessages(JSONObject jsonObject) {
+            List<Message> messages = new ArrayList<>();
+            JSONArray jsonArray = jsonObject.getJSONArray("messages");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject messageJson = jsonArray.getJSONObject(i);
+                int messageId = messageJson.getInt("messageId");
+                int senderId = messageJson.getInt("senderId");
+                int receiverId = messageJson.getInt("receiverId");
+                String content = messageJson.getString("content");
+                Timestamp timestamp = Timestamp.valueOf(messageJson.getString("timestamp"));
+
+                Message message = new Message(messageId, senderId, receiverId, content, timestamp);
+                messages.add(message);
+            }
+
+        return messages;
+    }
+    public static boolean jsonToBoolean(JSONObject jsonObject) {
+        return jsonObject.getBoolean("value");
     }
 }

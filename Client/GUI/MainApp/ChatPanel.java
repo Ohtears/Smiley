@@ -2,10 +2,14 @@ package Client.GUI.MainApp;
 
 import javax.swing.*;
 
+import org.json.JSONObject;
+
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.CurrentUser;
+import Client.Models.Message;
 import Client.Models.User;
 import Client.Network.JsonConverter;
+import Client.Network.RequestHandler;
 import Client.Network.RequestType;
 
 import java.awt.*;
@@ -41,10 +45,16 @@ public class ChatPanel extends JPanel {
             List<User> userListC = new ArrayList<>();
             userListC.add(currentUser);
             userListC.add(user);
-            JsonConverter.usersToJson(userListC, RequestType.STARTCHAT);
-            
+            JSONObject jsonRequest = JsonConverter.usersToJson(userListC, RequestType.STARTCHAT);            
+            RequestHandler.call(jsonRequest);
+
+            JSONObject jsonRequest2 = JsonConverter.usersToJson(userListC, RequestType.GETCHATBETWEENUSERS);
+            JSONObject responseServer2 = RequestHandler.call(jsonRequest2);
+    
+            List<Message> messages = JsonConverter.jsonToMessages(responseServer2);
+            // MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID())
             // MYSQLHandler.startChat(currentUser.getID(), user.getID());
-            listener.onPanelSwitch(new Chat(user, MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID()))); 
+            listener.onPanelSwitch(new Chat(user, messages)); 
 
         });
 
