@@ -9,11 +9,15 @@ import java.util.TimerTask;
 
 import javax.swing.*;
 
+import org.json.JSONObject;
+
+import Client.GUI.RegexHandler;
 import Client.GUI.MainApp.Dashboard.Dashboard;
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.User;
-import Server.Database.MYSQLHandler;
-import Server.Database.RegexHandler;
+import Client.Network.JsonConverter;
+import Client.Network.RequestHandler;
+import Client.Network.RequestType;
 
 public class HeaderPanel extends JPanel {
     
@@ -68,7 +72,13 @@ public class HeaderPanel extends JPanel {
     private void showSearchResults(String query) {
         searchResultsPopup.removeAll();
 
-        List<User> users = new ArrayList<>(MYSQLHandler.getAllUsers());
+        List<User> userList = new ArrayList<>();
+        JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.GETALLUSERS);
+        JSONObject responseServer = RequestHandler.call(jsonRequest);
+
+        List<User> users = JsonConverter.jsonToUsers(responseServer);
+
+    // List<User> users = new ArrayList<>(MYSQLHandler.getAllUsers());
         List<String> usernames = new ArrayList<>();
 
         for (User user : users) {

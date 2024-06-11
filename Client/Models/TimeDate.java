@@ -29,7 +29,13 @@ public class TimeDate{
         this.month = date.month; 
         this.year = date.year;
     }
+    public TimeDate(String dateString) {
+        String[] parts = dateString.split(":");
+        this.day = Integer.parseInt(parts[0]);
+        this.month = Integer.parseInt(parts[1]);
+        this.year = Integer.parseInt(parts[2]);
 
+    }
     private int month2int(String month){
 
         String[] months = {"January", "February", "March", "April", "May", "June", "July",
