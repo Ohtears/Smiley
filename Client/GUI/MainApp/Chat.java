@@ -14,7 +14,6 @@ import Client.Models.User;
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
 import Client.Network.RequestType;
-import Server.Database.MYSQLHandler;
 
 public class Chat extends JPanel {
     
