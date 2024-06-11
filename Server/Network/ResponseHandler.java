@@ -15,7 +15,6 @@ public class ResponseHandler {
                 try (Socket clientSocket = serverSocket.accept()) {
                     System.out.println("Client connected: " + clientSocket.getInetAddress());
 
-                    // Handle client request
                     handleRequest(clientSocket);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -40,14 +39,12 @@ public class ResponseHandler {
 
         JSONObject processedrequest = RequestProcessor.processRequests(userrequest);
 
-        String stringrequest = processedrequest.toString();
-
         if (processedrequest.equals(null)){
 
             //empty for now
         }
-
         else {
+            String stringrequest = processedrequest.toString();
 
             sendResponse(clientSocket, stringrequest);
         }

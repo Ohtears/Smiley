@@ -16,8 +16,13 @@ public class RequestProcessor {
         RequestTypeService type = userRequest.requestType;
         
         UserService user = userRequest.users.get(0);  
-        UserService user2 = userRequest.users.get(1);  
-
+        UserService user2;
+        try {
+        user2 = userRequest.users.get(1);  
+        }
+        catch (Exception e) {
+            user2 = null;
+        }
 
         switch (type) {
             case INSERTUSER:
@@ -81,6 +86,8 @@ public class RequestProcessor {
                 //needs adjustment
 
             break;
+            default:
+                break;
 
         }
     return null;
