@@ -5,10 +5,12 @@ import javax.swing.*;
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.CurrentUser;
 import Client.Models.User;
-import Server.Database.MYSQLHandler;
+import Client.Network.JsonConverter;
+import Client.Network.RequestType;
 
 import java.awt.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatPanel extends JPanel {
 
@@ -36,7 +38,12 @@ public class ChatPanel extends JPanel {
 
             User currentUser = CurrentUser.getInstance().getUser();
 
-            MYSQLHandler.startChat(currentUser.getID(), user.getID());
+            List<User> userListC = new ArrayList<>();
+            userListC.add(currentUser);
+            userListC.add(user);
+            JsonConverter.usersToJson(userListC, RequestType.STARTCHAT);
+            
+            // MYSQLHandler.startChat(currentUser.getID(), user.getID());
             listener.onPanelSwitch(new Chat(user, MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID()))); 
 
         });
