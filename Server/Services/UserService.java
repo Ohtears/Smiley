@@ -1,9 +1,6 @@
 package Server.Services;
 
-
-import Server.Database.MYSQLHandler;
-
-public class User{
+public class UserService{
 
     private int userid;
     public String Username;
@@ -13,7 +10,7 @@ public class User{
     private String Name;
     private String bio;
 
-    public User(int userid, String Username, String Name, String Email, String Password, TimeDate Birthday, String bio){
+    public UserService(int userid, String Username, String Name, String Email, String Password, TimeDate Birthday, String bio){
 
         this.userid = userid;
         this.Username = Username;
@@ -43,5 +40,13 @@ public class User{
     public String getBio() {
 
         return bio;
+    }
+    public String getpassword() {
+
+        return Password;
+    }
+    public String getemail() {
+
+        return Email;
     }
 }

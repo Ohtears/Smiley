@@ -4,7 +4,6 @@ import Server.Database.MYSQLHandler;
 
 public class User{
 
-    @SuppressWarnings("unused")
     private int userid;
     public String Username;
     private String Email;

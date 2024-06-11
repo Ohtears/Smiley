@@ -3,8 +3,9 @@ package Client.Models;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class TimeDate {
+public class TimeDate{
     
+
     private int day;
     private int month;
     private int year;
