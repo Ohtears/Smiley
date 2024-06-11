@@ -1,7 +1,9 @@
 package Server.Network;
 import Server.Database.MYSQLHandler;
+import Server.Services.MessageService;
 import Server.Services.UserService;
 
+import java.util.List;
 
 public class RequestProcessor {
     
@@ -19,17 +21,17 @@ public class RequestProcessor {
                 MYSQLHandler.insertUser(user);
             break;
             case CHECKPASSWORD:
-                MYSQLHandler.checkPassword(user);
+                boolean validation = MYSQLHandler.checkPassword(user);
 
             break;
             case GETCURRENTUSER:
 
-                MYSQLHandler.getCurrentUser(user);
+                UserService currentuser = MYSQLHandler.getCurrentUser(user);
 
             break;
             case GETALLUSERS:
 
-                MYSQLHandler.getAllUsers();
+                List<UserService> getallusers = MYSQLHandler.getAllUsers();
 
             break;
             case ADDFOLLOWER:
@@ -38,10 +40,10 @@ public class RequestProcessor {
 
             break;
             case GETCHATLIST: 
-                MYSQLHandler.getChatList(user);
+                List<UserService> chatlist = MYSQLHandler.getChatList(user);
             break;
             case GETUSERBYID:
-                MYSQLHandler.getUserById(user);
+                UserService userbyid = MYSQLHandler.getUserById(user);
             break;
             case STARTCHAT:
             
@@ -49,14 +51,14 @@ public class RequestProcessor {
             break;
             case GETCHATBETWEENUSERS:
 
-                MYSQLHandler.getChatBetweenUsers(user, user2);
+                List<MessageService> chatbetweenusers = MYSQLHandler.getChatBetweenUsers(user, user2);
                 
             break;
             case SENDMESSAGESCHAT:
                 MYSQLHandler.sendMessagesChat(user, user2, null); //NEEDS FURTHER WORK
             break;
             case GETALLFOLLOWERS:
-                MYSQLHandler.getAllFollowers(user);
+                List<Integer> allfollowers = MYSQLHandler.getAllFollowers(user);
 
             break;
 
