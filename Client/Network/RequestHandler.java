@@ -13,25 +13,28 @@ public class RequestHandler {
 
             String jsonString = jsonObject.toString();
 
+            jsonString += "\n";
+
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(jsonString.getBytes());
             outputStream.flush();
+            socket.shutdownOutput();
 
-            InputStream inputStream = socket.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder responseBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                responseBuilder.append(line);
-            }
+            // InputStream inputStream = socket.getInputStream();
+            // BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            // StringBuilder responseBuilder = new StringBuilder();
+            // String line;
+            // while ((line = reader.readLine()) != null) {
+            //     responseBuilder.append(line);
+            // }
 
-            JSONObject jsonResponse = new JSONObject(responseBuilder.toString());
+            // JSONObject jsonResponse = new JSONObject(responseBuilder.toString());
 
-            return jsonResponse;
+            // return jsonResponse;
 
         } catch (IOException e) {
             System.out.println("Client exception: " + e.getMessage());
-            return null;
-        }
-    }
+            }
+        return null;
+            }
 }
