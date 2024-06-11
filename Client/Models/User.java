@@ -1,6 +1,10 @@
 package Client.Models;
 
-import Server.Database.MYSQLHandler;
+import java.util.ArrayList;
+import java.util.List;
+
+import Client.Network.JsonConverter;
+import Client.Network.RequestType;
 
 public class User{
 
@@ -24,9 +28,12 @@ public class User{
         
     }
     
-    public void send2db(){
+    public static void send2db(User user){
 
-        MYSQLHandler.insertUser(Username, Name, Email, Password, Birthday);
+        // MYSQLHandler.insertUser(Username, Name, Email, Password, Birthday);
+        List<User> userList = new ArrayList<>();
+        userList.add(user);
+        JsonConverter.usersToJson(userList, RequestType.INSERTUSER);
 
     }
 
@@ -49,4 +56,18 @@ public class User{
 
         return bio;
     }
+
+    public String getEmail() {
+        
+        return Email;
+
+    }
+
+    public String getPassword() {
+
+        return Password;
+
+    }
+
+
 }

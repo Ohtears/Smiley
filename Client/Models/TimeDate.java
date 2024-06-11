@@ -49,7 +49,6 @@ public class TimeDate{
 
     }
 
-
     public int getDay() {
         return day;
     }

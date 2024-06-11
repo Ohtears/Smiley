@@ -132,7 +132,7 @@ public class Register extends JPanel {
                 TimeDate birthday = new TimeDate(day, month, year);
 
                 User user = new User(0, username, name, email, hashedPassword, birthday, null);
-                user.send2db();
+                User.send2db(user);
                 parentDialog.dispose();
             }
         });

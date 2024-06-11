@@ -5,10 +5,13 @@ import Client.Models.CurrentUser;
 import Client.Models.Message;
 import Client.Models.TimeDate;
 import Client.Models.User;
+import Client.Network.JsonConverter;
+import Client.Network.RequestType;
 import Server.Database.MYSQLHandler;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -87,16 +90,24 @@ public class Dashboard extends JPanel {
             followbutton.addActionListener(e -> {
 
                 User currentUser = CurrentUser.getInstance().getUser();
+                List<User> userListA = new ArrayList<>();
+                userListA.add(currentUser);
+                userListA.add(user);
 
-                MYSQLHandler.addFollower(user.getID(), currentUser.getID());
+                JsonConverter.usersToJson(userListA, RequestType.ADDFOLLOWER);
+
+                // MYSQLHandler.addFollower(user.getID(), currentUser.getID());
 
             });
 
             messagebutton.addActionListener(e -> {
 
                 User currentUser = CurrentUser.getInstance().getUser();
-
-                MYSQLHandler.startChat(currentUser.getID(), user.getID());
+                List<User> userListB = new ArrayList<>();
+                userListB.add(currentUser);
+                userListB.add(user);
+                JsonConverter.usersToJson(userListB, RequestType.STARTCHAT);
+                // MYSQLHandler.startChat(currentUser.getID(), user.getID());
 
                 listener.onPanelSwitch(new Chat(user, MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID()))); 
 
