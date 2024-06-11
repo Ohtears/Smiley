@@ -30,14 +30,26 @@ public class JsonConverter {
             TimeDateService bday = new TimeDateService(Birthday);
 
             String bio = userJson.getString("bio");
-
+            
             UserService user = new UserService(userid, Username, Name, Email, Password, bday, bio);
             users.add(user);
         }
 
-        return new UserRequest(users, requestType);
-    }
+        String content = null;
+        try {
+            content = jsonObject.getString("content");
+        } catch (Exception e) {
+        }
 
+        return new UserRequest(users, content, requestType);
+    }
+    // public static UserRequest jsonToRequestAndContent(JSONObject jsonObject) {
+
+    //     RequestTypeService requestType = RequestTypeService.valueOf(jsonObject.getString("requestType"));
+    //     String content = jsonObject.optString("content", null);
+    
+    //     return new UserRequest(requestType, content);
+    // }
     public static JSONObject usersToJson(List<UserService> users) {
         JSONObject requestJson = new JSONObject();
         

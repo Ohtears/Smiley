@@ -68,7 +68,9 @@ public class RequestProcessor {
 
             case SENDMESSAGESCHAT:
                 
-                MYSQLHandler.sendMessagesChat(user, user2, null); //NEEDS FURTHER WORK
+                String content = userRequest.content;
+
+                MYSQLHandler.sendMessagesChat(user, user2, content);
                 
 
                 break;
