@@ -6,11 +6,11 @@ public class UserService{
     public String Username;
     private String Email;
     private String Password;
-    private TimeDate Birthday;
+    private TimeDateService Birthday;
     private String Name;
     private String bio;
 
-    public UserService(int userid, String Username, String Name, String Email, String Password, TimeDate Birthday, String bio){
+    public UserService(int userid, String Username, String Name, String Email, String Password, TimeDateService Birthday, String bio){
 
         this.userid = userid;
         this.Username = Username;
@@ -32,7 +32,7 @@ public class UserService{
         return Name;
     }
 
-    public TimeDate getBirthday() {
+    public TimeDateService getBirthday() {
 
         return Birthday;
     }

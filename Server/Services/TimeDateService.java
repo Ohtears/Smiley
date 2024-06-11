@@ -3,19 +3,19 @@ package Server.Services;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class TimeDate {
+public class TimeDateService {
     
     private int day;
     private int month;
     private int year;
 
-    public TimeDate(int day, String monthString, int year) {
+    public TimeDateService(int day, String monthString, int year) {
         this.day = day;
         this.month = month2int(monthString); 
         this.year = year;
     }
 
-    public TimeDate(Date date) {
+    public TimeDateService(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         this.day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -23,7 +23,7 @@ public class TimeDate {
         this.year = calendar.get(Calendar.YEAR);
     }
 
-    public TimeDate(TimeDate date) {
+    public TimeDateService(TimeDateService date) {
         this.day = date.day;
         this.month = date.month; 
         this.year = date.year;
