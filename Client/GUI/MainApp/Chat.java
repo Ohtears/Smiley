@@ -1,12 +1,19 @@
 package Client.GUI.MainApp;
 
 import javax.swing.*;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
 
 import Client.Models.CurrentUser;
 import Client.Models.Message;
 import Client.Models.User;
+import Client.Network.JsonConverter;
+import Client.Network.RequestHandler;
+import Client.Network.RequestType;
 import Server.Database.MYSQLHandler;
 
 public class Chat extends JPanel {
@@ -91,8 +98,16 @@ public class Chat extends JPanel {
 
                     User currentUser = CurrentUser.getInstance().getUser();
 
+                            
+                    List<User> userList = new ArrayList<>();
+                    userList.add(currentUser);
+                    userList.add(user);
+                    JSONObject jsonRequest = JsonConverter.usersToJson(userList, messageContent, RequestType.SENDMESSAGESCHAT);
+                    RequestHandler.call(jsonRequest);             
 
-                    MYSQLHandler.sendmessageschat(currentUser.getID(), user.getID(), messageContent);
+                    
+
+                    // MYSQLHandler.sendmessageschat(currentUser.getID(), user.getID(), messageContent);
                     
                     inputField.setText("");
                     

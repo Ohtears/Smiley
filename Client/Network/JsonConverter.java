@@ -14,9 +14,16 @@ import java.util.List;
 public class JsonConverter {
 
     public static JSONObject usersToJson(List<User> users, RequestType type) {
+        return usersToJson(users, null, type);
+    }
+
+
+    public static JSONObject usersToJson(List<User> users, String content, RequestType type) {
         JSONObject requestJson = new JSONObject();
         requestJson.put("requestType", type.toString());
         
+
+
         JSONArray jsonArray = new JSONArray();
         for (User user : users) {
             JSONObject userJson = new JSONObject();
@@ -32,8 +39,20 @@ public class JsonConverter {
         }
         
         requestJson.put("users", jsonArray);
+        if (content != null) {
+            requestJson.put("content", content);
+        }
         return requestJson;
     }
+    
+    public static JSONObject ContentToJson(String content, RequestType type) {
+        JSONObject requestJson = new JSONObject();
+        requestJson.put("requestType", type.toString());
+        requestJson.put("content", content);
+
+        return requestJson;
+    }
+
     public static List<User> jsonToUsers(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("users");
 
