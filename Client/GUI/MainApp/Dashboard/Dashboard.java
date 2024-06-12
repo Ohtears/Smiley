@@ -7,9 +7,11 @@ import Client.Models.TimeDate;
 import Client.Models.User;
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
+import Client.Network.RequestHandler.Callback;
 import Client.Network.RequestType;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,16 +111,34 @@ public class Dashboard extends JPanel {
                 userListB.add(currentUser);
                 userListB.add(user);
                 JSONObject jsonRequest =  JsonConverter.usersToJson(userListB, RequestType.STARTCHAT);
-                RequestHandler.call(jsonRequest);
-                // MYSQLHandler.startChat(currentUser.getID(), user.getID());
+                RequestHandler requestHandler = new RequestHandler();
+
+                requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
+                    @Override
+                    public void onSuccess(String response) {
+                    }
+            
+                    @Override
+                    public void onFailure(IOException e) {
+                        JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
 
                 JSONObject jsonRequest1 =  JsonConverter.usersToJson(userListB, RequestType.GETCHATBETWEENUSERS);
-                JSONObject responseServer1 = RequestHandler.call(jsonRequest1);
-                
-                List <Message> messages = JsonConverter.jsonToMessages(responseServer1);
+                requestHandler.sendRequestAsync(jsonRequest1.toString(), new Callback() {
+                    @Override
+                    public void onSuccess(String response1) {
+                        JSONObject responseServer1 = new JSONObject(response1);
+                        List <Message> messages = JsonConverter.jsonToMessages(responseServer1);
+                        listener.onPanelSwitch(new Chat(user, messages)); 
 
-                // MYSQLHandler.getChatBetweenUsers(currentUser.getID(), user.getID()))
-                listener.onPanelSwitch(new Chat(user, messages)); 
+                    }
+            
+                    @Override
+                    public void onFailure(IOException e) {
+                        JOptionPane.showMessageDialog(null, "Registration failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
 
             });   
     }

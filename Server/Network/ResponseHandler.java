@@ -16,7 +16,7 @@ public class ResponseHandler {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 LOGGER.log(Level.INFO, "Client connected: " + clientSocket.getInetAddress());
-                new Thread(() -> handleClient(clientSocket)).start(); // Handle each client in a new thread
+                new Thread(() -> handleClient(clientSocket)).start(); 
             }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Server exception: " + e.getMessage(), e);

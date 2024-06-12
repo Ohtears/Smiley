@@ -7,12 +7,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
+import java.io.IOException;
 
 import Client.Models.CurrentUser;
 import Client.Models.Message;
 import Client.Models.User;
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
+import Client.Network.RequestHandler.Callback;
 import Client.Network.RequestType;
 
 public class Chat extends JPanel {
@@ -102,12 +104,21 @@ public class Chat extends JPanel {
                     userList.add(currentUser);
                     userList.add(user);
                     JSONObject jsonRequest = JsonConverter.usersToJson(userList, messageContent, RequestType.SENDMESSAGESCHAT);
-                    RequestHandler.call(jsonRequest);             
+                    RequestHandler requestHandler = new RequestHandler();
 
-                    
+                    requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
+                        @Override
+                        public void onSuccess(String response) {
+                            
+                        }
+                
+                        @Override
+                        public void onFailure(IOException e) {
+                            JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    });   
 
-                    // MYSQLHandler.sendmessageschat(currentUser.getID(), user.getID(), messageContent);
-                    
+                                
                     inputField.setText("");
                     
                     refreshChatPanel(user, messageContent);
