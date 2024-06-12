@@ -50,7 +50,7 @@ public class ResponseHandler {
 
         JSONObject processedRequest = RequestProcessor.processRequests(userRequest); 
 
-        String responseString = (processedRequest != null) ? processedRequest.toString() : "completion";        
+        String responseString = (processedRequest != null) ? processedRequest.toString() : "200 OK";        
 
         LOGGER.log(Level.INFO, "Sending response: " + responseString);
 

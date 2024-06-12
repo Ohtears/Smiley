@@ -9,25 +9,25 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 public class RequestHandler {
-    private static final int TIMEOUT = 5000; // 5 seconds timeout
+    private static final int TIMEOUT = 5000;
     private static final Logger LOGGER = Logger.getLogger(RequestHandler.class.getName());
 
     public String sendRequest(String requestJson) throws IOException {
         LOGGER.log(Level.INFO, "Sending request to server: " + requestJson);
-        Socket socket = new Socket("localhost", 12345); // replace with your server address and port
+        Socket socket = new Socket("localhost", 12345); 
         socket.setSoTimeout(TIMEOUT);
         PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        out.println(requestJson); // Send JSON string followed by newline
-        out.flush();  // Ensure the request is sent out
+        out.println(requestJson);
+        out.flush();  
 
-        String response = in.readLine(); // This will wait for the server response
+        String response = in.readLine();
         LOGGER.log(Level.INFO, "Received response from server: " + response);
 
-        in.close();   // Close the input stream
-        out.close();  // Close the output stream
-        socket.close(); // Close the socket connection
+        in.close(); 
+        out.close();  
+        socket.close();
 
         return response;
     }

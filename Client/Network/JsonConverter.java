@@ -21,8 +21,6 @@ public class JsonConverter {
     public static JSONObject usersToJson(List<User> users, String content, RequestType type) {
         JSONObject requestJson = new JSONObject();
         requestJson.put("requestType", type.toString());
-        
-
 
         JSONArray jsonArray = new JSONArray();
         for (User user : users) {
@@ -103,4 +101,6 @@ public class JsonConverter {
     public static boolean jsonToBoolean(JSONObject jsonObject) {
         return jsonObject.getBoolean("value");
     }
+
+
 }

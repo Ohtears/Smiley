@@ -109,4 +109,20 @@ public class JsonConverter {
         jsonObject.put("value", value);
         return jsonObject;
     }
+
+    public static JSONObject StatusToJson(String status, int user_id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userid", user_id);
+        jsonObject.put("status", status);
+        return jsonObject;
+    }
+
+    public static String JsonToStatus(JSONObject jsonObject) {
+        return jsonObject.getString("status");
+
+    }
+
+    public static int JsonToUserId(JSONObject jsonObject) {
+
+        return jsonObject.getInt("userid");}
 }

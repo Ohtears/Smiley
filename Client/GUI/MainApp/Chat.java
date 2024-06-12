@@ -97,16 +97,28 @@ public class Chat extends JPanel {
                 String messageContent = inputField.getText().trim();
                 if (!messageContent.isEmpty()) {
 
-                    User currentUser = CurrentUser.getInstance().getUser();
+                    User currentUser = CurrentUser.getInstance().getUser();   
 
-                            
                     List<User> userList = new ArrayList<>();
                     userList.add(currentUser);
                     userList.add(user);
                     JSONObject jsonRequest = JsonConverter.usersToJson(userList, messageContent, RequestType.SENDMESSAGESCHAT);
+                    JSONObject jsonRequest1 = JsonConverter.usersToJson(userList, RequestType.GETUSERSTATUS);
                     RequestHandler requestHandler = new RequestHandler();
 
                     requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
+                        @Override
+                        public void onSuccess(String response) {
+                            
+                        }
+                
+                        @Override
+                        public void onFailure(IOException e) {
+                            JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    });   
+
+                    requestHandler.sendRequestAsync(jsonRequest1.toString(), new Callback() {
                         @Override
                         public void onSuccess(String response) {
                             
