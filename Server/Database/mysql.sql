@@ -7,7 +7,8 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     birthday DATE NOT NULL,
-    bio VARCHAR(255) 
+    bio VARCHAR(255)
+
 );
 
 CREATE TABLE followers (
@@ -37,4 +38,10 @@ CREATE TABLE chatmessages (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES users(user_id),
     FOREIGN KEY (receiver_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE user_status (
+    user_id INT,
+    status VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

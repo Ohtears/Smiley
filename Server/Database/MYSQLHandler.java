@@ -247,7 +247,23 @@ public class MYSQLHandler {
             e.printStackTrace();
         }
     }
-        
+    public static String GetUserStatus(UserService user) {
+        String selectSQL = QueryEnum.FETCHSTATUS.query;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+
+            preparedStatement.setString(1, user.getemail());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("status");
+                    
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
         
 
 

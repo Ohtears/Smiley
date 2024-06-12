@@ -86,6 +86,11 @@ public class RequestProcessor {
                 //needs adjustment
 
             break;
+
+            case GETUSERSTATUS:
+                String status = MYSQLHandler.GetUserStatus(user2);
+
+                return JsonConverter.StatusToJson(status, user2.getID());
             default:
                 break;
 
