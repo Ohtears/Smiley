@@ -43,14 +43,16 @@ public class ResponseHandler {
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
         String jsonString = in.readLine();
         LOGGER.log(Level.INFO, "Received request: " + jsonString);
-        out.println("completed");
+        // out.println("completed");
 
         JSONObject jsonObject = new JSONObject(jsonString);
-        UserRequest userRequest = JsonConverter.jsonToUsers(jsonObject); // Ensure this method exists
+        UserRequest userRequest = JsonConverter.jsonToUsers(jsonObject); 
 
-        JSONObject processedRequest = RequestProcessor.processRequests(userRequest); // Ensure this method exists
+        JSONObject processedRequest = RequestProcessor.processRequests(userRequest); 
 
         String responseString = (processedRequest != null) ? processedRequest.toString() : "completion";        
+
+        LOGGER.log(Level.INFO, "Sending response: " + responseString);
 
         sendResponse(clientSocket, responseString);
     }
