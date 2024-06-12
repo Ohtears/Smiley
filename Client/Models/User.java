@@ -1,13 +1,17 @@
 package Client.Models;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import org.json.JSONObject;
 
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
 import Client.Network.RequestType;
+import Client.Network.RequestHandler.Callback;
 
 public class User{
 
@@ -37,7 +41,24 @@ public class User{
         List<User> userList = new ArrayList<>();
         userList.add(user);
         JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.INSERTUSER);
-        RequestHandler.call(jsonRequest);
+        
+        RequestHandler requestHandler = new RequestHandler();
+
+        String jsonString = jsonRequest.toString();
+
+        requestHandler.sendRequestAsync(jsonString, new Callback() {
+            @Override
+            public void onSuccess(String response) {
+                // Handle success (e.g., update UI, save user info, etc.)
+                JOptionPane.showMessageDialog(null, "Registration successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+    
+            @Override
+            public void onFailure(IOException e) {
+                // Handle failure (e.g., show error message)
+                JOptionPane.showMessageDialog(null, "Registration failed", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
     }
 
