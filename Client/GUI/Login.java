@@ -89,7 +89,7 @@ public class Login extends JPanel {
                 String hashedPassword = HashPassword.hashwithsha256(password);
 
                 List<User> userList = new ArrayList<>();
-                User user4check = new User(0, null, null, email, hashedPassword, null, null);
+                User user4check = new User(0, "", "", email, hashedPassword, null, "");
                 userList.add(user4check);
                 JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.CHECKPASSWORD);
                 
@@ -98,12 +98,12 @@ public class Login extends JPanel {
                     @Override
                     public void onSuccess(String response) {
                         JSONObject jsonResponse = new JSONObject(response);
-                        // Handle success (e.g., update UI, save user info, etc.)
                         JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                         boolean passwordIsValid = JsonConverter.jsonToBoolean(jsonResponse);
 
                         if (passwordIsValid){
                     
+
                             // JSONObject jsonRequest_USER = JsonConverter.usersToJson(userList, RequestType.GETCURRENTUSER);
                             // JSONObject responseServer_USER = RequestHandler.call(jsonRequest_USER);
         

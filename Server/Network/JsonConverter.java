@@ -17,7 +17,7 @@ public class JsonConverter {
         JSONArray jsonArray = jsonObject.getJSONArray("users");
 
         List<UserService> users = new ArrayList<>();
-
+        TimeDateService bday = null; 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject userJson = jsonArray.getJSONObject(i);
 
@@ -26,9 +26,15 @@ public class JsonConverter {
             String Name = userJson.getString("Name");
             String Email = userJson.getString("Email");
             String Password = userJson.getString("Password");
-            String Birthday = userJson.getString("Birthday");
-            TimeDateService bday = new TimeDateService(Birthday);
+            try {
+                String Birthday = userJson.getString("Birthday");
+                bday = new TimeDateService(Birthday);
+                
+            }
+            catch (Exception e) {
+                bday = null;
 
+            }
             String bio = userJson.getString("bio");
             
             UserService user = new UserService(userid, Username, Name, Email, Password, bday, bio);
