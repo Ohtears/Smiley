@@ -68,7 +68,15 @@ public class JsonConverter {
             userJson.put("Email", user.getemail());
             userJson.put("Password", user.getpassword());
             userJson.put("Birthday", user.getBirthday().toString());
-            userJson.put("bio", user.getBio());
+            if (user.getBio() != null){
+                
+                userJson.put("bio", user.getBio());
+
+            }
+            else {
+                userJson.put("bio", "");
+
+            }
             
             jsonArray.put(userJson);
         }

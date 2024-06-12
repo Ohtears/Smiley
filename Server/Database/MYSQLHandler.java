@@ -66,7 +66,7 @@ public class MYSQLHandler {
                             resultSet.getString("name"),
                             user.getemail(),
                             resultSet.getString("password"),
-                            user.getBirthday(),
+                            new TimeDateService(resultSet.getDate("birthday")),
                             resultSet.getString("bio")
                     );
                 }

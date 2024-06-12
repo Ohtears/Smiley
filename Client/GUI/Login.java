@@ -98,23 +98,30 @@ public class Login extends JPanel {
                     @Override
                     public void onSuccess(String response) {
                         JSONObject jsonResponse = new JSONObject(response);
-                        JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                         boolean passwordIsValid = JsonConverter.jsonToBoolean(jsonResponse);
 
                         if (passwordIsValid){
                     
+                            
+                            JSONObject jsonRequest_USER = JsonConverter.usersToJson(userList, RequestType.GETCURRENTUSER);
+                            requestHandler.sendRequestAsync(jsonRequest_USER.toString(), new Callback() {
+                                @Override
+                                public void onSuccess(String response_USER) {
+                                    JSONObject jsonResponse_USER = new JSONObject(response_USER);
 
-                            // JSONObject jsonRequest_USER = JsonConverter.usersToJson(userList, RequestType.GETCURRENTUSER);
-                            // JSONObject responseServer_USER = RequestHandler.call(jsonRequest_USER);
+                                    User currentuser = (JsonConverter.jsonToUsers(jsonResponse_USER)).get(0);
+                                    CurrentUser.getInstance().setUser(currentuser);
+                                    parentDialog.dispose();
+                                    mainFrame.dispose();
+                                    openApp();
+                                }
+
+                                @Override
+                                public void onFailure(IOException e) {
+                                    JOptionPane.showMessageDialog(null, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
         
-                            // User currentuser = (JsonConverter.jsonToUsers(responseServer_USER)).get(0);
-                            // User currentuser = MYSQLHandler.getCurrentUser(email);
-                            System.out.println('s');
-                            // CurrentUser.getInstance().setUser(currentuser);
-        
-                            parentDialog.dispose();
-                            mainFrame.dispose();
-                            openApp();
+                            });
         
                         }
                         else {
@@ -125,12 +132,10 @@ public class Login extends JPanel {
 
                     @Override
                     public void onFailure(IOException e) {
-                        // Handle failure (e.g., show error message)
                         JOptionPane.showMessageDialog(null, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 });
 
-                // MYSQLHandler.checkPassword(email, hashedPassword)
 
 
             }
