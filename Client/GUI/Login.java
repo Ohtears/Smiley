@@ -5,9 +5,11 @@ import Client.Models.CurrentUser;
 import Client.Models.User;
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
+import Client.Network.RequestHandler.Callback;
 import Client.Network.RequestType;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,30 +92,46 @@ public class Login extends JPanel {
                 User user4check = new User(0, null, null, email, hashedPassword, null, null);
                 userList.add(user4check);
                 JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.CHECKPASSWORD);
-                JSONObject responseServer = RequestHandler.call(jsonRequest);
+                
+                RequestHandler requestHandler = new RequestHandler();
+                requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        // Handle success (e.g., update UI, save user info, etc.)
+                        JOptionPane.showMessageDialog(null, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        boolean passwordIsValid = JsonConverter.jsonToBoolean(jsonResponse);
 
-                boolean passwordIsValid = JsonConverter.jsonToBoolean(responseServer);
+                        if (passwordIsValid){
+                    
+                            // JSONObject jsonRequest_USER = JsonConverter.usersToJson(userList, RequestType.GETCURRENTUSER);
+                            // JSONObject responseServer_USER = RequestHandler.call(jsonRequest_USER);
+        
+                            // User currentuser = (JsonConverter.jsonToUsers(responseServer_USER)).get(0);
+                            // User currentuser = MYSQLHandler.getCurrentUser(email);
+                            System.out.println('s');
+                            // CurrentUser.getInstance().setUser(currentuser);
+        
+                            parentDialog.dispose();
+                            mainFrame.dispose();
+                            openApp();
+        
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Password Incorrect", "Error", JOptionPane.ERROR_MESSAGE);
+        
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(IOException e) {
+                        // Handle failure (e.g., show error message)
+                        JOptionPane.showMessageDialog(null, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+
                 // MYSQLHandler.checkPassword(email, hashedPassword)
 
-                if (passwordIsValid){
-                    
-                    JSONObject jsonRequest_USER = JsonConverter.usersToJson(userList, RequestType.GETCURRENTUSER);
-                    JSONObject responseServer_USER = RequestHandler.call(jsonRequest_USER);
-
-                    User currentuser = (JsonConverter.jsonToUsers(responseServer_USER)).get(0);
-                    // User currentuser = MYSQLHandler.getCurrentUser(email);
-
-                    CurrentUser.getInstance().setUser(currentuser);
-
-                    parentDialog.dispose();
-                    mainFrame.dispose();
-                    openApp();
-
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Password Incorrect", "Error", JOptionPane.ERROR_MESSAGE);
-
-                }
 
             }
         });
