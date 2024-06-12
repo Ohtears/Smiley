@@ -14,16 +14,16 @@ public class RequestProcessor {
     public static JSONObject processRequests(UserRequest userRequest) {
         
         RequestTypeService type = userRequest.requestType;
+        UserService user = null;
+        UserService user2 = null;
         
-        UserService user = userRequest.users.get(0);  
-        UserService user2;
-        try {
-        user2 = userRequest.users.get(1);  
+        if (userRequest.users.size() >= 1) {
+            user = userRequest.users.get(0);
         }
-        catch (Exception e) {
-            user2 = null;
+        
+        if (userRequest.users.size() >= 2) {
+            user2 = userRequest.users.get(1);
         }
-
         switch (type) {
             case INSERTUSER:
                 MYSQLHandler.insertUser(user);

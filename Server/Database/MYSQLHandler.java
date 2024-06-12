@@ -90,7 +90,7 @@ public class MYSQLHandler {
                      resultSet.getString("username"),
                       resultSet.getString("name"),
                        resultSet.getString("email"),
-                        null,
+                        "",
                          new TimeDateService(resultSet.getDate("birthday")),
                           resultSet.getString("bio")
                           ));
@@ -174,8 +174,8 @@ public class MYSQLHandler {
                                 userIdResult,
                                 resultSet.getString("username"),
                                 resultSet.getString("name"),
-                                null,
-                                null,
+                                "",
+                                "",
                                 new TimeDateService(resultSet.getDate("birthday")),
                                 resultSet.getString("bio")
                         ));

@@ -2,6 +2,7 @@ package Client.GUI.MainApp;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -17,6 +18,7 @@ import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.User;
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
+import Client.Network.RequestHandler.Callback;
 import Client.Network.RequestType;
 
 public class HeaderPanel extends JPanel {
@@ -74,41 +76,49 @@ public class HeaderPanel extends JPanel {
 
         List<User> userList = new ArrayList<>();
         JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.GETALLUSERS);
-        JSONObject responseServer = RequestHandler.call(jsonRequest);
+        RequestHandler requestHandler = new RequestHandler();
+        requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
+            @Override
+            public void onSuccess(String response) {
+                JSONObject responseServer = new JSONObject(response);
+                List<User> users = JsonConverter.jsonToUsers(responseServer);
+                List<String> usernames = new ArrayList<>();
 
-        List<User> users = JsonConverter.jsonToUsers(responseServer);
-
-    // List<User> users = new ArrayList<>(MYSQLHandler.getAllUsers());
-        List<String> usernames = new ArrayList<>();
-
-        for (User user : users) {
-            usernames.add(user.Username);
-        }
-
-        List<String> matchedUsernames = new ArrayList<>(RegexHandler.findTopMatches(usernames, query, 5));
-
-        for (String result : matchedUsernames) {
-            JMenuItem resultItem = new JMenuItem(result);
-            resultItem.addActionListener(e -> {
-            searchResultsPopup.setVisible(false);
-            
-            User targetuser = null;
-            for (User user: users){
-                    if (user.Username.equals(resultItem.getText())){
-                        targetuser = user;
-                        break;
-                    }
-
+                for (User user : users) {
+                    usernames.add(user.Username);
                 }
-            appInstance.setDisplayPanel(new Dashboard(targetuser, panelSwitchListener));  
+                List<String> matchedUsernames = new ArrayList<>(RegexHandler.findTopMatches(usernames, query, 5));
+                for (String result : matchedUsernames) {
+                    JMenuItem resultItem = new JMenuItem(result);
+                    resultItem.addActionListener(e -> {
+                    searchResultsPopup.setVisible(false);
+                    
+                    User targetuser = null;
+                    for (User user: users){
+                            if (user.Username.equals(resultItem.getText())){
+                                targetuser = user;
+                                break;
+                            }
+        
+                        }
+                    appInstance.setDisplayPanel(new Dashboard(targetuser, panelSwitchListener));  
+        
+        
+                    });
+                    searchResultsPopup.add(resultItem);
+                    if (!searchResultsPopup.isVisible()) {
+                        searchResultsPopup.show(searchBar, 0, searchBar.getHeight());
+                    }
+                }
+        
+            }
+    
+            @Override
+            public void onFailure(IOException e) {
+                JOptionPane.showMessageDialog(null, "Request failed", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
 
-            });
-            searchResultsPopup.add(resultItem);
-        }
-
-        if (!searchResultsPopup.isVisible()) {
-            searchResultsPopup.show(searchBar, 0, searchBar.getHeight());
-        }
     }
 }

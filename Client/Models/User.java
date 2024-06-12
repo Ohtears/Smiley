@@ -37,25 +37,20 @@ public class User{
     
     public static void send2db(User user){
 
-        // MYSQLHandler.insertUser(Username, Name, Email, Password, Birthday);
         List<User> userList = new ArrayList<>();
         userList.add(user);
         JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.INSERTUSER);
         
         RequestHandler requestHandler = new RequestHandler();
 
-        String jsonString = jsonRequest.toString();
-
-        requestHandler.sendRequestAsync(jsonString, new Callback() {
+        requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
             @Override
             public void onSuccess(String response) {
-                // Handle success (e.g., update UI, save user info, etc.)
                 JOptionPane.showMessageDialog(null, "Registration successful", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
     
             @Override
             public void onFailure(IOException e) {
-                // Handle failure (e.g., show error message)
                 JOptionPane.showMessageDialog(null, "Registration failed", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
