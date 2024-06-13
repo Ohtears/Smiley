@@ -100,9 +100,6 @@ public class JsonConverter {
 
         JSONObject messagesJson = new JSONObject();
         messagesJson.put("messages", jsonArray);
-        System.out.println("AAAAAAAAAAAA");
-        System.out.println(messagesJson);
-        System.out.println("BBBBBBBBBBBBBB");
         return messagesJson;
     }
 
