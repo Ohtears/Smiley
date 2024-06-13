@@ -6,8 +6,6 @@ import Server.Services.TimeDateService;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -242,7 +240,7 @@ public class MYSQLHandler {
         return null;
     }
     public static void setUserStatus(UserService user, String status) {
-        String updateSQL = QueryEnum.UPDATESTATUSOFFLINE.query;
+        String updateSQL = QueryEnum.UPDATESTATUS.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
     
@@ -251,6 +249,7 @@ public class MYSQLHandler {
             preparedStatement.executeUpdate();
     
         } catch (SQLException e) {
+            System.out.println(e);
         }
     }
     public static void insertUserStatus(UserService user) {

@@ -1,9 +1,17 @@
 package Client.GUI.MainApp;
 
-import java.awt.*;
+import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
+import Client.Models.CurrentUser;
+import Client.Network.KeepAlive;
+
 import javax.swing.*;
 
-import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class App extends JFrame implements PanelSwitchListener {
 
@@ -14,9 +22,20 @@ public class App extends JFrame implements PanelSwitchListener {
     }
 
     public App() {
+
+        KeepAlive HeartBeat = new KeepAlive(CurrentUser.getInstance().getUser());
+        HeartBeat.startSendingRequests();
+
         setTitle("Smiley");
         setSize(1280, 720);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                
+                disconnectAndClose();
+            }
+        });
         setLocationRelativeTo(null);
 
         setLayout(new BorderLayout());
@@ -28,7 +47,20 @@ public class App extends JFrame implements PanelSwitchListener {
         int minPanelWidth = (int) ((0.5 + 1.5 + 5.0 + 3.0) / (0.5 + 1.5 + 5.0 + 3.0) * 1280); 
         setMinimumSize(new Dimension(minPanelWidth, 720));
     }
-
+    private void disconnectAndClose() {
+        int confirm = JOptionPane.showOptionDialog(
+            this,
+            "Are you sure you want to close the application?",
+            "Exit Confirmation",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null, null, null);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            
+            dispose();
+        }
+    }
     private void refreshMainPanel(JPanel DesiredPanel) {
         if (mainPanel != null) {
             remove(mainPanel);  
