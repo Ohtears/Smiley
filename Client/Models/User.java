@@ -52,8 +52,10 @@ public class User{
             @Override
             public void onFailure(IOException e) {
                 JOptionPane.showMessageDialog(null, "Registration failed", "Error", JOptionPane.ERROR_MESSAGE);
+
             }
         });
+
 
     }
 

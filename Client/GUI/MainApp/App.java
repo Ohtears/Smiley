@@ -17,13 +17,15 @@ public class App extends JFrame implements PanelSwitchListener {
 
     private JPanel mainPanel;
 
+    private KeepAlive HeartBeat;
+
     public void setDisplayPanel(JPanel desiredPanel) {
         refreshMainPanel(desiredPanel);
     }
 
     public App() {
 
-        KeepAlive HeartBeat = new KeepAlive(CurrentUser.getInstance().getUser());
+        HeartBeat = new KeepAlive(CurrentUser.getInstance().getUser());
         HeartBeat.startSendingRequests();
 
         setTitle("Smiley");
@@ -57,7 +59,9 @@ public class App extends JFrame implements PanelSwitchListener {
             null, null, null);
         
         if (confirm == JOptionPane.YES_OPTION) {
-            
+            if (HeartBeat != null) {
+                HeartBeat.stopSendingRequests(); 
+            }
             dispose();
         }
     }
