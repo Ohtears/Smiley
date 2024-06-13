@@ -13,5 +13,6 @@ public enum RequestTypeService {
     SENDMESSAGESCHAT,
     GETALLFOLLOWERS,
     GETUSERSTATUS,
-    HEARTBEAT
+    HEARTBEAT,
+    GETLASTMSG
 }

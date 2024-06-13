@@ -101,6 +101,15 @@ public class RequestProcessor {
                 JSONObject jsonreq = JsonConverter.HeartbeatToJson();
                 return jsonreq;
 
+            
+            // case GETLASTMSG:
+
+            //     List<MessageService> chats = MYSQLHandler.getChatBetweenUsers(user, user2);
+                
+            //     MessageService lastmsg = chats.get(chats.size() - 1);
+
+            //     return JsonConverter.messagesToJson(lastmsg);
+
             default:
                 break;
 

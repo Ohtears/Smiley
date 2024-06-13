@@ -154,13 +154,35 @@ public class Chat extends JPanel {
 
         User currentUser = CurrentUser.getInstance().getUser();
 
-        Message sentMessage = new Message(0, currentUser, user, messageContent, null);
-        
-        MessagePanel sentMessagePanel = new MessagePanel(sentMessage);
-        
-        mainPanel.add(sentMessagePanel);
-        
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        List<User> userList = new ArrayList<>();
+        userList.add(currentUser);
+        userList.add(user);
+        JSONObject jsonRequest0 = JsonConverter.usersToJson(userList, RequestType.GETCHATBETWEENUSERS);            
+        RequestHandler requestHandler = new RequestHandler();
+        requestHandler.sendRequestAsync(jsonRequest0.toString(), new Callback() {
+            @Override
+            public void onSuccess(String response) {
+
+                JSONObject responseServer = new JSONObject(response);
+                List<Message> messages = JsonConverter.jsonToMessages(responseServer);
+                
+                Message lastmsg = messages.get(messages.size() - 1);
+                
+                MessagePanel messagePanel = new MessagePanel(lastmsg);
+                mainPanel.add(messagePanel);
+                
+                mainPanel.revalidate();
+                mainPanel.repaint();
+                
+            }
+    
+            @Override
+            public void onFailure(IOException e) {
+                JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });   
+
+        // Message sentMessage = new Message(0, currentUser, user, messageContent, null);
+        // TO DO FOR FUTUTE. MAKE IT SO THAT the send message will be opacity low then it will get high 
     }
 }
