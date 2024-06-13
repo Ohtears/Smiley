@@ -3,6 +3,8 @@ import Server.Database.MYSQLHandler;
 import Server.Services.MessageService;
 import Server.Services.UserService;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,10 @@ public class RequestProcessor {
         switch (type) {
             case INSERTUSER:
                 MYSQLHandler.insertUser(user);
+                UserService cur_user = MYSQLHandler.getCurrentUser(user);
+                MYSQLHandler.insertUserStatus(cur_user);
+                //needs further implementation
+
 
             break;
             case CHECKPASSWORD:
@@ -53,14 +59,6 @@ public class RequestProcessor {
                 
                 return JsonConverter.usersToJson(chatlist);
 
-            case GETUSERBYID:
-                UserService userbyid = MYSQLHandler.getUserById(user);
-
-                List <UserService> tempuserlist1 = new ArrayList<>();
-                tempuserlist1.add(userbyid);
-
-                return JsonConverter.usersToJson(tempuserlist1);
-
             case STARTCHAT:
             
                 MYSQLHandler.startChat(user, user2);
@@ -76,7 +74,18 @@ public class RequestProcessor {
                 String content = userRequest.content;
 
                 MYSQLHandler.sendMessagesChat(user, user2, content);
+                String status = MYSQLHandler.GetUserStatus(user2);
+                //needs further implementation
+
+                if (status.equals("online")) {
                 
+                    Socket userSocket = ResponseHandler.userSocketMap.get(user2);
+                    try {
+                        ResponseHandler.sendResponse(userSocket, "100");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 break;
             case GETALLFOLLOWERS:
@@ -87,10 +96,11 @@ public class RequestProcessor {
 
             break;
 
-            case GETUSERSTATUS:
-                String status = MYSQLHandler.GetUserStatus(user2);
+            case HEARTBEAT:
 
-                return JsonConverter.StatusToJson(status, user2.getID());
+                
+                break;
+
             default:
                 break;
 
