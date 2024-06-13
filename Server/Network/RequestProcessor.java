@@ -98,8 +98,8 @@ public class RequestProcessor {
 
             case HEARTBEAT:
 
-                
-                break;
+                JSONObject jsonreq = JsonConverter.HeartbeatToJson();
+                return jsonreq;
 
             default:
                 break;

@@ -124,5 +124,14 @@ public class JsonConverter {
 
     public static int JsonToUserId(JSONObject jsonObject) {
 
-        return jsonObject.getInt("userid");}
+        return jsonObject.getInt("userid");
+
+    }
+
+    public static JSONObject HeartbeatToJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("stat", "201 refresh");
+        return jsonObject;
+    }
+
 }

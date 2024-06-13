@@ -18,7 +18,7 @@ public class ResponseHandler {
 
     protected static Map<UserService, Socket> userSocketMap = new HashMap<>();
     public static void main(String[] args) {
-        
+
         UserStatusMonitor monitor = new UserStatusMonitor();
         monitor.startMonitoring();
 
@@ -64,7 +64,6 @@ public class ResponseHandler {
             UserService user = userRequest.users.get(0);
             userSocketMap.put(user, clientSocket);
             MYSQLHandler.setUserStatus(userRequest.users.get(0), "online");
-            //needs further implementation
         }
         catch (Exception e) {
             System.out.println(e);
