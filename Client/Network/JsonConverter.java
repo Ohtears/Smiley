@@ -88,9 +88,8 @@ public class JsonConverter {
             JSONObject messageJson = jsonArray.getJSONObject(i);
             int messageId = messageJson.getInt("messageId");
 
-            JSONObject userlist = messageJson.getJSONObject("users");
-            List<User> users = jsonToUsers(userlist);
-            String content = messageJson.getString("content");
+
+            List<User> users = jsonToUsers(messageJson.getJSONArray("users"));            String content = messageJson.getString("content");
             Timestamp timestamp = Timestamp.valueOf(messageJson.getString("timestamp"));
 
 
@@ -99,6 +98,26 @@ public class JsonConverter {
         }
 
         return messages;
+    }
+    private static List<User> jsonToUsers(JSONArray jsonArray) {
+        List<User> users = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject userJson = jsonArray.getJSONObject(i);
+            int userId = userJson.getInt("userid");
+            String username = userJson.getString("Username");
+            String name = userJson.getString("Name");
+            String email = userJson.getString("Email");
+            String password = userJson.getString("Password");
+            String birthday = userJson.getString("Birthday");
+            TimeDate bday = new TimeDate(birthday);
+            String bio = userJson.getString("bio");
+
+            User user = new User(userId, username, name, email, password, bday, bio);
+            users.add(user);
+        }
+
+        return users;
     }
     public static boolean jsonToBoolean(JSONObject jsonObject) {
         return jsonObject.getBoolean("value");
