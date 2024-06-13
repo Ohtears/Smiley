@@ -16,16 +16,17 @@ import java.awt.event.WindowEvent;
 public class App extends JFrame implements PanelSwitchListener {
 
     private JPanel mainPanel;
-
+    private JPanel currentmainPanel; 
     private KeepAlive HeartBeat;
+    private DMListPanel dmListPanel;
 
     public void setDisplayPanel(JPanel desiredPanel) {
         refreshMainPanel(desiredPanel);
     }
 
     public App() {
-
-        HeartBeat = new KeepAlive(CurrentUser.getInstance().getUser());
+        dmListPanel = new DMListPanel(this); 
+        HeartBeat = new KeepAlive(CurrentUser.getInstance().getUser(), dmListPanel);
         HeartBeat.startSendingRequests();
 
         setTitle("Smiley");
@@ -45,7 +46,10 @@ public class App extends JFrame implements PanelSwitchListener {
         HeaderPanel headerPanel = new HeaderPanel(this, this);
         add(headerPanel, BorderLayout.NORTH);
 
-        refreshMainPanel(new PostsListPanel());  
+        PostsListPanel initialPanel = new PostsListPanel();
+        currentmainPanel = initialPanel;
+        refreshMainPanel(initialPanel);
+
         int minPanelWidth = (int) ((0.5 + 1.5 + 5.0 + 3.0) / (0.5 + 1.5 + 5.0 + 3.0) * 1280); 
         setMinimumSize(new Dimension(minPanelWidth, 720));
     }
@@ -77,7 +81,7 @@ public class App extends JFrame implements PanelSwitchListener {
         gbc.weighty = 1.0;
 
         ForumsListPanel forumsListPanel = new ForumsListPanel();
-        DMListPanel dmListPanel = new DMListPanel(this);
+        // DMListPanel dmListPanel = new DMListPanel(this);
         MiscellaneousPanel miscellaneousPanel = new MiscellaneousPanel();
 
         gbc.weightx = 0.5;
@@ -99,6 +103,8 @@ public class App extends JFrame implements PanelSwitchListener {
         add(mainPanel, BorderLayout.CENTER);  
         revalidate();
         repaint();
+
+        currentmainPanel = DesiredPanel; 
     }
 
     @Override

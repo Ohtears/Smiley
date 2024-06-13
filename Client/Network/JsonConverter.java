@@ -102,5 +102,11 @@ public class JsonConverter {
         return jsonObject.getBoolean("value");
     }
 
+    public static String jsonToString(JSONObject jsonObject) {
+        return jsonObject.getString("status");
+    }
+    public static String jsonToStat(JSONObject jsonObject) {
+        return jsonObject.getString("stat");
+    }
 
 }

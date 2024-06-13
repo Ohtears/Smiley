@@ -1,15 +1,12 @@
 package Client.Network;
 
 import org.json.JSONObject;
-
 import Client.Models.User;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.JOptionPane;
 
 public class KeepAlive {
@@ -17,9 +14,11 @@ public class KeepAlive {
     private User user;
     private Timer timer;
     private static final int SCHEDULE_INTERVAL_SECONDS = 10;
+    private Refreshable refreshable;
 
-    public KeepAlive(User user) {
+    public KeepAlive(User user, Refreshable refreshable) {
         this.user = user;
+        this.refreshable = refreshable;
         timer = new Timer();
     }
 
@@ -37,15 +36,23 @@ public class KeepAlive {
     }
 
     private void sendRequestToServer() {
-        List<User> userList5 = new ArrayList<>();
-        userList5.add(user);
-        JSONObject jsonRequest = JsonConverter.usersToJson(userList5, RequestType.HEARTBEAT);
+        List<User> userList = new ArrayList<>();
+        userList.add(user);
+        JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.HEARTBEAT);
 
         RequestHandler requestHandler = new RequestHandler(); 
 
         requestHandler.sendRequestAsync(jsonRequest.toString(), new RequestHandler.Callback() {
             @Override
             public void onSuccess(String response) {
+
+                JSONObject responseServer = new JSONObject(response);
+
+                String resp = JsonConverter.jsonToStat(responseServer);
+
+                if (resp.equals("201 refresh") && refreshable != null) {
+                    refreshable.refresh();
+                }
             }
 
             @Override
@@ -54,5 +61,4 @@ public class KeepAlive {
             }
         });
     }
-
 }
