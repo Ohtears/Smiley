@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import Client.Models.CurrentUser;
 import Client.Models.Message;
@@ -18,10 +21,14 @@ import Client.Network.RequestHandler.Callback;
 import Client.Network.RequestType;
 
 public class Chat extends JPanel {
-    
+
+    private ScheduledExecutorService scheduler;
     private MainPanel mainPanel;
+    private User targetuser;
+    private Message lastmessage;
 
     public Chat(User user, List<Message> messages) {
+        this.targetuser = user;
         setBorder(BorderFactory.createTitledBorder("Chat"));
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
@@ -38,7 +45,12 @@ public class Chat extends JPanel {
     
         FooterPanel footerPanel = new FooterPanel(user);
         add(footerPanel, BorderLayout.SOUTH);
+
+        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> refreshChatPanel(), 0L, 1L, TimeUnit.SECONDS);    
     }
+
+    
 
     private class HeaderPanel extends JPanel {
         public HeaderPanel(String userName) {
@@ -144,19 +156,19 @@ public class Chat extends JPanel {
                                 
                     inputField.setText("");
                     
-                    refreshChatPanel(user, messageContent);
+                    refreshChatPanel();
                 }
             });
         }
     }
     
-    private void refreshChatPanel(User user, String messageContent) {
+    private void refreshChatPanel() {
 
         User currentUser = CurrentUser.getInstance().getUser();
 
         List<User> userList = new ArrayList<>();
         userList.add(currentUser);
-        userList.add(user);
+        userList.add(targetuser);
         JSONObject jsonRequest0 = JsonConverter.usersToJson(userList, RequestType.GETCHATBETWEENUSERS);            
         RequestHandler requestHandler = new RequestHandler();
         requestHandler.sendRequestAsync(jsonRequest0.toString(), new Callback() {
@@ -167,6 +179,15 @@ public class Chat extends JPanel {
                 List<Message> messages = JsonConverter.jsonToMessages(responseServer);
                 
                 Message lastmsg = messages.get(messages.size() - 1);
+
+                if (lastmessage != null) {
+                    if (lastmsg.getMessageId() == lastmessage.getMessageId()) {
+                        return;
+                    }
+                }
+
+                lastmessage = lastmsg; 
+
                 
                 MessagePanel messagePanel = new MessagePanel(lastmsg);
                 mainPanel.add(messagePanel);

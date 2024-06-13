@@ -16,6 +16,7 @@ import java.awt.event.WindowEvent;
 public class App extends JFrame implements PanelSwitchListener {
 
     private JPanel mainPanel;
+    @SuppressWarnings("unused")
     private JPanel currentmainPanel; 
     private KeepAlive HeartBeat;
     private DMListPanel dmListPanel;
