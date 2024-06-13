@@ -39,9 +39,10 @@ CREATE TABLE chatmessages (
     FOREIGN KEY (sender_id) REFERENCES users(user_id),
     FOREIGN KEY (receiver_id) REFERENCES users(user_id)
 );
-
 CREATE TABLE user_status (
     user_id INT,
-    status VARCHAR(255) NOT NULL,
+    status ENUM('online', 'offline') DEFAULT 'offline',
+    last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

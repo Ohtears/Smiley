@@ -6,6 +6,8 @@ import Server.Services.TimeDateService;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,31 +135,6 @@ public class MYSQLHandler {
         return followerList;
     }
 
-    public static UserService getUserById(UserService user) {
-        String selectSQL = QueryEnum.FETCHWITHID.query;
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
-
-            preparedStatement.setInt(1, user.getID());
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new UserService(
-                            user.getID(),
-                            resultSet.getString("username"),
-                            resultSet.getString("name"),
-                            resultSet.getString("email"),
-                            resultSet.getString("password"),
-                            new TimeDateService(resultSet.getDate("birthday")),
-                            resultSet.getString("bio")
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static List<UserService> getChatList(UserService user) {
         List<UserService> userList = new ArrayList<>();
         String selectQuery = QueryEnum.FETCHCHATS.query;
@@ -252,7 +229,7 @@ public class MYSQLHandler {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
 
-            preparedStatement.setString(1, user.getemail());
+            preparedStatement.setInt(1, user.getID());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getString("status");
@@ -264,7 +241,42 @@ public class MYSQLHandler {
         }
         return null;
     }
-        
+    public static void setUserStatus(UserService user, String status) {
+        String updateSQL = QueryEnum.UPDATESTATUSOFFLINE.query;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+    
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, user.getID());
+            preparedStatement.executeUpdate();
+    
+        } catch (SQLException e) {
+        }
+    }
+    public static void insertUserStatus(UserService user) {
+        String insertSQL = QueryEnum.INSERTSTATUS.query;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
+
+            preparedStatement.setInt(1, user.getID());
+            preparedStatement.setString(2, "online");
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void updateUserStatusBasedOnActivity(int timeoutSeconds) {
+        String updateSQL = "UPDATE user_status SET status = 'offline' WHERE last_activity < NOW() - INTERVAL ? SECOND";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+
+            preparedStatement.setInt(1, timeoutSeconds);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
