@@ -90,8 +90,8 @@ public class JsonConverter {
         for (MessageService message : messages) {
             JSONObject messageJson = new JSONObject();
             messageJson.put("messageId", message.getMessageId());
-            messageJson.put("senderId", message.getSenderId());
-            messageJson.put("receiverId", message.getReceiverId());
+            JSONObject ListUser = usersToJson(message.getUsers());
+            messageJson.put("users", ListUser.getJSONArray("users")); 
             messageJson.put("content", message.getContent());
             messageJson.put("timestamp", message.getTimestamp().toString()); 
 

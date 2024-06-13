@@ -196,8 +196,9 @@ public class MYSQLHandler {
                     int receiverId = rs.getInt("receiver_id");
                     String content = rs.getString("message_content");
                     Timestamp timestamp = rs.getTimestamp("timestamp");
-
-                    MessageService message = new MessageService(messageId, senderId, receiverId, content, timestamp);
+                    UserService sender = getUserById(senderId);
+                    UserService receiver = getUserById(receiverId);
+                    MessageService message = new MessageService(messageId, sender, receiver, content, timestamp);
                     messages.add(message);
                 }
             }
@@ -207,7 +208,32 @@ public class MYSQLHandler {
 
         return messages;
     }
-
+    private static UserService getUserById(int userId) {
+        String selectQuery = QueryEnum.GETUSERID.query;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+    
+            preparedStatement.setInt(1, userId);
+    
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    return new UserService(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("name"),
+                            rs.getString("email"),
+                            "", 
+                            new TimeDateService(rs.getDate("birthday")),
+                            rs.getString("bio")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+        return null;
+    }
+    
     public static void sendMessagesChat(UserService user1, UserService user2, String content) {
         String insertChatQuery = QueryEnum.INSERTCHAT.query;
         try (Connection connection = getConnection();
