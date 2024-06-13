@@ -22,7 +22,7 @@ public class DMListPanel extends JPanel implements Refreshable {
     public DMListPanel(PanelSwitchListener listener) {
         this.listener = listener;
         setBorder(BorderFactory.createTitledBorder("DM List"));
-        setBackground(Color.WHITE);
+        setBackground(new Color(44, 47, 51));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         refreshDMList(); 
     }

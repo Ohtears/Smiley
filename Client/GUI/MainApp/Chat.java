@@ -1,13 +1,10 @@
 package Client.GUI.MainApp;
 
 import javax.swing.*;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +16,7 @@ import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
 import Client.Network.RequestHandler.Callback;
 import Client.Network.RequestType;
+import org.json.JSONObject;
 
 public class Chat extends JPanel {
 
@@ -30,7 +28,7 @@ public class Chat extends JPanel {
     public Chat(User user, List<Message> messages) {
         this.targetuser = user;
         setBorder(BorderFactory.createTitledBorder("Chat"));
-        setBackground(Color.WHITE);
+        setBackground(new Color(54, 57, 63));
         setLayout(new BorderLayout());
 
         HeaderPanel headerPanel = new HeaderPanel(user.getName());
@@ -38,6 +36,7 @@ public class Chat extends JPanel {
 
         mainPanel = new MainPanel(messages);
         JScrollPane scrollPane = new JScrollPane(mainPanel); 
+        scrollPane.setBackground(Color.BLACK);
         scrollPane.setPreferredSize(new Dimension(200, 150));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     
@@ -50,14 +49,13 @@ public class Chat extends JPanel {
         scheduler.scheduleAtFixedRate(() -> refreshChatPanel(), 0L, 1L, TimeUnit.SECONDS);    
     }
 
-    
-
     private class HeaderPanel extends JPanel {
         public HeaderPanel(String userName) {
-            setBackground(Color.LIGHT_GRAY);
+            setBackground(Color.GRAY);
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
             JLabel nameLabel = new JLabel(userName);
+            nameLabel.setForeground(Color.WHITE);
             add(nameLabel);
         }
     }
@@ -66,7 +64,7 @@ public class Chat extends JPanel {
 
         public MainPanel(List<Message> messages) {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-            setBackground(Color.WHITE);
+            setBackground(Color.GRAY);
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
             for (Message message : messages) {
@@ -79,16 +77,20 @@ public class Chat extends JPanel {
     
     private class MessagePanel extends JPanel {
         public MessagePanel(Message message) {
-            setBackground(Color.LIGHT_GRAY);
+            setBackground(Color.GRAY);
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
             setLayout(new BorderLayout());
             
             Dimension maxsize = new Dimension(900, 100);
             setMaximumSize(maxsize);
 
-            JLabel userIdLabel = new JLabel("User ID: " + message.getSender().getName());
-            JLabel messageLabel = new JLabel("Message: " + message.getContent());
-    
+            JLabel userIdLabel = new JLabel(message.getSender().getName() + "     " + message.getTimestamp().toString());
+            JLabel messageLabel = new JLabel(message.getContent());
+            userIdLabel.setBackground(Color.LIGHT_GRAY);
+            userIdLabel.setForeground(Color.LIGHT_GRAY);
+            messageLabel.setBackground(Color.WHITE);
+            messageLabel.setForeground(Color.WHITE);
+
             add(userIdLabel, BorderLayout.NORTH);
             add(messageLabel, BorderLayout.CENTER);
         }
@@ -96,11 +98,16 @@ public class Chat extends JPanel {
 
     private class FooterPanel extends JPanel {
         public FooterPanel(User user) {
-            setBackground(Color.LIGHT_GRAY);
+            setBackground(Color.GRAY);
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
             JTextField inputField = new JTextField(30);
             JButton sendButton = new JButton("Send");
+            inputField.setBackground(new Color(64, 68, 75));
+            inputField.setForeground(Color.WHITE);
+            inputField.setCaretColor(Color.WHITE);
+            sendButton.setBackground(Color.LIGHT_GRAY);
+            sendButton.setForeground(Color.WHITE);
 
             add(inputField);
             add(sendButton);

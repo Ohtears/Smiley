@@ -30,18 +30,22 @@ public class ChatPanel extends JPanel {
         this.user = user;
 
         setLayout(new BorderLayout());
-        setBackground(Color.WHITE);
+        setBackground(new Color(45, 45, 50));
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        // JLabel iconLabel = new JLabel(userIcon);
         JLabel nameLabel = new JLabel(user.getName());
-
-        // add(iconLabel, BorderLayout.WEST);
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setFont(new Font("Whitney", Font.BOLD, 16));
         add(nameLabel, BorderLayout.CENTER);
 
         JButton chatButton = new JButton("Chat");
-        chatButton.addActionListener(e -> {
+        chatButton.setBackground(new Color(78, 93, 148));
+        chatButton.setForeground(Color.WHITE);
+        chatButton.setFont(new Font("Whitney", Font.BOLD, 12));
+        chatButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        chatButton.setFocusPainted(false);
 
+        chatButton.addActionListener(e -> {
             User currentUser = CurrentUser.getInstance().getUser();
 
             List<User> userListC = new ArrayList<>();
@@ -64,9 +68,7 @@ public class ChatPanel extends JPanel {
                     JOptionPane.showMessageDialog(null, "Registration failed", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             });
-
         });
-
 
         add(chatButton, BorderLayout.EAST);
     }
