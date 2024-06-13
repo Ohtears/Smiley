@@ -154,7 +154,7 @@ public class Chat extends JPanel {
 
         User currentUser = CurrentUser.getInstance().getUser();
 
-        Message sentMessage = new Message(0, currentUser.getID(), user.getID(), messageContent, null);
+        Message sentMessage = new Message(0, currentUser, user, messageContent, null);
         
         MessagePanel sentMessagePanel = new MessagePanel(sentMessage);
         

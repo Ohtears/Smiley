@@ -80,21 +80,23 @@ public class JsonConverter {
 
         return users;
     }
-        public static List<Message> jsonToMessages(JSONObject jsonObject) {
-            List<Message> messages = new ArrayList<>();
-            JSONArray jsonArray = jsonObject.getJSONArray("messages");
+    public static List<Message> jsonToMessages(JSONObject jsonObject) {
+        List<Message> messages = new ArrayList<>();
+        JSONArray jsonArray = jsonObject.getJSONArray("messages");
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject messageJson = jsonArray.getJSONObject(i);
-                int messageId = messageJson.getInt("messageId");
-                int senderId = messageJson.getInt("senderId");
-                int receiverId = messageJson.getInt("receiverId");
-                String content = messageJson.getString("content");
-                Timestamp timestamp = Timestamp.valueOf(messageJson.getString("timestamp"));
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject messageJson = jsonArray.getJSONObject(i);
+            int messageId = messageJson.getInt("messageId");
 
-                Message message = new Message(messageId, senderId, receiverId, content, timestamp);
-                messages.add(message);
-            }
+            JSONObject userlist = messageJson.getJSONObject("users");
+            List<User> users = jsonToUsers(userlist);
+            String content = messageJson.getString("content");
+            Timestamp timestamp = Timestamp.valueOf(messageJson.getString("timestamp"));
+
+
+            Message message = new Message(messageId, users.get(0), users.get(1), content, timestamp);
+            messages.add(message);
+        }
 
         return messages;
     }

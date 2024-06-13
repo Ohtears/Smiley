@@ -4,15 +4,15 @@ import java.sql.Timestamp;
 
 public class Message {
     private int messageId;
-    private int senderId;
-    private int receiverId;
+    private User sender;
+    private User receiver;
     private String content;
     private Timestamp timestamp;
 
-    public Message(int messageId, int senderId, int receiverId, String content, Timestamp timestamp) {
+    public Message(int messageId, User sender, User receiver, String content, Timestamp timestamp) {
         this.messageId = messageId;
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+        this.sender = sender;
+        this.receiver = receiver;
         this.content = content;
         this.timestamp = timestamp;
     }
@@ -21,12 +21,12 @@ public class Message {
         return messageId;
     }
 
-    public int getSenderId() {
-        return senderId;
+    public User getSenderId() {
+        return sender;
     }
 
-    public int getReceiverId() {
-        return receiverId;
+    public User getReceiverId() {
+        return receiver;
     }
 
     public String getContent() {
@@ -41,8 +41,8 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
-                ", senderId=" + senderId +
-                ", receiverId=" + receiverId +
+                ", senderId=" + sender +
+                ", receiverId=" + receiver +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
                 '}';

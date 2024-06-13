@@ -21,7 +21,8 @@ public enum QueryEnum {
     FETCHSTATUS("SELECT status FROM user_status WHERE user_id = ?"),
     UPDATESTATUS("UPDATE user_status SET status = ? WHERE user_id = ?"),
     UPDATESTATUSOFFLINE("UPDATE user_status SET status = 'offline' WHERE status = 'offline', AND last_activity < ? "),
-    INSERTSTATUS("INSERT INTO user_status (user_id, status) VALUES (?, ?)")
+    INSERTSTATUS("INSERT INTO user_status (user_id, status) VALUES (?, ?)"),
+    GETUSERID("SELECT * FROM users WHERE user_id = ?")
     ;
     public String query;
 

@@ -1,18 +1,20 @@
 package Server.Services;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageService {
     private int messageId;
-    private int senderId;
-    private int receiverId;
+    private UserService sender;
+    private UserService receiver;
     private String content;
     private Timestamp timestamp;
 
-    public MessageService(int messageId, int senderId, int receiverId, String content, Timestamp timestamp) {
+    public MessageService(int messageId, UserService sender, UserService receiver, String content, Timestamp timestamp) {
         this.messageId = messageId;
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+        this.sender = sender;
+        this.receiver = receiver;
         this.content = content;
         this.timestamp = timestamp;
     }
@@ -21,13 +23,21 @@ public class MessageService {
         return messageId;
     }
 
-    public int getSenderId() {
-        return senderId;
+    public UserService getSender() {
+        return sender;
     }
 
-    public int getReceiverId() {
-        return receiverId;
+    public UserService getReceiver() {
+        return receiver;
     }
+
+    public List<UserService> getUsers(){
+        List<UserService> users = new ArrayList<>();
+        users.add(sender);
+        users.add(receiver);
+        return users;
+    }
+
 
     public String getContent() {
         return content;
@@ -41,8 +51,8 @@ public class MessageService {
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
-                ", senderId=" + senderId +
-                ", receiverId=" + receiverId +
+                ", senderId=" + sender.getID() +
+                ", receiverId=" + receiver.getID() +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
                 '}';
