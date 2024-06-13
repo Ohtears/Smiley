@@ -47,20 +47,7 @@ public class ChatPanel extends JPanel {
             List<User> userListC = new ArrayList<>();
             userListC.add(currentUser);
             userListC.add(user);
-            JSONObject jsonRequest = JsonConverter.usersToJson(userListC, RequestType.STARTCHAT);            
             RequestHandler requestHandler = new RequestHandler();
-
-            requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
-                @Override
-                public void onSuccess(String response) {
-
-                }
-        
-                @Override
-                public void onFailure(IOException e) {
-                    JOptionPane.showMessageDialog(null, "Chat failed", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            });
 
             JSONObject jsonRequest2 = JsonConverter.usersToJson(userListC, RequestType.GETCHATBETWEENUSERS);
 
