@@ -24,7 +24,7 @@ public class DMListPanel extends JPanel implements Refreshable {
         setBorder(BorderFactory.createTitledBorder("DM List"));
         setBackground(Color.WHITE);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        refreshDMList(); // Initial load
+        refreshDMList(); 
     }
 
     @Override
@@ -34,7 +34,7 @@ public class DMListPanel extends JPanel implements Refreshable {
 
     private void refreshDMList() {
         SwingUtilities.invokeLater(() -> {
-            removeAll(); // Clear current content before refreshing
+            removeAll(); 
             User currentUser = CurrentUser.getInstance().getUser();
             List<User> userList = new ArrayList<>();
             userList.add(currentUser);
