@@ -74,7 +74,7 @@ public class Chat extends JPanel {
             Dimension maxsize = new Dimension(900, 100);
             setMaximumSize(maxsize);
 
-            JLabel userIdLabel = new JLabel("User ID: " + message.getSenderId());
+            JLabel userIdLabel = new JLabel("User ID: " + message.getSender().getName());
             JLabel messageLabel = new JLabel("Message: " + message.getContent());
     
             add(userIdLabel, BorderLayout.NORTH);

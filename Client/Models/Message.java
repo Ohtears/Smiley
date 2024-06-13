@@ -21,11 +21,11 @@ public class Message {
         return messageId;
     }
 
-    public User getSenderId() {
+    public User getSender() {
         return sender;
     }
 
-    public User getReceiverId() {
+    public User getReceiver() {
         return receiver;
     }
 
