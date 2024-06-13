@@ -13,7 +13,7 @@ public class KeepAlive {
 
     private User user;
     private Timer timer;
-    private static final int SCHEDULE_INTERVAL_SECONDS = 10;
+    private static final int SCHEDULE_INTERVAL_SECONDS = 1;
     private Refreshable refreshable;
 
     public KeepAlive(User user, Refreshable refreshable) {
