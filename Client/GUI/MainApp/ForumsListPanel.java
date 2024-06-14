@@ -10,9 +10,7 @@ public class ForumsListPanel extends JPanel {
         setBackground(new Color(32, 34, 37));
         setLayout(new GridLayout(2, 1));
 
-        JLabel label1 = new JLabel("Forum 1");
-        JLabel label2 = new JLabel("Forum 2");
+        JLabel label1 = new JLabel("Coming soon");
         add(label1);
-        add(label2);
     }
 }

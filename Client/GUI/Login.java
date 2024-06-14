@@ -35,7 +35,7 @@ public class Login extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        JLabel titleLabel = new JLabel("Sign in to Twitter");
+        JLabel titleLabel = new JLabel("Sign in to Smiley");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
