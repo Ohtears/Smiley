@@ -22,7 +22,25 @@ public enum QueryEnum {
     UPDATESTATUS("UPDATE user_status SET status = ? WHERE user_id = ?"),
     UPDATESTATUSOFFLINE("UPDATE user_status SET status = 'offline' WHERE status = 'offline', AND last_activity < ? "),
     INSERTSTATUS("INSERT INTO user_status (user_id, status) VALUES (?, ?)"),
-    GETUSERID("SELECT * FROM users WHERE user_id = ?")
+    GETUSERID("SELECT * FROM users WHERE user_id = ?"),
+    GETALLPOSTS("SELECT \n" + //
+                "    posts.post_id,\n" + //
+                "    posts.content,\n" + //
+                "    posts.timestamp,\n" + //
+                "    users.user_id,\n" + //
+                "    users.username,\n" + //
+                "    users.name,\n" + //
+                "    users.email,\n" + //
+                "    users.birthday,\n" + //
+                "    users.bio\n" + //
+                "FROM \n" + //
+                "    posts\n" + //
+                "JOIN \n" + //
+                "    users ON posts.user_id = users.user_id\n" + //
+                "ORDER BY \n" + //
+                "    posts.timestamp DESC;\n" + //
+                "")
+
     ;
     public String query;
 
