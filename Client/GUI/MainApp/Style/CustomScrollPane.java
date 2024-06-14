@@ -9,12 +9,11 @@ public class CustomScrollPane extends JScrollPane {
     public CustomScrollPane(Component view) {
         super(view);
         setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
-        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER); // Disable horizontal scrolling
+        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER); 
 
         getVerticalScrollBar().setUI(new CustomScrollBarUI());
         getHorizontalScrollBar().setUI(new CustomScrollBarUI());
 
-        // Enhance the scroll speed
         getVerticalScrollBar().setUnitIncrement(16);
         getHorizontalScrollBar().setUnitIncrement(16);
     }

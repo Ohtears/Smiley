@@ -102,13 +102,23 @@ public class RequestProcessor {
                 return jsonreq;
 
             
-            // case GETLASTMSG:
+            case CREATEPOST:
 
-            //     List<MessageService> chats = MYSQLHandler.getChatBetweenUsers(user, user2);
-                
-            //     MessageService lastmsg = chats.get(chats.size() - 1);
+            break;
 
-            //     return JsonConverter.messagesToJson(lastmsg);
+            case CREATECOMMENT:
+
+            break;
+
+            case GETALLPOSTS:
+
+            break;
+
+            case GETALLCOMMENTS:
+
+            break;
+
+            
 
             default:
                 break;
