@@ -91,11 +91,9 @@ public class RequestProcessor {
                 break;
             case GETALLFOLLOWERS:
                 
-                // List<Integer> allfollowers = MYSQLHandler.getAllFollowers(user);
+                List<UserService> allfollowers = MYSQLHandler.getAllFollowers(user);
 
-                //needs adjustment
-
-            break;
+                return JsonConverter.usersToJson(allfollowers);
 
             case HEARTBEAT:
 
@@ -126,7 +124,13 @@ public class RequestProcessor {
 
             break;
 
-            
+            case GETALLFOLLOWING:
+
+                List<UserService> listallfollowing = MYSQLHandler.getAllFollowing(user);
+                
+                return JsonConverter.usersToJson(listallfollowing);
+
+
 
             default:
                 break;
