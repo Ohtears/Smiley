@@ -26,7 +26,7 @@ public enum QueryEnum {
     GETALLPOSTS("SELECT \n" + //
                 "    posts.post_id,\n" + //
                 "    posts.content,\n" + //
-                "    posts.timestamp,\n" + //
+                "    posts.created_at,\n" + //
                 "    users.user_id,\n" + //
                 "    users.username,\n" + //
                 "    users.name,\n" + //
@@ -36,10 +36,8 @@ public enum QueryEnum {
                 "FROM \n" + //
                 "    posts\n" + //
                 "JOIN \n" + //
-                "    users ON posts.user_id = users.user_id\n" + //
-                "ORDER BY \n" + //
-                "    posts.timestamp DESC;\n" + //
-                ""),
+                "    users ON posts.user_id = users.user_id"),
+                
     INSERTPOST("INSERT INTO posts (user_id, content) VALUES (?, ?)")
     ;
     public String query;

@@ -123,24 +123,34 @@ public class JsonConverter {
     public static List<Post> jsonToPosts(JSONObject jsonObject) {
         List<Post> posts = new ArrayList<>();
         JSONArray jsonArray = jsonObject.getJSONArray("posts");
-
+    
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject postJson = jsonArray.getJSONObject(i);
-
+    
             JSONObject userJson = postJson.getJSONObject("user");
-            List<User> users = jsonToUsers(userJson.getJSONArray("users"));
-            User user = users.get(0); 
-
+    
+            int userId = userJson.getInt("userid");
+            String username = userJson.getString("Username");
+            String name = userJson.getString("Name");
+            String email = userJson.getString("Email");
+            String password = userJson.getString("Password");
+            String birthday = userJson.getString("Birthday");
+            TimeDate bday = new TimeDate(birthday);
+            String bio = userJson.getString("bio");
+    
+            User user = new User(userId, username, name, email, password, bday, bio);
+    
             int postId = postJson.getInt("postId");
             String content = postJson.getString("content");
             Timestamp timestamp = Timestamp.valueOf(postJson.getString("timestamp"));
-
+    
             Post post = new Post(postId, user, content, timestamp);
             posts.add(post);
         }
-
+    
         return posts;
     }
+    
 
     public static boolean jsonToBoolean(JSONObject jsonObject) {
         return jsonObject.getBoolean("value");
