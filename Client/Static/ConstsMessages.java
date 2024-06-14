@@ -1,4 +1,4 @@
-package Client.GUI;
+package Client.Static;
 
 public enum ConstsMessages {
     PRIVACY_POLICY("This is a generic privacy policy text.\n"),

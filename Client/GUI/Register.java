@@ -3,6 +3,8 @@ package Client.GUI;
 import Client.GUI.MainApp.Style.CustomButton;
 import Client.Models.TimeDate;
 import Client.Models.User;
+import Client.Tools.HashPassword;
+
 import java.awt.*;
 import javax.swing.*;
 

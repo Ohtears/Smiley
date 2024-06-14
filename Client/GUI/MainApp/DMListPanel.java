@@ -48,8 +48,11 @@ public class DMListPanel extends JPanel implements Refreshable {
                     List<User> users = JsonConverter.jsonToUsers(responseServer);
                     for (User user : users) {
                         ChatPanel chatPanel = new ChatPanel(user, listener);
-                        Dimension maxPanelSize = new Dimension(300, 50);
-                        chatPanel.setMaximumSize(maxPanelSize);
+                        Dimension PanelSize = new Dimension(300, 50);
+                        chatPanel.setMaximumSize(PanelSize);
+                        chatPanel.setPreferredSize(PanelSize);
+                        chatPanel.setMinimumSize(PanelSize);
+
                         add(chatPanel);
                     }
                     revalidate();

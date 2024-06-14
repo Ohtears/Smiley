@@ -1,6 +1,8 @@
 package Client.GUI;
 
 import Client.GUI.MainApp.Style.CustomButton;
+import Client.Static.ConstsMessages;
+import Client.Tools.ImageHandler;
 
 import java.awt.*;
 import javax.swing.*;
@@ -14,7 +16,7 @@ public class MenuMain {
             frame.setSize(1200, 720);
 
             JPanel leftsidep = new JPanel();
-            JPanel imagetwitter = new ImageHandler("twittericon.png");
+            JPanel imagetwitter = new ImageHandler("/Client/Static/Images/twittericon.png");
             leftsidep.setPreferredSize(new Dimension(700, 600));
             imagetwitter.setPreferredSize(new Dimension(700, 600));
             leftsidep.add(imagetwitter);
