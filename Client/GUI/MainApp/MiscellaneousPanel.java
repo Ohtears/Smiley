@@ -10,9 +10,7 @@ public class MiscellaneousPanel extends JPanel {
         setBackground(new Color(47, 49, 54));
         setLayout(new GridLayout(5, 1));
 
-        JLabel label1 = new JLabel("Item 1");
-        JLabel label2 = new JLabel("Item 2");
+        JLabel label1 = new JLabel("Coming Soon");
         add(label1);
-        add(label2);
     }
 }
