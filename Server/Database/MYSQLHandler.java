@@ -315,7 +315,7 @@ public class MYSQLHandler {
        while (resultSet.next()) {
            int postId = resultSet.getInt("post_id");
            String content = resultSet.getString("content");
-           Timestamp timestamp = resultSet.getTimestamp("timestamp");
+           Timestamp timestamp = resultSet.getTimestamp("created_at");
 
            int userId = resultSet.getInt("user_id");
            String username = resultSet.getString("username");
