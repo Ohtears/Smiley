@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import Server.Services.MessageService;
+import Server.Services.PostService;
 import Server.Services.TimeDateService;
 import Server.Services.UserService;
 
@@ -102,6 +103,32 @@ public class JsonConverter {
         messagesJson.put("messages", jsonArray);
         return messagesJson;
     }
+    public static JSONObject postsToJson(List<PostService> posts) {
+        JSONArray jsonArray = new JSONArray();
+
+        for (PostService post : posts) {
+            JSONObject postJson = new JSONObject();
+            postJson.put("postId", post.getPostId());
+            
+            List<UserService> userList = new ArrayList<>();
+            userList.add(post.getUser());
+            
+            JSONObject userJson = usersToJson(userList);
+            postJson.put("user", userJson.getJSONArray("users").getJSONObject(0)); 
+
+            postJson.put("content", post.getContent());
+            postJson.put("timestamp", post.getTimestamp().toString());
+
+            jsonArray.put(postJson);
+        }
+
+        JSONObject postsJson = new JSONObject();
+        postsJson.put("posts", jsonArray);
+        
+        return postsJson;
+    }
+
+
 
     public static JSONObject booleanToJson(boolean value) {
         JSONObject jsonObject = new JSONObject();

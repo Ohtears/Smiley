@@ -1,6 +1,7 @@
 package Server.Network;
 import Server.Database.MYSQLHandler;
 import Server.Services.MessageService;
+import Server.Services.PostService;
 import Server.Services.UserService;
 
 import java.io.IOException;
@@ -112,7 +113,9 @@ public class RequestProcessor {
 
             case GETALLPOSTS:
 
-            break;
+                List<PostService> listallposts = MYSQLHandler.getAllPosts();
+
+                return JsonConverter.postsToJson(listallposts);
 
             case GETALLCOMMENTS:
 

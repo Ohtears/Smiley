@@ -1,6 +1,7 @@
 package Server.Database;
 
 import Server.Services.MessageService;
+import Server.Services.PostService;
 import Server.Services.UserService;
 import Server.Services.TimeDateService;
 
@@ -303,6 +304,36 @@ public class MYSQLHandler {
         }
     }
 
+    public static List<PostService> getAllPosts() {
+        List<PostService> posts = new ArrayList<>();
+        String selectQuery = QueryEnum.GETALLPOSTS.query;
+
+        try (Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+        ResultSet resultSet = preparedStatement.executeQuery()) {
+
+       while (resultSet.next()) {
+           int postId = resultSet.getInt("post_id");
+           String content = resultSet.getString("content");
+           Timestamp timestamp = resultSet.getTimestamp("timestamp");
+
+           int userId = resultSet.getInt("user_id");
+           String username = resultSet.getString("username");
+           String name = resultSet.getString("name");
+           String email = resultSet.getString("email");
+           TimeDateService birthday = new TimeDateService(resultSet.getDate("birthday"));
+           String bio = resultSet.getString("bio");
+
+           UserService user = new UserService(userId, username, name, email, " ", birthday, bio);
+           PostService post = new PostService(postId, user, content, timestamp);
+           posts.add(post);
+       }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+   return posts;
+    }
 
 }
-
