@@ -1,16 +1,16 @@
 package Client.GUI;
 
+import Client.GUI.MainApp.Style.CustomButton;
+
 import java.awt.*;
 import javax.swing.*;
 
 public class MenuMain {
-    public static void main(String[] args){
-        
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Smiley");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout());
-            // frame.setLocationRelativeTo(null);
             frame.setSize(1200, 720);
 
             JPanel leftsidep = new JPanel();
@@ -46,16 +46,14 @@ public class MenuMain {
             labelfooterp2.setAlignmentX(Component.CENTER_ALIGNMENT);
             labelfooterp3.setAlignmentX(Component.CENTER_ALIGNMENT);
             labelfooterp4.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
+
             footerp.add(Box.createVerticalStrut(55));
             footerp.add(labelfooterp1);
             footerp.add(labelfooterp2);
             footerp.add(labelfooterp3);
             footerp.add(labelfooterp4);
-            
-            
             footerp.setBackground(Color.GRAY);
-            
+
             JPanel mainp = new JPanel();
             mainp.setLayout(new BoxLayout(mainp, BoxLayout.Y_AXIS));
             mainp.setBackground(Color.BLACK);
@@ -70,12 +68,8 @@ public class MenuMain {
             mainlabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
             mainlabel2.setForeground(Color.WHITE);
 
-            JButton registerButton = new JButton("Create Account");
-            registerButton.setBackground(Color.CYAN);
-            registerButton.setForeground(Color.WHITE);
-            registerButton.setFont(new Font("Arial", Font.BOLD, 22));
+            CustomButton registerButton = new CustomButton("Create Account");
             registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
             JPanel termsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
             termsPanel.setBackground(Color.BLACK);
@@ -85,7 +79,7 @@ public class MenuMain {
             agreementLabel.setFont(new Font("Arial", Font.PLAIN, 16));
             agreementLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            JButton termsButton = new JButton("Terms of Service");
+            CustomButton termsButton = new CustomButton("Terms of Service");
             termsButton.setForeground(Color.CYAN);
             termsButton.setBackground(Color.BLACK);
             termsButton.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -93,7 +87,7 @@ public class MenuMain {
             termsButton.setFocusPainted(false);
             termsButton.setMargin(new Insets(0, 0, 0, 0));
 
-            JButton policyButton = new JButton("Privacy Policy");
+            CustomButton policyButton = new CustomButton("Privacy Policy");
             policyButton.setForeground(Color.CYAN);
             policyButton.setBackground(Color.BLACK);
             policyButton.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -123,9 +117,9 @@ public class MenuMain {
             mainlabel3.setAlignmentX(Component.CENTER_ALIGNMENT);
             mainlabel3.setForeground(Color.WHITE);
 
-            JButton loginButton = new JButton("Sign in");
-            loginButton.setBackground(Color.BLACK);
+            CustomButton loginButton = new CustomButton("Sign in");
             loginButton.setForeground(Color.CYAN);
+            loginButton.setBackground(Color.BLACK);
             loginButton.setFont(new Font("Arial", Font.BOLD, 18));
             loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -133,7 +127,6 @@ public class MenuMain {
             mainp.add(Box.createVerticalStrut(22));
             mainp.add(loginButton);
             mainp.add(Box.createVerticalGlue());
-
 
             frame.add(leftsidep, BorderLayout.WEST);
             frame.add(mainp, BorderLayout.CENTER);
@@ -167,8 +160,8 @@ public class MenuMain {
 
             frame.setVisible(true);
         });
-
     }
+
     private static void showPrivacyPolicy() {
         String privacyPolicyContent = ConstsMessages.PRIVACY_POLICY.getMessage();
         JOptionPane.showMessageDialog(null, privacyPolicyContent, "Privacy Policy", JOptionPane.INFORMATION_MESSAGE);

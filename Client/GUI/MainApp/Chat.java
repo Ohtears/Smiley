@@ -2,13 +2,16 @@ package Client.GUI.MainApp;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
+import java.awt.event.KeyAdapter;
+import Client.GUI.MainApp.Style.CustomMessagePanel;
+import Client.GUI.MainApp.Style.CustomScrollPane;
 import Client.Models.CurrentUser;
 import Client.Models.Message;
 import Client.Models.User;
@@ -35,13 +38,12 @@ public class Chat extends JPanel {
         add(headerPanel, BorderLayout.NORTH);
 
         mainPanel = new MainPanel(messages);
-        JScrollPane scrollPane = new JScrollPane(mainPanel); 
+        CustomScrollPane scrollPane = new CustomScrollPane(mainPanel); 
         scrollPane.setBackground(Color.BLACK);
         scrollPane.setPreferredSize(new Dimension(200, 150));
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    
+
         add(scrollPane, BorderLayout.CENTER); 
-    
+
         FooterPanel footerPanel = new FooterPanel(user);
         add(footerPanel, BorderLayout.SOUTH);
 
@@ -68,31 +70,9 @@ public class Chat extends JPanel {
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
             for (Message message : messages) {
-                MessagePanel messagePanel = new MessagePanel(message);
+                CustomMessagePanel messagePanel = new CustomMessagePanel(message);
                 add(messagePanel);
             }
-
-        }
-    }
-    
-    private class MessagePanel extends JPanel {
-        public MessagePanel(Message message) {
-            setBackground(Color.GRAY);
-            setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            setLayout(new BorderLayout());
-            
-            Dimension maxsize = new Dimension(900, 100);
-            setMaximumSize(maxsize);
-
-            JLabel userIdLabel = new JLabel(message.getSender().getName() + "     " + message.getTimestamp().toString());
-            JLabel messageLabel = new JLabel(message.getContent());
-            userIdLabel.setBackground(Color.LIGHT_GRAY);
-            userIdLabel.setForeground(Color.LIGHT_GRAY);
-            messageLabel.setBackground(Color.WHITE);
-            messageLabel.setForeground(Color.WHITE);
-
-            add(userIdLabel, BorderLayout.NORTH);
-            add(messageLabel, BorderLayout.CENTER);
         }
     }
 
@@ -100,7 +80,7 @@ public class Chat extends JPanel {
         public FooterPanel(User user) {
             setBackground(Color.GRAY);
             setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
+    
             JTextField inputField = new JTextField(30);
             JButton sendButton = new JButton("Send");
             inputField.setBackground(new Color(64, 68, 75));
@@ -108,67 +88,77 @@ public class Chat extends JPanel {
             inputField.setCaretColor(Color.WHITE);
             sendButton.setBackground(Color.LIGHT_GRAY);
             sendButton.setForeground(Color.WHITE);
-
+    
             add(inputField);
             add(sendButton);
-
-            sendButton.addActionListener(e -> {
-                String messageContent = inputField.getText().trim();
-                if (!messageContent.isEmpty()) {
-
-                    User currentUser = CurrentUser.getInstance().getUser();   
-
-                    List<User> userList = new ArrayList<>();
-                    userList.add(currentUser);
-                    userList.add(user);
-                    JSONObject jsonRequest0 = JsonConverter.usersToJson(userList, RequestType.STARTCHAT);            
-                    JSONObject jsonRequest = JsonConverter.usersToJson(userList, messageContent, RequestType.SENDMESSAGESCHAT);
-                    JSONObject jsonRequest1 = JsonConverter.usersToJson(userList, RequestType.GETUSERSTATUS);
-                    RequestHandler requestHandler = new RequestHandler();
-                    requestHandler.sendRequestAsync(jsonRequest0.toString(), new Callback() {
-                        @Override
-                        public void onSuccess(String response) {
-                            
-                        }
-                
-                        @Override
-                        public void onFailure(IOException e) {
-                            JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    });   
-                    requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
-                        @Override
-                        public void onSuccess(String response) {
-                            
-                        }
-                
-                        @Override
-                        public void onFailure(IOException e) {
-                            JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    });   
-
-                    requestHandler.sendRequestAsync(jsonRequest1.toString(), new Callback() {
-                        @Override
-                        public void onSuccess(String response) {
-                            
-                        }
-                
-                        @Override
-                        public void onFailure(IOException e) {
-                            JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    });   
-
-                                
-                    inputField.setText("");
-                    
-                    refreshChatPanel();
+    
+            sendButton.addActionListener(e -> sendMessage(inputField));
+    
+            inputField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        sendMessage(inputField);
+                    }
                 }
             });
         }
+    
+        private void sendMessage(JTextField inputField) {
+            String messageContent = inputField.getText().trim();
+            if (!messageContent.isEmpty()) {
+    
+                User currentUser = CurrentUser.getInstance().getUser();
+    
+                List<User> userList = new ArrayList<>();
+                userList.add(currentUser);
+                userList.add(targetuser);
+                JSONObject jsonRequest0 = JsonConverter.usersToJson(userList, RequestType.STARTCHAT);
+                JSONObject jsonRequest = JsonConverter.usersToJson(userList, messageContent, RequestType.SENDMESSAGESCHAT);
+                JSONObject jsonRequest1 = JsonConverter.usersToJson(userList, RequestType.GETUSERSTATUS);
+                RequestHandler requestHandler = new RequestHandler();
+                requestHandler.sendRequestAsync(jsonRequest0.toString(), new Callback() {
+                    @Override
+                    public void onSuccess(String response) {
+    
+                    }
+    
+                    @Override
+                    public void onFailure(IOException e) {
+                        JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+                requestHandler.sendRequestAsync(jsonRequest.toString(), new Callback() {
+                    @Override
+                    public void onSuccess(String response) {
+    
+                    }
+    
+                    @Override
+                    public void onFailure(IOException e) {
+                        JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+    
+                requestHandler.sendRequestAsync(jsonRequest1.toString(), new Callback() {
+                    @Override
+                    public void onSuccess(String response) {
+    
+                    }
+    
+                    @Override
+                    public void onFailure(IOException e) {
+                        JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+    
+                inputField.setText("");
+                refreshChatPanel();
+            }
+        }
     }
     
+
     private void refreshChatPanel() {
 
         User currentUser = CurrentUser.getInstance().getUser();
@@ -184,7 +174,7 @@ public class Chat extends JPanel {
 
                 JSONObject responseServer = new JSONObject(response);
                 List<Message> messages = JsonConverter.jsonToMessages(responseServer);
-                
+
                 Message lastmsg = messages.get(messages.size() - 1);
 
                 if (lastmessage != null) {
@@ -193,24 +183,21 @@ public class Chat extends JPanel {
                     }
                 }
 
-                lastmessage = lastmsg; 
+                lastmessage = lastmsg;
 
-                
-                MessagePanel messagePanel = new MessagePanel(lastmsg);
+                CustomMessagePanel messagePanel = new CustomMessagePanel(lastmsg);
                 mainPanel.add(messagePanel);
+
                 
                 mainPanel.revalidate();
                 mainPanel.repaint();
                 
             }
-    
+
             @Override
             public void onFailure(IOException e) {
                 JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        });   
-
-        // Message sentMessage = new Message(0, currentUser, user, messageContent, null);
-        // TO DO FOR FUTUTE. MAKE IT SO THAT the send message will be opacity low then it will get high 
+        });
     }
 }
