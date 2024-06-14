@@ -1,5 +1,6 @@
 package Client.GUI;
 
+import Client.GUI.MainApp.Style.CustomButton;
 import Client.Models.TimeDate;
 import Client.Models.User;
 import java.awt.*;
@@ -104,13 +105,17 @@ public class Register extends JPanel {
         gbc.gridy = 5;
         add(passwordText, gbc);
 
-        JButton registerButton = new JButton("Create Account");
+        CustomButton registerButton = new CustomButton("Create Account");
         registerButton.setForeground(Color.BLACK);
         registerButton.setBackground(Color.CYAN);
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         add(registerButton, gbc);
+
+        if (parentDialog.getRootPane() != null) {
+            parentDialog.getRootPane().setDefaultButton(registerButton);
+        }
 
         registerButton.addActionListener(e -> {
             String name = nameText.getText();

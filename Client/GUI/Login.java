@@ -1,5 +1,6 @@
 package Client.GUI;
 
+import Client.GUI.MainApp.Style.CustomButton;
 import Client.GUI.MainApp.App;
 import Client.Models.CurrentUser;
 import Client.Models.User;
@@ -12,7 +13,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
 
 import org.json.JSONObject;
@@ -65,13 +65,16 @@ public class Login extends JPanel {
         gbc.gridy = 2;
         add(passwordText, gbc);
 
-        JButton loginButton = new JButton("Login");
-        loginButton.setForeground(Color.BLACK);
-        loginButton.setBackground(Color.CYAN);
+        CustomButton loginButton = new CustomButton("Login");
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         add(loginButton, gbc);
+
+        if (parentDialog.getRootPane() != null) {
+            parentDialog.getRootPane().setDefaultButton(loginButton);
+        }
+
 
         loginButton.addActionListener(e -> {
 
@@ -79,12 +82,9 @@ public class Login extends JPanel {
 
             String password = new String(passwordText.getPassword());
 
-            if (email == null || email.isEmpty() || password.isEmpty()
-
-            ) {
+            if (email == null || email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "All fields are required.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
+            } else {
 
                 String hashedPassword = HashPassword.hashwithsha256(password);
 
@@ -100,9 +100,7 @@ public class Login extends JPanel {
                         JSONObject jsonResponse = new JSONObject(response);
                         boolean passwordIsValid = JsonConverter.jsonToBoolean(jsonResponse);
 
-                        if (passwordIsValid){
-                    
-                            
+                        if (passwordIsValid) {
                             JSONObject jsonRequest_USER = JsonConverter.usersToJson(userList, RequestType.GETCURRENTUSER);
                             requestHandler.sendRequestAsync(jsonRequest_USER.toString(), new Callback() {
                                 @Override
@@ -120,13 +118,9 @@ public class Login extends JPanel {
                                 public void onFailure(IOException e) {
                                     JOptionPane.showMessageDialog(null, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
-        
                             });
-        
-                        }
-                        else {
+                        } else {
                             JOptionPane.showMessageDialog(null, "Password Incorrect", "Error", JOptionPane.ERROR_MESSAGE);
-        
                         }
                     }
 
@@ -135,9 +129,6 @@ public class Login extends JPanel {
                         JOptionPane.showMessageDialog(null, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 });
-
-
-
             }
         });
 
@@ -148,9 +139,7 @@ public class Login extends JPanel {
         gbc.gridwidth = 2;
         add(noAccountLabel, gbc);
 
-        JButton signUpButton = new JButton("Sign Up");
-        signUpButton.setForeground(Color.BLACK);
-        signUpButton.setBackground(Color.CYAN);
+        CustomButton signUpButton = new CustomButton("Sign Up");
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.gridwidth = 2;
@@ -175,17 +164,10 @@ public class Login extends JPanel {
         registerDialog.setVisible(true);
     }
 
-    private void openApp(){
-
+    private void openApp() {
         SwingUtilities.invokeLater(() -> {
             App app = new App();
-
             app.setVisible(true);
-
-
         });
-
     }
-
-
 }
