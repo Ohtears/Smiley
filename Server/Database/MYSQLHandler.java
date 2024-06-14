@@ -336,4 +336,20 @@ public class MYSQLHandler {
    return posts;
     }
 
+    public static void insertPost(UserService user, String content) {
+        String insertQuery = QueryEnum.INSERTPOST.query;
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+
+            preparedStatement.setInt(1, user.getID());
+            preparedStatement.setString(2, content);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

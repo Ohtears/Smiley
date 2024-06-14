@@ -39,8 +39,8 @@ public enum QueryEnum {
                 "    users ON posts.user_id = users.user_id\n" + //
                 "ORDER BY \n" + //
                 "    posts.timestamp DESC;\n" + //
-                "")
-
+                ""),
+    INSERTPOST("INSERT INTO posts (user_id, content) VALUES (?, ?)")
     ;
     public String query;
 

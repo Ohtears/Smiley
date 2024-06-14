@@ -72,9 +72,9 @@ public class RequestProcessor {
 
             case SENDMESSAGESCHAT:
                 
-                String content = userRequest.content;
+                String content_msg = userRequest.content;
 
-                MYSQLHandler.sendMessagesChat(user, user2, content);
+                MYSQLHandler.sendMessagesChat(user, user2, content_msg);
                 String status = MYSQLHandler.GetUserStatus(user2);
                 //needs further implementation
 
@@ -104,6 +104,11 @@ public class RequestProcessor {
 
             
             case CREATEPOST:
+
+                String content_post = userRequest.content;
+
+                MYSQLHandler.insertPost(user, content_post);
+
 
             break;
 
