@@ -116,22 +116,57 @@ public class MYSQLHandler {
         }
     }
 
-    public static List<Integer> getAllFollowers(UserService user) {
-        List<Integer> followerList = new ArrayList<>();
+    public static List<UserService> getAllFollowers(UserService user) {
+        List<UserService> followerList = new ArrayList<>();
         String selectQuery = QueryEnum.FETCHFOLLOWERS.query;
+
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+        PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+
+       preparedStatement.setInt(1, user.getID());
+       try (ResultSet resultSet = preparedStatement.executeQuery()) {
+           while (resultSet.next()) {
+               int userId = resultSet.getInt("user_id");
+               String username = resultSet.getString("username");
+               String name = resultSet.getString("name");
+               String email = resultSet.getString("email");
+               Date birthday = resultSet.getDate("birthday");
+               String bio = resultSet.getString("bio");
+
+               UserService follower = new UserService(userId, username, name, email, "", new TimeDateService(birthday), bio);
+               followerList.add(follower);
+           }
+       }
+   } catch (SQLException e) {
+       e.printStackTrace();
+   }
+   return followerList;
+}
+    public static List<UserService> getAllFollowing(UserService user) {
+        List<UserService> followingList = new ArrayList<>();
+        String selectQuery = QueryEnum.GETALLFOLLOWING.query;
+
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
             preparedStatement.setInt(1, user.getID());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    followerList.add(resultSet.getInt("user_id"));
+                    int userId = resultSet.getInt("user_id");
+                    String username = resultSet.getString("username");
+                    String name = resultSet.getString("name");
+                    String email = resultSet.getString("email");
+                    Date birthday = resultSet.getDate("birthday");
+                    String bio = resultSet.getString("bio");
+
+                    UserService following = new UserService(userId, username, name, email, "", new TimeDateService(birthday), bio);
+                    followingList.add(following);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return followerList;
+        return followingList;
     }
 
     public static List<UserService> getChatList(UserService user) {

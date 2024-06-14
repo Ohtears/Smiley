@@ -7,7 +7,10 @@ public enum QueryEnum {
     DELETEUSER("DELETE FROM users WHERE user_id = ?"),
     FETCHPASS("SELECT user_id, username, name, email, password, birthday, bio FROM users WHERE email = ?"),
     ADDFOLLOWER("INSERT INTO followers (user_id, follower_id) VALUES (?, ?)"),
-    FETCHFOLLOWERS("SELECT user_id WHERE follower_id = ? "),
+    FETCHFOLLOWERS("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio " + //
+                         "FROM users u " + //
+                         "JOIN followers f ON u.user_id = f.follower_id " + //
+                         "WHERE f.user_id = ?"),
     FETCHWITHID("SELECT username, name, email, password, birthday, bio FROM users WHERE user_id = ?"),
     FETCHCHATS("SELECT u.user_id, u.username, u.name, u.bio, u.birthday\n" + //
                 "FROM users u\n" + //
@@ -38,7 +41,11 @@ public enum QueryEnum {
                 "JOIN \n" + //
                 "    users ON posts.user_id = users.user_id"),
                 
-    INSERTPOST("INSERT INTO posts (user_id, content) VALUES (?, ?)")
+    INSERTPOST("INSERT INTO posts (user_id, content) VALUES (?, ?)"),
+    GETALLFOLLOWING("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio " + //
+                            "FROM users u " + //
+                            "JOIN followers f ON u.user_id = f.user_id " + //
+                            "WHERE f.follower_id = ?")
     ;
     public String query;
 
