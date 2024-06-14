@@ -7,6 +7,7 @@ import Client.Models.User;
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
 import Client.Network.RequestHandler.Callback;
+import Client.Tools.HashPassword;
 import Client.Network.RequestType;
 
 import java.awt.*;

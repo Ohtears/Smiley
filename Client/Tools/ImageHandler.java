@@ -1,4 +1,4 @@
-package Client.GUI;
+package Client.Tools;
 
 import java.awt.*;
 import javax.swing.ImageIcon;

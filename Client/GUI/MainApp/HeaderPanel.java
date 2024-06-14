@@ -12,13 +12,13 @@ import javax.swing.*;
 
 import org.json.JSONObject;
 
-import Client.GUI.RegexHandler;
 import Client.GUI.MainApp.Dashboard.Dashboard;
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.Models.User;
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
 import Client.Network.RequestHandler.Callback;
+import Client.Tools.RegexHandler;
 import Client.Network.RequestType;
 
 public class HeaderPanel extends JPanel {

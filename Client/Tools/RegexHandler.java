@@ -1,4 +1,4 @@
-package Client.GUI;
+package Client.Tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
