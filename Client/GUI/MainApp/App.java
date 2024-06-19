@@ -84,7 +84,7 @@ public class App extends JFrame implements PanelSwitchListener {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weighty = 1.0;
 
-        ForumsListPanel forumsListPanel = new ForumsListPanel();
+        ForumsListPanel forumsListPanel = new ForumsListPanel(this);
         forumsListPanel.setPreferredSize(new Dimension(80, 720));
         forumsListPanel.setMinimumSize(new Dimension(80, 720));
 
