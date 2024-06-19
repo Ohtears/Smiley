@@ -38,6 +38,5 @@ public class CustomButton extends JButton {
 
     @Override
     protected void paintBorder(Graphics g) {
-        // No border painting
     }
 }
