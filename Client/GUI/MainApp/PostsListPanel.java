@@ -41,7 +41,6 @@ public class PostsListPanel extends JPanel {
         postsContainer.setBackground(new Color(54, 57, 63));
 
         CustomScrollPane scrollPane = new CustomScrollPane(postsContainer);
-
         add(scrollPane, BorderLayout.CENTER);
 
         JButton addPostButton = new JButton("Add Post");
@@ -88,7 +87,7 @@ public class PostsListPanel extends JPanel {
     }
     private void openAddPostFrame() {
         JFrame addPostFrame = new JFrame("Add New Post");
-        addPostFrame.setSize(300, 200);
+        addPostFrame.setSize(600, 200);
         addPostFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addPostFrame.setLocationRelativeTo(null);
 
@@ -154,9 +153,6 @@ public class PostsListPanel extends JPanel {
                 List<Post> posts = JsonConverter.jsonToPosts(responseServer);
 
                 Post latestPost = posts.get(posts.size() - 1);
-
-                for (Post post : posts) {
-                    System.out.println(post.content);}
 
                 if (lastpost != null) {
                     if (latestPost.getPostId() == lastpost.getPostId()) {

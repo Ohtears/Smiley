@@ -13,7 +13,8 @@ public class PostPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(new Color(64, 68, 75));
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        Dimension size = new Dimension(450, 100);
+        setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2)); 
+        Dimension size = new Dimension(610, 100);
         setPreferredSize(size);
         setMaximumSize(size);
         setMinimumSize(size);
@@ -29,11 +30,20 @@ public class PostPanel extends JPanel {
         contentTextArea.setWrapStyleWord(true);
         contentTextArea.setForeground(Color.WHITE);
         contentTextArea.setBackground(new Color(64, 68, 75));
-        add(new JScrollPane(contentTextArea), BorderLayout.CENTER);
+        JScrollPane contentScrollPane = new JScrollPane(contentTextArea);
+        add(contentScrollPane, BorderLayout.CENTER);
 
         JLabel timestampLabel = new JLabel(post.getTimestamp().toString());
         timestampLabel.setForeground(Color.GRAY);
         timestampLabel.setFont(new Font("Arial", Font.ITALIC, 12));
         add(timestampLabel, BorderLayout.SOUTH);
+
+        contentTextArea.addMouseWheelListener(e -> {
+            e.getComponent().getParent().dispatchEvent(e);
+        });
+
+        contentScrollPane.addMouseWheelListener(e -> {
+            e.getComponent().getParent().dispatchEvent(e);
+        });
     }
 }

@@ -1,3 +1,5 @@
+CREATE DATABASE smiley;
+
 USE smiley;
 
 CREATE TABLE users (
