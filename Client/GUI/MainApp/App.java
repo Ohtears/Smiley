@@ -51,9 +51,10 @@ public class App extends JFrame implements PanelSwitchListener {
         currentmainPanel = initialPanel;
         refreshMainPanel(initialPanel);
 
-        int minPanelWidth = (int) ((0.5 + 1.5 + 5.0 + 3.0) / (0.5 + 1.5 + 5.0 + 3.0) * 1280); 
+        int minPanelWidth = 1280; 
         setMinimumSize(new Dimension(minPanelWidth, 720));
     }
+
     private void disconnectAndClose() {
         int confirm = JOptionPane.showOptionDialog(
             this,
@@ -68,9 +69,11 @@ public class App extends JFrame implements PanelSwitchListener {
                 HeartBeat.stopSendingRequests(); 
             }
             dispose();
+            System.exit(0);
         }
     }
-    private void refreshMainPanel(JPanel DesiredPanel) {
+
+    private void refreshMainPanel(JPanel desiredPanel) {
         if (mainPanel != null) {
             remove(mainPanel);  
         }
@@ -82,22 +85,29 @@ public class App extends JFrame implements PanelSwitchListener {
         gbc.weighty = 1.0;
 
         ForumsListPanel forumsListPanel = new ForumsListPanel();
-        // DMListPanel dmListPanel = new DMListPanel(this);
-        MiscellaneousPanel miscellaneousPanel = new MiscellaneousPanel();
+        forumsListPanel.setPreferredSize(new Dimension(80, 720));
+        forumsListPanel.setMinimumSize(new Dimension(80, 720));
 
-        gbc.weightx = 0.5;
+        dmListPanel.setPreferredSize(new Dimension(224, 720));
+        dmListPanel.setMinimumSize(new Dimension(224, 720));
+
+        desiredPanel.setPreferredSize(new Dimension(616, 720));
+        desiredPanel.setMinimumSize(new Dimension(616, 720));
+
+        MiscellaneousPanel miscellaneousPanel = new MiscellaneousPanel();
+        miscellaneousPanel.setPreferredSize(new Dimension(360, 720));
+        miscellaneousPanel.setMinimumSize(new Dimension(360, 720));
+
         gbc.gridx = 0;
         mainPanel.add(forumsListPanel, gbc);
 
-        gbc.weightx = 1.5;
         gbc.gridx = 1;
         mainPanel.add(dmListPanel, gbc);
 
-        gbc.weightx = 5.0;
         gbc.gridx = 2;
-        mainPanel.add(DesiredPanel, gbc);
+        gbc.weightx = 1.0;
+        mainPanel.add(desiredPanel, gbc);
 
-        gbc.weightx = 3.0;
         gbc.gridx = 3;
         mainPanel.add(miscellaneousPanel, gbc);
 
@@ -105,7 +115,7 @@ public class App extends JFrame implements PanelSwitchListener {
         revalidate();
         repaint();
 
-        currentmainPanel = DesiredPanel; 
+        currentmainPanel = desiredPanel; 
     }
 
     @Override

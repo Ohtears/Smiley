@@ -27,6 +27,7 @@ public class Chat extends JPanel {
     private MainPanel mainPanel;
     private User targetuser;
     private Message lastmessage;
+    CustomScrollPane scrollPane;
 
     public Chat(User user, List<Message> messages) {
         this.targetuser = user;
@@ -38,7 +39,7 @@ public class Chat extends JPanel {
         add(headerPanel, BorderLayout.NORTH);
 
         mainPanel = new MainPanel(messages);
-        CustomScrollPane scrollPane = new CustomScrollPane(mainPanel); 
+        scrollPane = new CustomScrollPane(mainPanel); 
         scrollPane.setBackground(Color.BLACK);
         scrollPane.setPreferredSize(new Dimension(200, 150));
 
@@ -154,12 +155,15 @@ public class Chat extends JPanel {
     
                 inputField.setText("");
                 refreshChatPanel();
+
             }
         }
     }
     
 
     private void refreshChatPanel() {
+
+        // boolean wasScrolledToBottom = isScrolledToBottom();
 
         User currentUser = CurrentUser.getInstance().getUser();
 
@@ -186,11 +190,11 @@ public class Chat extends JPanel {
                 lastmessage = lastmsg;
 
                 CustomMessagePanel messagePanel = new CustomMessagePanel(lastmsg);
-                mainPanel.add(messagePanel);
 
-                
+                mainPanel.add(messagePanel);
                 mainPanel.revalidate();
                 mainPanel.repaint();
+                
                 
             }
 
@@ -199,5 +203,19 @@ public class Chat extends JPanel {
                 JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+
+        scrollToBottom();
+
+    }
+
+    // private boolean isScrolledToBottom() {
+    //     JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+    //     int bottomPos = verticalScrollBar.getMaximum() - verticalScrollBar.getVisibleAmount();
+    //     return verticalScrollBar.getValue() == bottomPos;
+    // }
+
+    private void scrollToBottom() {
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        verticalScrollBar.setValue(verticalScrollBar.getMaximum());
     }
 }

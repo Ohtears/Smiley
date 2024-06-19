@@ -24,6 +24,7 @@ public class DMListPanel extends JPanel implements Refreshable {
         setBorder(BorderFactory.createTitledBorder("DM List"));
         setBackground(new Color(44, 47, 51));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2)); 
         refreshDMList(); 
     }
 
@@ -48,7 +49,7 @@ public class DMListPanel extends JPanel implements Refreshable {
                     List<User> users = JsonConverter.jsonToUsers(responseServer);
                     for (User user : users) {
                         ChatPanel chatPanel = new ChatPanel(user, listener);
-                        Dimension PanelSize = new Dimension(300, 50);
+                        Dimension PanelSize = new Dimension(240, 50);
                         chatPanel.setMaximumSize(PanelSize);
                         chatPanel.setPreferredSize(PanelSize);
                         chatPanel.setMinimumSize(PanelSize);
