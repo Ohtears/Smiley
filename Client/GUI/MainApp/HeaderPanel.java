@@ -35,7 +35,7 @@ public class HeaderPanel extends JPanel {
         this.panelSwitchListener = panelSwitchListener;
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(new Color(44, 47, 51));
         setLayout(new BorderLayout());
 
         Dimension preferredSize = new Dimension(1280, 50);
@@ -43,7 +43,10 @@ public class HeaderPanel extends JPanel {
 
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         searchBar = new JTextField();
+        searchBar.setBackground(new Color(34, 37, 41)); 
         searchBar.setPreferredSize(new Dimension(530, 30));
+        searchBar.setForeground(Color.WHITE); 
+        searchPanel.setBackground(new Color(34, 37, 41)); 
         searchPanel.add(searchBar);
         add(searchPanel, BorderLayout.SOUTH);
 
