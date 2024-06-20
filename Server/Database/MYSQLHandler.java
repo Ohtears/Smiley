@@ -387,4 +387,31 @@ public class MYSQLHandler {
         }
     }
 
+    public static List<PostService> GetpostsUser(UserService user) {
+
+        String query = QueryEnum.GETALLPOSTSFROMUSER.query;
+
+        List <PostService> posts = new ArrayList<>();
+
+        try(Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, user.getID());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int postId = resultSet.getInt("post_id");
+                String content = resultSet.getString("content");
+                Timestamp timestamp = resultSet.getTimestamp("created_at");
+                PostService post = new PostService(postId, user, content, timestamp);
+
+                posts.add(post);
+
+            
+            }
+            return posts;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

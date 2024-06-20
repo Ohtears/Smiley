@@ -1,10 +1,12 @@
 package Client.GUI.MainApp.Dashboard;
 
 import Client.GUI.MainApp.Chat;
+import Client.GUI.MainApp.Style.CustomScrollPane;
 import Client.Models.CurrentUser;
 import Client.Models.Message;
 import Client.Models.TimeDate;
 import Client.Models.User;
+import Client.Models.Post;
 import Client.Network.JsonConverter;
 import Client.Network.RequestHandler;
 import Client.Network.RequestHandler.Callback;
@@ -20,9 +22,11 @@ import org.json.JSONObject;
 
 public class Dashboard extends JPanel {
 
+    private JPanel mainPanel;
+
     public Dashboard(User user, PanelSwitchListener listener) {
         setBorder(BorderFactory.createTitledBorder("Profile"));
-        setBackground(Color.WHITE);
+        setBackground(new Color(54, 57, 63));
         setLayout(new GridLayout(2, 1));
 
         if (user != null) {
@@ -94,30 +98,27 @@ public class Dashboard extends JPanel {
             headerPanel.setLayout(new GridLayout(1, 3));
             headerPanel.setBackground(new Color(54, 57, 63));
 
-            JPanel postsHeaderPanel = new JPanel();
-            postsHeaderPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            postsHeaderPanel.setBackground(new Color(54, 57, 63));
-            postsHeaderPanel.setForeground(Color.WHITE);
-            postsHeaderPanel.add(new JLabel("Posts"));
-            headerPanel.add(postsHeaderPanel);
+            JButton postsButton = new JButton("Posts");
+            postsButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            postsButton.setBackground(new Color(54, 57, 63));
+            postsButton.setForeground(Color.WHITE);
+            headerPanel.add(postsButton);
 
-            JPanel likesHeaderPanel = new JPanel();
-            likesHeaderPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            likesHeaderPanel.setBackground(new Color(54, 57, 63));
-            likesHeaderPanel.setForeground(Color.WHITE);
-            likesHeaderPanel.add(new JLabel("Likes"));
-            headerPanel.add(likesHeaderPanel);
+            JButton likesButton = new JButton("Likes");
+            likesButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            likesButton.setBackground(new Color(54, 57, 63));
+            likesButton.setForeground(Color.WHITE);
+            headerPanel.add(likesButton);
 
-            JPanel repliesHeaderPanel = new JPanel();
-            repliesHeaderPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            repliesHeaderPanel.setBackground(new Color(54, 57, 63));
-            repliesHeaderPanel.add(new JLabel("Replies"));
-            repliesHeaderPanel.setForeground(Color.WHITE);
-            headerPanel.add(repliesHeaderPanel);
-
+            JButton repliesButton = new JButton("Replies");
+            repliesButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            repliesButton.setBackground(new Color(54, 57, 63));
+            repliesButton.setForeground(Color.WHITE);
+            headerPanel.add(repliesButton);
             postsDashboardPanel.add(headerPanel, BorderLayout.NORTH);
 
-            JPanel mainPanel = new JPanel();
+            mainPanel = new JPanel();
+            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
             mainPanel.setBackground(new Color(54, 57, 63));
             postsDashboardPanel.add(mainPanel, BorderLayout.CENTER);
 
@@ -176,8 +177,35 @@ public class Dashboard extends JPanel {
                     }
                 });
             });
+
+            postsButton.addActionListener(e -> {
+               
+                List<User> userListPost = new ArrayList<>();
+                userListPost.add(user);
+
+                JSONObject jsonRequestPost = JsonConverter.usersToJson(userListPost, RequestType.GETPOSTSUSER);
+                RequestHandler requestHandlerPost = new RequestHandler();
+                requestHandlerPost.sendRequestAsync(jsonRequestPost.toString(), new Callback() {
+                    @Override
+                    public void onSuccess(String responsePost) {
+                        JSONObject responseServerPost = new JSONObject(responsePost);
+                        List<Post> Posts = JsonConverter.jsonToPosts(responseServerPost);
+                        ContentPanel postsPanel = new PostsUser(Posts); 
+                        switchMainPanel(postsPanel.getPanel());
+                    }
+
+                    @Override
+                    public void onFailure(IOException e) {
+                        JOptionPane.showMessageDialog(null, "Failed to get chat history", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+
+            });
+
+
         }
     }
+    
 
     private void fetchAndDisplayFollowers(User user) {
         List<User> userList = new ArrayList<>();
@@ -247,5 +275,20 @@ public class Dashboard extends JPanel {
         usersDialog.setLocationRelativeTo(null);
         usersDialog.setVisible(true);
     }
+
+    
+private void switchMainPanel(JPanel newPanel) {
+    mainPanel.removeAll();
+    
+    CustomScrollPane scrollPane = new CustomScrollPane(newPanel);
+    
+    mainPanel.setLayout(new BorderLayout());
+    mainPanel.add(scrollPane, BorderLayout.CENTER);
+    
+    mainPanel.revalidate();
+    mainPanel.repaint();
+}
+
+    
 
 }
