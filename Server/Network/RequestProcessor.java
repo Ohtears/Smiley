@@ -140,6 +140,11 @@ public class RequestProcessor {
                 return JsonConverter.usersToJson(listallfollowing);
 
 
+            case GETPOSTSUSER:
+
+                List<PostService> listpostsuser = MYSQLHandler.GetpostsUser(user);
+
+                return JsonConverter.postsToJson(listpostsuser);
 
             default:
                 break;

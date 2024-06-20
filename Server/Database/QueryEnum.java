@@ -45,7 +45,24 @@ public enum QueryEnum {
     GETALLFOLLOWING("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio " + //
                             "FROM users u " + //
                             "JOIN followers f ON u.user_id = f.user_id " + //
-                            "WHERE f.follower_id = ?")
+                            "WHERE f.follower_id = ?"),
+    GETALLPOSTSFROMUSER("SELECT " + //
+                        "    p.post_id, " + //
+                        "    p.content, " + //
+                        "    p.created_at, " + //
+                        "    u.user_id, " + //
+                        "    u.username, " + //
+                        "    u.name, " + //
+                        "    u.email, " + //
+                        "    u.birthday, " + //
+                        "    u.bio " + //
+                        "FROM " + //
+                        "    posts p " + //
+                        "JOIN " + //
+                        "    users u ON p.user_id = u.user_id " + //
+                        "WHERE " + //
+                        "    p.user_id = ?")
+
     ;
     public String query;
 
