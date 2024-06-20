@@ -33,7 +33,7 @@ public class Dashboard extends JPanel {
             JPanel followersFollowingPanel = new JPanel(new GridLayout(1, 2));
             followersFollowingPanel.setBackground(new Color(54, 57, 63));
 
-            JButton followersButton = new JButton("Following");
+            JButton followersButton = new JButton("Followers");
             followersButton.setBackground(new Color(29, 161, 242));
             followersButton.setForeground(Color.WHITE);
             followersButton.setPreferredSize(new Dimension(80, 25));
@@ -42,7 +42,7 @@ public class Dashboard extends JPanel {
             });
             followersFollowingPanel.add(followersButton);
 
-            JButton followingButton = new JButton("Followers");
+            JButton followingButton = new JButton("Following");
             followingButton.setBackground(new Color(29, 161, 242));
             followingButton.setForeground(Color.WHITE);
             followingButton.setPreferredSize(new Dimension(80, 25));
@@ -180,9 +180,8 @@ public class Dashboard extends JPanel {
     }
 
     private void fetchAndDisplayFollowers(User user) {
-        CurrentUser currentUser = CurrentUser.getInstance();
         List<User> userList = new ArrayList<>();
-        userList.add(currentUser.getUser());
+        userList.add(user);
 
         RequestHandler handler = new RequestHandler();
         JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.GETALLFOLLOWERS);
@@ -198,11 +197,10 @@ public class Dashboard extends JPanel {
             }
         });
     }
-
     private void fetchAndDisplayFollowing(User user) {
-        CurrentUser currentUser = CurrentUser.getInstance();
+
         List<User> userList = new ArrayList<>();
-        userList.add(currentUser.getUser());
+        userList.add(user);
 
         RequestHandler handler = new RequestHandler();
         JSONObject jsonRequest = JsonConverter.usersToJson(userList, RequestType.GETALLFOLLOWING);
@@ -249,4 +247,5 @@ public class Dashboard extends JPanel {
         usersDialog.setLocationRelativeTo(null);
         usersDialog.setVisible(true);
     }
+
 }

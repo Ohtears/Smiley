@@ -52,7 +52,7 @@ public class RequestProcessor {
                 return JsonConverter.usersToJson(getallusers);
             case ADDFOLLOWER:
 
-                MYSQLHandler.addFollower(user, user2);
+                MYSQLHandler.addFollower(user2, user);
 
             break;
             case GETCHATLIST: 
@@ -92,6 +92,15 @@ public class RequestProcessor {
             case GETALLFOLLOWERS:
                 
                 List<UserService> allfollowers = MYSQLHandler.getAllFollowers(user);
+
+                System.out.println(allfollowers);
+                System.out.println(allfollowers);
+                System.out.println(allfollowers);
+                System.out.println(allfollowers);
+                System.out.println(allfollowers);
+                System.out.println(allfollowers);
+                System.out.println(allfollowers);
+
 
                 return JsonConverter.usersToJson(allfollowers);
 
