@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
+import Client.GUI.MainApp.Style.CustomButton;
 import Client.Models.Post;
 
 public class PostPanel extends JPanel {
@@ -56,10 +57,10 @@ public class PostPanel extends JPanel {
         footerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         footerPanel.setBackground(new Color(64, 68, 75));
 
-        JButton repliesButton = new JButton("Replies");
+        CustomButton repliesButton = new CustomButton("Replies");
         footerPanel.add(repliesButton);
 
-        JButton likesButton = new JButton("Likes");
+        CustomButton likesButton = new CustomButton("Likes");
         footerPanel.add(likesButton);
 
         add(footerPanel, BorderLayout.SOUTH);

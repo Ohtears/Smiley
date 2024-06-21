@@ -58,6 +58,7 @@ public class JsonConverter {
         return new UserRequest(users, content, requestType);
     }
 
+    @SuppressWarnings("unused")
     public static UserRequest retrieveFromJson(JSONObject jsonObject) {
         JSONArray postsArray = jsonObject.getJSONArray("posts");
         TimeDateService bday = null; 
@@ -212,7 +213,6 @@ public class JsonConverter {
             JSONObject commentJson = new JSONObject();
             commentJson.put("commentId", comment.getCommentId());
     
-            // User JSON Object
             JSONObject userJson = new JSONObject();
             UserService user = comment.getUser();
             userJson.put("userId", user.getID());
@@ -223,11 +223,11 @@ public class JsonConverter {
             userJson.put("bio", "");
             commentJson.put("user", userJson);
     
-            // Post JSON Object
             JSONObject postJson = new JSONObject();
             PostService post = comment.getOriginalPost();
             postJson.put("postId", post.getPostId());
             postJson.put("content", post.getContent());
+            postJson.put("timestamp", post.getTimestamp().toString());
             commentJson.put("post", postJson);
     
             commentJson.put("content", comment.getContent());

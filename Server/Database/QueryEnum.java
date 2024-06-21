@@ -39,7 +39,9 @@ public enum QueryEnum {
                 "FROM \n" + //
                 "    posts\n" + //
                 "JOIN \n" + //
-                "    users ON posts.user_id = users.user_id"),
+                "    users ON posts.user_id = users.user_id " + //
+                "ORDER BY posts.created_at ASC"
+                ),
                 
     INSERTPOST("INSERT INTO posts (user_id, content) VALUES (?, ?)"),
     GETALLFOLLOWING("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio " + //
@@ -79,7 +81,10 @@ public enum QueryEnum {
                     "JOIN " + //
                     "    users u ON c.user_id = u.user_id " + //
                     "WHERE " + //
-                    "    c.post_id = ?"),
+                    "    c.post_id = ? " + //
+                    "ORDER BY c.created_at ASC"
+                    
+                    ),
     INSERTCOMMENT("INSERT INTO comments (post_id, user_id, comment_content) VALUES (?, ?, ?)"),
     GETPOSTID("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio, p.content, p.created_at FROM users u JOIN posts p ON p.user_id = u.user_id WHERE p.post_id = ?")
             
