@@ -78,6 +78,8 @@ public class RequestProcessor {
                 MYSQLHandler.sendMessagesChat(user, user2, content_msg);
                 String status = MYSQLHandler.GetUserStatus(user2);
 
+                //NEEDS FURTHER WORK
+
                 if (status.equals("online")) {
                 
                     Socket userSocket = ResponseHandler.userSocketMap.get(user2);
@@ -115,7 +117,7 @@ public class RequestProcessor {
                 String content_comment = userRequest.content;
 
                 PostService postaa = userRequest.post;
-                
+
                 MYSQLHandler.insertComment(user, content_comment, postaa);
                 
             break;
@@ -153,6 +155,14 @@ public class RequestProcessor {
                 List<CommentService> listcommentspost = MYSQLHandler.GetcommentsPost(post);
 
                 return JsonConverter.commentsToJson(listcommentspost);
+
+            case GETUSERSTATUS:
+
+                String statusuSER = MYSQLHandler.GetUserStatus(user2);
+
+                return JsonConverter.StatusToJson(statusuSER, user2.getID());
+
+
 
             default:
                 break;

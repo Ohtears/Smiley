@@ -34,8 +34,41 @@ public class ChatPanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         JLabel nameLabel = new JLabel(user.getName());
-        nameLabel.setForeground(Color.WHITE);
+        // nameLabel.setForeground(Color.WHITE);
         nameLabel.setFont(new Font("Whitney", Font.BOLD, 16));
+
+        RequestHandler handlerD = new RequestHandler();
+
+        List<User> userListD = new ArrayList<>();
+        userListD.add(CurrentUser.getInstance().getUser());
+        userListD.add(user);
+        JSONObject jsonRequestD = JsonConverter.usersToJson(userListD, RequestType.GETUSERSTATUS);
+
+        handlerD.sendRequestAsync(jsonRequestD.toString(), new Callback() {
+            @Override
+            public void onSuccess(String response) {
+
+                JSONObject responseServer = new JSONObject(response);
+                String status = JsonConverter.JsonToStatus(responseServer);
+
+                switch (status) {
+                    case "online":
+                        nameLabel.setForeground(Color.GREEN);
+                        break;
+                    case "offline":
+                        nameLabel.setForeground(Color.GRAY);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onFailure(IOException e) {
+                JOptionPane.showMessageDialog(null, "failed", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
         add(nameLabel, BorderLayout.CENTER);
 
         JButton chatButton = new JButton("Chat");
