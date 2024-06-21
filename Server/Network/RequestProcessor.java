@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+
 public class RequestProcessor {
     
 
@@ -76,7 +77,6 @@ public class RequestProcessor {
 
                 MYSQLHandler.sendMessagesChat(user, user2, content_msg);
                 String status = MYSQLHandler.GetUserStatus(user2);
-                //needs further implementation
 
                 if (status.equals("online")) {
                 
@@ -92,15 +92,6 @@ public class RequestProcessor {
             case GETALLFOLLOWERS:
                 
                 List<UserService> allfollowers = MYSQLHandler.getAllFollowers(user);
-
-                System.out.println(allfollowers);
-                System.out.println(allfollowers);
-                System.out.println(allfollowers);
-                System.out.println(allfollowers);
-                System.out.println(allfollowers);
-                System.out.println(allfollowers);
-                System.out.println(allfollowers);
-
 
                 return JsonConverter.usersToJson(allfollowers);
 
@@ -123,7 +114,10 @@ public class RequestProcessor {
 
                 String content_comment = userRequest.content;
 
-
+                PostService postaa = userRequest.post;
+                
+                MYSQLHandler.insertComment(user, content_comment, postaa);
+                
             break;
 
             case GETALLPOSTS:

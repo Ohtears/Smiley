@@ -23,7 +23,6 @@ public class UserRequest {
         this.users = users;
 
     }
-    
 
     public UserRequest(List <UserService> users, String content, PostService post, RequestTypeService requestType){
         this.requestType = requestType;

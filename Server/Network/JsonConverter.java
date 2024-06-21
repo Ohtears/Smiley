@@ -9,6 +9,7 @@ import Server.Services.PostService;
 import Server.Services.TimeDateService;
 import Server.Services.UserService;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,11 @@ public class JsonConverter {
 
     public static UserRequest jsonToUsers(JSONObject jsonObject) {
         RequestTypeService requestType = RequestTypeService.valueOf(jsonObject.getString("requestType"));
+
+        if  (requestType.equals(RequestTypeService.CREATECOMMENT)) {
+            return retrieveFromJson(jsonObject);
+        }
+
         JSONArray jsonArray = jsonObject.getJSONArray("users");
 
         List<UserService> users = new ArrayList<>();
@@ -51,6 +57,76 @@ public class JsonConverter {
 
         return new UserRequest(users, content, requestType);
     }
+
+    public static UserRequest retrieveFromJson(JSONObject jsonObject) {
+        JSONArray postsArray = jsonObject.getJSONArray("posts");
+        TimeDateService bday = null; 
+
+        for (int i = 0; i < postsArray.length(); i++) {
+            JSONObject postJson = postsArray.getJSONObject(i);
+
+            int postId = postJson.getInt("postId");
+            JSONObject userJson = postJson.getJSONObject("user");
+
+            int userId = userJson.getInt("userid");
+            String username = userJson.getString("Username");
+            String name = userJson.getString("Name");
+            String email = userJson.getString("Email");
+            String password = userJson.getString("Password");
+            
+            try {
+                String Birthday = userJson.getString("Birthday");
+                bday = new TimeDateService(Birthday);
+                
+            }
+            catch (Exception e) {
+                bday = null;
+
+            }
+            String bio = userJson.getString("bio");
+
+            UserService user = new UserService(userId, username, name, email, password, bday, bio);
+
+            String content = postJson.getString("content");
+            Timestamp timestamp = Timestamp.valueOf(postJson.getString("timestamp"));
+
+            PostService post = new PostService(postId, user, content, timestamp);
+
+            RequestTypeService requestType = RequestTypeService.valueOf(jsonObject.getString("requestType"));
+
+            TimeDateService endbday = null;
+
+            JSONObject endUserJson = jsonObject.getJSONObject("currentUser");
+            int endUserId = endUserJson.getInt("userid");
+            String endUsername = endUserJson.getString("Username");
+            String endName = endUserJson.getString("Name");
+            String endEmail = endUserJson.getString("Email");
+            String endPassword = endUserJson.getString("Password");
+            try {
+                String Birthday = userJson.getString("Birthday");
+                endbday = new TimeDateService(Birthday);
+                
+            }
+            catch (Exception e) {
+                endbday = null;
+
+            }
+            String endBio = endUserJson.getString("bio");
+
+            String content_comment = jsonObject.getString("content"); 
+
+            UserService endUser = new UserService(endUserId, endUsername, endName, endEmail, endPassword, endbday, endBio);
+            List<UserService> users = new ArrayList<>();
+            // List<PostService> posts = new ArrayList<>();
+
+            users.add(endUser);
+            // posts.add(post);
+            return new UserRequest(users, content_comment, post, requestType);
+        }
+        
+    return null;
+    }
+
     // public static UserRequest jsonToRequestAndContent(JSONObject jsonObject) {
 
     //     RequestTypeService requestType = RequestTypeService.valueOf(jsonObject.getString("requestType"));
@@ -129,37 +205,41 @@ public class JsonConverter {
         return postsJson;
     }
 
-    public static JSONObject commentsToJson(List<CommentService> comments){
-
+    public static JSONObject commentsToJson(List<CommentService> comments) {
         JSONArray jsonArray = new JSONArray();
-
+    
         for (CommentService comment : comments) {
             JSONObject commentJson = new JSONObject();
             commentJson.put("commentId", comment.getCommentId());
-            
-            List<UserService> userList = new ArrayList<>();
-            userList.add(comment.getUser());
-            
-            JSONObject userJson = usersToJson(userList);
-            commentJson.put("user", userJson.getJSONArray("users").getJSONObject(0));
-
+    
+            // User JSON Object
+            JSONObject userJson = new JSONObject();
+            UserService user = comment.getUser();
+            userJson.put("userId", user.getID());
+            userJson.put("username", user.Username);
+            userJson.put("name", user.getName());
+            userJson.put("email", user.getemail());
+            userJson.put("birthday", (user.getBirthday() != null) ? user.getBirthday().toString() : "");
+            userJson.put("bio", "");
+            commentJson.put("user", userJson);
+    
+            // Post JSON Object
+            JSONObject postJson = new JSONObject();
+            PostService post = comment.getOriginalPost();
+            postJson.put("postId", post.getPostId());
+            postJson.put("content", post.getContent());
+            commentJson.put("post", postJson);
+    
             commentJson.put("content", comment.getContent());
             commentJson.put("timestamp", comment.getTimestamp().toString());
-
-            List<PostService> postList = new ArrayList<>();
-            postList.add(comment.getOriginalPost());
-
-            JSONObject postJson = postsToJson(postList);
-            commentJson.put("post", postJson.getJSONArray("posts").getJSONObject(0));
-
-
+    
+            jsonArray.put(commentJson);
         }
-
+    
         JSONObject commentsJson = new JSONObject();
         commentsJson.put("comments", jsonArray);
-        
+    
         return commentsJson;
-        
     }
     
 

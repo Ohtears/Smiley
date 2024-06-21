@@ -70,7 +70,7 @@ public enum QueryEnum {
                     "    c.created_at, " + //
                     "    c.original_comment_id, " + //
                     "    u.username, " + //
-                    "    u.name " + //
+                    "    u.name, " + //
                     "    u.email, " + //
                     "    u.birthday, " + //
                     "    u.bio " + //
@@ -80,10 +80,11 @@ public enum QueryEnum {
                     "    users u ON c.user_id = u.user_id " + //
                     "WHERE " + //
                     "    c.post_id = ?"),
-    GETPOSTID("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio FROM users u JOIN posts p ON p.user_id = u.user_id WHERE p.post_id = ?"),
-
-
-    ;
+    INSERTCOMMENT("INSERT INTO comments (post_id, user_id, comment_content) VALUES (?, ?, ?)"),
+    GETPOSTID("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio, p.content, p.created_at FROM users u JOIN posts p ON p.user_id = u.user_id WHERE p.post_id = ?")
+            
+    
+            ;
     public String query;
 
     QueryEnum(String query) {
