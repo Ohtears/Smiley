@@ -34,8 +34,6 @@ public class HomeButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println("SAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
                 listener.onPanelSwitch(new PostsListPanel(listener)); 
 
 

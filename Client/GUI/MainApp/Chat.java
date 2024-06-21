@@ -10,6 +10,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.awt.event.KeyAdapter;
+
+import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.GUI.MainApp.Style.CustomMessagePanel;
 import Client.GUI.MainApp.Style.CustomScrollPane;
 import Client.Models.CurrentUser;
@@ -21,7 +23,7 @@ import Client.Network.RequestHandler.Callback;
 import Client.Network.RequestType;
 import org.json.JSONObject;
 
-public class Chat extends JPanel {
+public class Chat extends JPanel implements PanelSwitchListener {
 
     private ScheduledExecutorService scheduler;
     private MainPanel mainPanel;
@@ -49,7 +51,11 @@ public class Chat extends JPanel {
         add(footerPanel, BorderLayout.SOUTH);
 
         scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(() -> refreshChatPanel(), 0L, 1L, TimeUnit.SECONDS);    
+        scheduler.scheduleAtFixedRate(() -> refreshChatPanel(), 0L, 3L, TimeUnit.SECONDS);    
+    }
+
+    public void stopScheduler() {
+        scheduler.shutdown(); 
     }
 
     private class HeaderPanel extends JPanel {
@@ -217,5 +223,13 @@ public class Chat extends JPanel {
     private void scrollToBottom() {
         JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
         verticalScrollBar.setValue(verticalScrollBar.getMaximum());
+    }
+
+    @Override
+    public void onPanelSwitch(JPanel newPanel) {
+
+        if (!(newPanel instanceof Chat)) {
+            stopScheduler();
+        }
     }
 }

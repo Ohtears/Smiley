@@ -15,6 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
+import Client.GUI.MainApp.Style.CustomButton;
 import Client.GUI.MainApp.Style.CustomScrollPane;
 import Client.Models.CurrentUser;
 import Client.Models.Post;
@@ -45,7 +46,7 @@ public class PostsListPanel extends JPanel{
         CustomScrollPane scrollPane = new CustomScrollPane(postsContainer);
         add(scrollPane, BorderLayout.CENTER);
 
-        JButton addPostButton = new JButton("Add Post");
+        CustomButton addPostButton = new CustomButton("Add Post");
         addPostButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -100,7 +101,7 @@ public class PostsListPanel extends JPanel{
         JTextArea postTextArea = new JTextArea();
         panel.add(new JScrollPane(postTextArea), BorderLayout.CENTER);
 
-        JButton submitButton = new JButton("Submit");
+        CustomButton submitButton = new CustomButton("Submit");
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
