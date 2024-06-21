@@ -60,11 +60,12 @@ CREATE TABLE posts (
 
 CREATE TABLE comments (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
-    post_id INT NOT NULL,
+    post_id INT,
     user_id INT NOT NULL,
     comment_content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    original_comment_id INT,
     FOREIGN KEY (post_id) REFERENCES posts(post_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (original_comment_id) REFERENCES comments(comment_id)
 );
-

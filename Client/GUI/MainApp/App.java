@@ -47,7 +47,7 @@ public class App extends JFrame implements PanelSwitchListener {
         HeaderPanel headerPanel = new HeaderPanel(this, this);
         add(headerPanel, BorderLayout.NORTH);
 
-        PostsListPanel initialPanel = new PostsListPanel();
+        PostsListPanel initialPanel = new PostsListPanel(this);
         currentmainPanel = initialPanel;
         refreshMainPanel(initialPanel);
 

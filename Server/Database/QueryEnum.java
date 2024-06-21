@@ -61,7 +61,27 @@ public enum QueryEnum {
                         "JOIN " + //
                         "    users u ON p.user_id = u.user_id " + //
                         "WHERE " + //
-                        "    p.user_id = ?")
+                        "    p.user_id = ?"),
+    GETCOMMENTSPOST( "SELECT " + //
+                    "    c.comment_id, " + //
+                    "    c.post_id, " + //
+                    "    c.user_id, " + //
+                    "    c.comment_content, " + //
+                    "    c.created_at, " + //
+                    "    c.original_comment_id, " + //
+                    "    u.username, " + //
+                    "    u.name " + //
+                    "    u.email, " + //
+                    "    u.birthday, " + //
+                    "    u.bio " + //
+                    "FROM " + //
+                    "    comments c " + //
+                    "JOIN " + //
+                    "    users u ON c.user_id = u.user_id " + //
+                    "WHERE " + //
+                    "    c.post_id = ?"),
+    GETPOSTID("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio FROM users u JOIN posts p ON p.user_id = u.user_id WHERE p.post_id = ?"),
+
 
     ;
     public String query;

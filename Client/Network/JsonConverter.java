@@ -3,6 +3,7 @@ package Client.Network;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import Client.Models.Comment;
 import Client.Models.Message;
 import Client.Models.Post;
 import Client.Models.TimeDate;
@@ -21,7 +22,10 @@ public class JsonConverter {
 
     public static JSONObject usersToJson(List<User> users, String content, RequestType type) {
         JSONObject requestJson = new JSONObject();
-        requestJson.put("requestType", type.toString());
+        if (!type.equals(null)){
+
+            requestJson.put("requestType", type.toString());
+        }
 
         JSONArray jsonArray = new JSONArray();
         for (User user : users) {
@@ -48,6 +52,33 @@ public class JsonConverter {
         }
         return requestJson;
     }
+
+    // public static JSONObject postsToJson(List<Post> posts, RequestType requestType) {
+    //     JSONArray jsonArray = new JSONArray();
+
+    //     for (Post post : posts) {
+    //         JSONObject postJson = new JSONObject();
+    //         postJson.put("postId", post.getPostId());
+            
+    //         List<User> userList = new ArrayList<>();
+    //         userList.add(post.getuser());
+            
+    //         JSONObject userJson = usersToJson(userList, requestType);
+    //         postJson.put("user", userJson.getJSONArray("users").getJSONObject(0)); 
+
+    //         postJson.put("content", post.getContent());
+    //         postJson.put("timestamp", post.getTimestamp().toString());
+
+    //         jsonArray.put(postJson);
+    //     }
+
+    //     JSONObject postsJson = new JSONObject();
+    //     postsJson.put("posts", jsonArray);
+        
+    //     return postsJson;
+    // }
+
+
     
     public static JSONObject ContentToJson(String content, RequestType type) {
         JSONObject requestJson = new JSONObject();
@@ -151,6 +182,47 @@ public class JsonConverter {
         return posts;
     }
     
+    public static List<Comment> jsonToComments(JSONObject jsonObject) {
+        
+        List<Comment> comments = new ArrayList<>();
+        JSONArray jsonArray = jsonObject.getJSONArray("comments");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject commentJson = jsonArray.getJSONObject(i);
+
+            JSONObject userJson = commentJson.getJSONObject("user");
+            int userId = userJson.getInt("userid");
+            String username = userJson.getString("Username");
+            String name = userJson.getString("Name");
+            String email = userJson.getString("Email");
+            String password = userJson.getString("Password");
+            String birthday = userJson.getString("Birthday");
+            TimeDate bday = new TimeDate(birthday);
+            String bio = userJson.getString("bio");
+
+            User user = new User(userId, username, name, email, password, bday, bio);
+
+            JSONObject postJson = commentJson.getJSONObject("post");
+            int postId = postJson.getInt("postId");
+            String content = postJson.getString("content");
+            Timestamp timestamp = Timestamp.valueOf(postJson.getString("timestamp"));
+
+            Post post = new Post(postId, user, content, timestamp);
+
+            int commentId = commentJson.getInt("commentId");
+            String commentContent = commentJson.getString("content");
+            Timestamp commentTimestamp = Timestamp.valueOf(commentJson.getString("timestamp"));
+            Comment comment = new Comment(commentId, user, commentContent, commentTimestamp, post, null);
+            comments.add(comment);
+
+
+        }
+        return comments;
+
+
+    }
+
+
 
     public static boolean jsonToBoolean(JSONObject jsonObject) {
         return jsonObject.getBoolean("value");

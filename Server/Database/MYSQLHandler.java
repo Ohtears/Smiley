@@ -1,5 +1,6 @@
 package Server.Database;
 
+import Server.Services.CommentService;
 import Server.Services.MessageService;
 import Server.Services.PostService;
 import Server.Services.UserService;
@@ -414,4 +415,72 @@ public class MYSQLHandler {
         }
         return null;
     }
+
+    public static List<CommentService> GetcommentsPost(PostService post) {
+        String query = QueryEnum.GETCOMMENTSPOST.query;
+        List<CommentService> comments = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, post.getPostId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int commentId = resultSet.getInt("comment_id");
+                String content = resultSet.getString("comment_content");
+                Timestamp timestamp = resultSet.getTimestamp("created_at");
+
+                int userId = resultSet.getInt("user_id");
+                String username = resultSet.getString("username");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                TimeDateService birthday = new TimeDateService(resultSet.getDate("birthday"));
+                String bio = resultSet.getString("bio");
+
+                UserService user = new UserService(userId, username, name, email, " ", birthday, bio);
+
+                CommentService comment = new CommentService(commentId, user, content, timestamp, post, null);
+                comments.add(comment);
+            }
+            return comments;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static PostService getPostById(int PostId) {
+        String selectQuery = QueryEnum.GETUSERID.query;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+    
+            preparedStatement.setInt(1, PostId);
+    
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                if (resultSet.next()) {
+                    int userId = resultSet.getInt("user_id");
+                    String username = resultSet.getString("username");
+                    String name = resultSet.getString("name");
+                    String email = resultSet.getString("email");
+                    TimeDateService birthday = new TimeDateService(resultSet.getDate("birthday"));
+                    String bio = resultSet.getString("bio");
+
+                    String content = resultSet.getString("content");
+                    Timestamp timestamp = resultSet.getTimestamp("created_at");
+
+                    UserService user = new UserService(userId, username, name, email, " ", birthday, bio);
+                    return new PostService(PostId, user, content, timestamp);
+                
+                }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+        return null;
+    }
+
 }
