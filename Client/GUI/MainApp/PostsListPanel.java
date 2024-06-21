@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import Client.GUI.MainApp.Dashboard.PanelSwitchListener;
 import Client.GUI.MainApp.Style.CustomScrollPane;
 import Client.Models.CurrentUser;
 import Client.Models.Post;
@@ -23,14 +24,15 @@ import Client.Network.RequestHandler;
 import Client.Network.RequestHandler.Callback;
 import Client.Network.RequestType;
 
-public class PostsListPanel extends JPanel {
+public class PostsListPanel extends JPanel{
     private List<Post> posts;
     private JPanel postsContainer;
     private Post lastpost;
     private ScheduledExecutorService scheduler;
+    PanelSwitchListener listener;
 
-
-    public PostsListPanel() {
+    public PostsListPanel(PanelSwitchListener listener) {
+        this.listener = listener;
         posts = new ArrayList<>();
         setBorder(BorderFactory.createTitledBorder("Posts List"));
         setBackground(new Color(54, 57, 63));
@@ -177,9 +179,10 @@ public class PostsListPanel extends JPanel {
     
     private void addNewPost(Post post) {
         posts.add(post);
-        PostPanel postPanel = new PostPanel(post);
+        PostPanel postPanel = new PostPanel(post, listener);
         postsContainer.add(postPanel);
         postsContainer.revalidate();
         postsContainer.repaint();
     }
+
 }

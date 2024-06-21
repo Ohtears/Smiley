@@ -36,7 +36,7 @@ public class HomeButton extends JButton {
 
                 System.out.println("SAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
-                listener.onPanelSwitch(new PostsListPanel()); 
+                listener.onPanelSwitch(new PostsListPanel(listener)); 
 
 
             }

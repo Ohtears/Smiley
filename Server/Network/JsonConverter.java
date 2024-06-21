@@ -3,6 +3,7 @@ package Server.Network;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import Server.Services.CommentService;
 import Server.Services.MessageService;
 import Server.Services.PostService;
 import Server.Services.TimeDateService;
@@ -128,7 +129,39 @@ public class JsonConverter {
         return postsJson;
     }
 
+    public static JSONObject commentsToJson(List<CommentService> comments){
 
+        JSONArray jsonArray = new JSONArray();
+
+        for (CommentService comment : comments) {
+            JSONObject commentJson = new JSONObject();
+            commentJson.put("commentId", comment.getCommentId());
+            
+            List<UserService> userList = new ArrayList<>();
+            userList.add(comment.getUser());
+            
+            JSONObject userJson = usersToJson(userList);
+            commentJson.put("user", userJson.getJSONArray("users").getJSONObject(0));
+
+            commentJson.put("content", comment.getContent());
+            commentJson.put("timestamp", comment.getTimestamp().toString());
+
+            List<PostService> postList = new ArrayList<>();
+            postList.add(comment.getOriginalPost());
+
+            JSONObject postJson = postsToJson(postList);
+            commentJson.put("post", postJson.getJSONArray("posts").getJSONObject(0));
+
+
+        }
+
+        JSONObject commentsJson = new JSONObject();
+        commentsJson.put("comments", jsonArray);
+        
+        return commentsJson;
+        
+    }
+    
 
     public static JSONObject booleanToJson(boolean value) {
         JSONObject jsonObject = new JSONObject();

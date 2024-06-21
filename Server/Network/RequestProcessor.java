@@ -1,5 +1,6 @@
 package Server.Network;
 import Server.Database.MYSQLHandler;
+import Server.Services.CommentService;
 import Server.Services.MessageService;
 import Server.Services.PostService;
 import Server.Services.UserService;
@@ -27,13 +28,12 @@ public class RequestProcessor {
         if (userRequest.users.size() >= 2) {
             user2 = userRequest.users.get(1);
         }
+
         switch (type) {
             case INSERTUSER:
                 MYSQLHandler.insertUser(user);
                 UserService cur_user = MYSQLHandler.getCurrentUser(user);
                 MYSQLHandler.insertUserStatus(cur_user);
-                //needs further implementation
-
 
             break;
             case CHECKPASSWORD:
@@ -121,6 +121,9 @@ public class RequestProcessor {
 
             case CREATECOMMENT:
 
+                String content_comment = userRequest.content;
+
+
             break;
 
             case GETALLPOSTS:
@@ -145,6 +148,17 @@ public class RequestProcessor {
                 List<PostService> listpostsuser = MYSQLHandler.GetpostsUser(user);
 
                 return JsonConverter.postsToJson(listpostsuser);
+
+            case GETCOMMENTSPOST:
+
+                String postidString = userRequest.content;
+                Integer postId = Integer.parseInt(postidString);
+
+                PostService post = MYSQLHandler.getPostById(postId); 
+
+                List<CommentService> listcommentspost = MYSQLHandler.GetcommentsPost(post);
+
+                return JsonConverter.commentsToJson(listcommentspost);
 
             default:
                 break;
