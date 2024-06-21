@@ -22,4 +22,5 @@ public enum RequestTypeService {
     GETALLFOLLOWING,
     GETPOSTSUSER,
     GETCOMMENTSPOST,
+    INSERTLIKE
 }

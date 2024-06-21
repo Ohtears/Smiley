@@ -161,7 +161,10 @@ public class RequestProcessor {
                 String statusuSER = MYSQLHandler.GetUserStatus(user2);
 
                 return JsonConverter.StatusToJson(statusuSER, user2.getID());
+            
+            case INSERTLIKE:
 
+                
 
 
             default:

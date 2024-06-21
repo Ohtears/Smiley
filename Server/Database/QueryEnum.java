@@ -86,8 +86,12 @@ public enum QueryEnum {
                     
                     ),
     INSERTCOMMENT("INSERT INTO comments (post_id, user_id, comment_content) VALUES (?, ?, ?)"),
-    GETPOSTID("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio, p.content, p.created_at FROM users u JOIN posts p ON p.user_id = u.user_id WHERE p.post_id = ?")
-            
+    GETPOSTID("SELECT u.user_id, u.username, u.name, u.email, u.birthday, u.bio, p.content, p.created_at FROM users u JOIN posts p ON p.user_id = u.user_id WHERE p.post_id = ?"),
+    INSERTLIKEPOST("INSERT INTO likes (user_id, post_id) VALUES (?, ?)"),
+    GETLIKESPOST("SELECT user_id FROM likes WHERE post_id = ?"),
+    INSERTLIKECOMMENT("INSERT INTO likes (user_id, comment_id) VALUES (?, ?)"),//TODO
+    GETLIKESCOMMENT("SELECT user_id FROM likes WHERE comment_id = ?")//TODO
+
     
             ;
     public String query;
