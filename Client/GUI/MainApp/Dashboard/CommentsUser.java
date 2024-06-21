@@ -5,31 +5,30 @@ import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import Client.Models.Post;
 
-public class PostsUser implements ContentPanel {
+import Client.Models.Comment;
+
+public class CommentsUser implements ContentPanel {
+
     private JPanel panel;
     @SuppressWarnings("unused")
-    private List<Post> posts;
+    private List<Comment> Comments;
 
-    public PostsUser(List<Post> posts) {
-        this.posts = posts;
+    public CommentsUser(List<Comment> Comments) {
+        this.Comments = Comments;
         panel = new JPanel();
         panel.setBackground(new Color(53, 57, 63));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     
-        for (Post post : posts) {
-            PostPnlUser postPanel = new PostPnlUser(post);
-            panel.add(postPanel);
+        for (Comment Comment : Comments) {
+            // CommentsPnlUser CommentsPanel = new CommentsPnlUser(Comment);
+            // panel.add(CommentsPanel);
         }
-    //needs further implementation
+        //needs work
     }
-
     @Override
     public JPanel getPanel() {
         return panel;
     }
+    
 }
-
-
-

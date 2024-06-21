@@ -23,6 +23,6 @@ public enum RequestType {
     GETALLFOLLOWING,
     GETPOSTSUSER,
     GETCOMMENTSPOST,
-
+    INSERTLIKE
 
 }

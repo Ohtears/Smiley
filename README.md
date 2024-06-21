@@ -20,3 +20,16 @@
 
 -پروژه به مدت ۱۸ روز طول کشید
 
+//to do:
+{
+
+    -add websocket and rework the heartbeat system
+    -fix replies in dashboard
+    -add likes
+    -add profile pictures
+    -def do something about those buttons lol
+    -
+
+
+
+}
