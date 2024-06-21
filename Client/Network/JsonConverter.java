@@ -215,7 +215,6 @@ public class JsonConverter {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject commentJson = jsonArray.getJSONObject(i);
     
-            // User JSON Object
             JSONObject userJson = commentJson.getJSONObject("user");
             int userId = userJson.getInt("userId");
             String username = userJson.getString("username");
@@ -227,7 +226,6 @@ public class JsonConverter {
     
             User user = new User(userId, username, name, email, null, birthday, bio);
     
-            // Post JSON Object
             JSONObject postJson = commentJson.getJSONObject("post");
             int postId = postJson.getInt("postId");
             String postContent = postJson.getString("content");
@@ -235,7 +233,6 @@ public class JsonConverter {
     
             Post post = new Post(postId, user, postContent, postTimestamp);
     
-            // Comment details
             int commentId = commentJson.getInt("commentId");
             String commentContent = commentJson.getString("content");
             Timestamp commentTimestamp = Timestamp.valueOf(commentJson.getString("timestamp"));
@@ -246,9 +243,10 @@ public class JsonConverter {
     
         return comments;
     }
-    
+    public static String JsonToStatus(JSONObject jsonObject) {
+        return jsonObject.getString("status");
 
-
+    }
 
     public static boolean jsonToBoolean(JSONObject jsonObject) {
         return jsonObject.getBoolean("value");

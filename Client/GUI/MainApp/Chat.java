@@ -151,6 +151,7 @@ public class Chat extends JPanel implements PanelSwitchListener {
                     @Override
                     public void onSuccess(String response) {
     
+                        
                     }
     
                     @Override
