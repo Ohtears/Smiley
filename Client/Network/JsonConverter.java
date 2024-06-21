@@ -53,32 +53,58 @@ public class JsonConverter {
         return requestJson;
     }
 
-    // public static JSONObject postsToJson(List<Post> posts, RequestType requestType) {
-    //     JSONArray jsonArray = new JSONArray();
-
-    //     for (Post post : posts) {
-    //         JSONObject postJson = new JSONObject();
-    //         postJson.put("postId", post.getPostId());
-            
-    //         List<User> userList = new ArrayList<>();
-    //         userList.add(post.getuser());
-            
-    //         JSONObject userJson = usersToJson(userList, requestType);
-    //         postJson.put("user", userJson.getJSONArray("users").getJSONObject(0)); 
-
-    //         postJson.put("content", post.getContent());
-    //         postJson.put("timestamp", post.getTimestamp().toString());
-
-    //         jsonArray.put(postJson);
-    //     }
-
-    //     JSONObject postsJson = new JSONObject();
-    //     postsJson.put("posts", jsonArray);
-        
-    //     return postsJson;
-    // }
-
-
+    public static JSONObject PostsToJson(List<Post> posts, User user, String content, RequestType requestType) {
+        JSONObject requestJson = new JSONObject();
+    
+        requestJson.put("requestType", requestType.toString());
+        requestJson.put("content", content);
+    
+        JSONArray jsonArray = new JSONArray();
+    
+        for (Post post : posts) {
+            JSONObject postJson = new JSONObject();
+            postJson.put("postId", post.getPostId());
+    
+            JSONObject userJson = new JSONObject();
+            userJson.put("userid", post.getuser().getID());
+            userJson.put("Username", post.getuser().Username);
+            userJson.put("Name", post.getuser().getName());
+            userJson.put("Email", post.getuser().getEmail());
+            userJson.put("Password", post.getuser().getPassword());
+            if (post.getuser().getBirthday() != null) {
+                userJson.put("Birthday", post.getuser().getBirthday().toString());
+            } else {
+                userJson.put("Birthday", "");
+            }
+            userJson.put("bio", "");
+    
+            postJson.put("user", userJson);
+            postJson.put("content", post.getContent());
+            postJson.put("timestamp", post.getTimestamp().toString());
+    
+            jsonArray.put(postJson);
+        }
+    
+        requestJson.put("posts", jsonArray);
+    
+        JSONObject currentUserJson = new JSONObject();
+        currentUserJson.put("userid", user.getID());
+        currentUserJson.put("Username", user.Username);
+        currentUserJson.put("Name", user.getName());
+        currentUserJson.put("Email", user.getEmail());
+        currentUserJson.put("Password", user.getPassword());
+        if (user.getBirthday() != null) {
+            currentUserJson.put("Birthday", user.getBirthday().toString());
+        } else {
+            currentUserJson.put("Birthday", "");
+        }
+        currentUserJson.put("bio", ""); 
+    
+        requestJson.put("currentUser", currentUserJson);
+    
+        return requestJson;
+    }
+    
     
     public static JSONObject ContentToJson(String content, RequestType type) {
         JSONObject requestJson = new JSONObject();
@@ -183,44 +209,44 @@ public class JsonConverter {
     }
     
     public static List<Comment> jsonToComments(JSONObject jsonObject) {
-        
         List<Comment> comments = new ArrayList<>();
         JSONArray jsonArray = jsonObject.getJSONArray("comments");
-
+    
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject commentJson = jsonArray.getJSONObject(i);
-
+    
+            // User JSON Object
             JSONObject userJson = commentJson.getJSONObject("user");
-            int userId = userJson.getInt("userid");
-            String username = userJson.getString("Username");
-            String name = userJson.getString("Name");
-            String email = userJson.getString("Email");
-            String password = userJson.getString("Password");
-            String birthday = userJson.getString("Birthday");
-            TimeDate bday = new TimeDate(birthday);
+            int userId = userJson.getInt("userId");
+            String username = userJson.getString("username");
+            String name = userJson.getString("name");
+            String email = userJson.getString("email");
+            String birthdayStr = userJson.getString("birthday");
+            TimeDate birthday = (birthdayStr.isEmpty() ? null : new TimeDate(birthdayStr));
             String bio = userJson.getString("bio");
-
-            User user = new User(userId, username, name, email, password, bday, bio);
-
+    
+            User user = new User(userId, username, name, email, null, birthday, bio);
+    
+            // Post JSON Object
             JSONObject postJson = commentJson.getJSONObject("post");
             int postId = postJson.getInt("postId");
-            String content = postJson.getString("content");
-            Timestamp timestamp = Timestamp.valueOf(postJson.getString("timestamp"));
-
-            Post post = new Post(postId, user, content, timestamp);
-
+            String postContent = postJson.getString("content");
+            Timestamp postTimestamp = Timestamp.valueOf(postJson.getString("timestamp"));
+    
+            Post post = new Post(postId, user, postContent, postTimestamp);
+    
+            // Comment details
             int commentId = commentJson.getInt("commentId");
             String commentContent = commentJson.getString("content");
             Timestamp commentTimestamp = Timestamp.valueOf(commentJson.getString("timestamp"));
+    
             Comment comment = new Comment(commentId, user, commentContent, commentTimestamp, post, null);
             comments.add(comment);
-
-
         }
+    
         return comments;
-
-
     }
+    
 
 
 

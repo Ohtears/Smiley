@@ -451,36 +451,53 @@ public class MYSQLHandler {
         return null;
     }
 
-    public static PostService getPostById(int PostId) {
-        String selectQuery = QueryEnum.GETUSERID.query;
+    public static PostService getPostById(int postId) {
+        String selectQuery = QueryEnum.GETPOSTID.query;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
     
-            preparedStatement.setInt(1, PostId);
+            preparedStatement.setInt(1, postId);
     
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
                 if (resultSet.next()) {
+                    // Retrieve user details
                     int userId = resultSet.getInt("user_id");
                     String username = resultSet.getString("username");
                     String name = resultSet.getString("name");
                     String email = resultSet.getString("email");
-                    TimeDateService birthday = new TimeDateService(resultSet.getDate("birthday"));
+                    Date birthdayDate = resultSet.getDate("birthday");
+                    TimeDateService birthday = (birthdayDate != null) ? new TimeDateService(birthdayDate) : null;
                     String bio = resultSet.getString("bio");
-
+    
+                    // Retrieve post details
                     String content = resultSet.getString("content");
                     Timestamp timestamp = resultSet.getTimestamp("created_at");
-
+    
+                    // Create UserService and PostService objects
                     UserService user = new UserService(userId, username, name, email, " ", birthday, bio);
-                    return new PostService(PostId, user, content, timestamp);
-                
+                    return new PostService(postId, user, content, timestamp);
                 }
-
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return null;
     }
+    
+    public static void insertComment(UserService user, String content, PostService post) {
+        String insertQuery = QueryEnum.INSERTCOMMENT.query;
 
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+
+            preparedStatement.setInt(1, post.getPostId());
+            preparedStatement.setInt(2, user.getID());
+            preparedStatement.setString(3, content);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
