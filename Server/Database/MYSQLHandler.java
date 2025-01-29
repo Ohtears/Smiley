@@ -14,7 +14,7 @@ import java.util.List;
 public class MYSQLHandler {
     private static final String URL = "jdbc:mysql://localhost:3306/smiley";
     private static final String USER = "tears";
-    private static final String PASSWORD = "REMOVED";
+    private static final String PASSWORD = "";
 
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
