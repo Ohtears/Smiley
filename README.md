@@ -11,22 +11,26 @@ This project is a **Twitter-like social media system** developed in **Java**, fe
 - **Database Storage**: Stores tweets, user data, and chat logs in MySQL.
 - **Search Functionality**: Search for your desired tweet or person.
 - **Notification System**: Recieve notifications when users message you.
-- **Online/Offline Status**: Users can see if other users are online or offline.
+- **Online/Offline Status**: Users can see if other users are online or offline. Green Indicates online and grey indicats offline status.
 - **Comments**: Users can post comments on other people's posts.
 
 ## 📸 Screenshots
 
-### Login Page
-![Login Page](.png)
+### Main Menu
+![Login Page](Resources/MainMenu.jpg)
+
+### Login & Register Page
+![Login Page](Resources/Register.jpg)
 
 ### User Dashboard
-![Main Menu](Resources/MainApp.jpg)
-
-### Dashboard Interface
-![Register & Login](Resources/Dashboard.jpg)
+![Main Menu](Resources/dashboard.jpg)
 
 ### Tweet Interface
 ![Register & Login](Resources/Tweets.jpg)
+
+### Chat Interface
+![Register & Login](Resources/chat.jpg)
+
 
 ## 🗄️ Database Setup
 1. Install MySQL and create a database named `Smiley`.
