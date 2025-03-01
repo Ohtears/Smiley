@@ -1,35 +1,74 @@
-سلام ای تی ای!
+# Smiley a Twitter-Like Social Media System
 
-این پروژه چند تا ویژگی خاص داره!
+This project is a **Twitter-like social media system** developed in **Java**, featuring user interactions such as tweeting, live chat, and database-driven functionality. It consists of a **Client-Server architecture** with a **MySQL database** for data storage.
 
--سبز بودن یوزر یعنی آنلاین بودن
+## Features
+### 📝 Core Functionalities
+- **User Authentication**: Sign up, log in, and manage profiles.
+- **Tweet System**: Users can post, view, and delete tweets.
+- **Live Chat**: Real-time messaging system between users.
+- **Follow System**: Users can follow/unfollow others.
+- **Database Storage**: Stores tweets, user data, and chat logs in MySQL.
+- **Search Functionality**: Search for your desired tweet or person.
+- **Notification System**: Recieve notifications when users message you.
+- **Online/Offline Status**: Users can see if other users are online or offline.
+- **Comments**: Users can post comments on other people's posts.
 
--خاکستری بودن نشانه‌ی افلاین بودن
+## 📸 Screenshots
 
--چت لایو 
+### Login Page
+![Login Page](.png)
 
--نوتیفیکیشن برای چت
+### User Dashboard
+![Main Menu](Resources/MainApp.jpg)
 
--چت باگش در حال حاضر زیاده قرار بود در فایل responseProccessor بهتر هندل بشه ولی ددلاین پروژه اجازه نداد
+### Tweet Interface
+![Register & Login](Resources/RegisterandLogin.jpg)
 
--لبخند با ۲ تا پرانتز همان home هست 
+### Tweet Interface
+![Register & Login](Resources/Tweets.jpg)
 
-- دیتابیس mysql
+## 🗄️ Database Setup
+1. Install MySQL and create a database named `Smiley`.
+2. Run the provided SQL script (`mysql.sql`) to create tables. (Server/Database/mysql.sql)
+3. Update database credentials in `Server/Database/DatabaseConfig.java`.
 
--و خیلی چیز های دیگه!
+## 🚀 How to Run the Project
+### Prerequisites
+- **Java (JDK 8 or higher)**
+- **MySQL Database**
 
--پروژه به مدت ۱۸ روز طول کشید
+### Steps
+1. **Clone the Repository**
+   ```sh
+   git clone https://github.com/Ohtears/Smiley.git
+   cd Smiley
+   ```
+2. **Start MySQL Database**
+3. **Configure Database in `Server/Database/MYSQLHandler.java`**
+4. **Run the Server**
+   ```sh
+   cd Server
+   javac -cp .:lib/* Server/Network/ResponseHandler.java
+   java -cp .:lib/* Server/Network/ResponseHandler
+   ```
+5. **Run the Client**
+   ```sh
+   cd Client
+   javac -cp .:lib/* Client/GUI/MainApp/MenuMain.java
+   java -cp .:lib/* Client/GUI/MainApp/MenuMain
+   ```
 
-//to do:
-{
+## 📡 Networking & Real-Time Features
+- Uses **Java Sockets** for real-time client-server communication.
+- **Threaded architecture** ensures responsiveness.
+- Messages are delivered in real-time with **asynchronous processing**.
 
-    -add websocket and rework the heartbeat system
-    -fix replies in dashboard
-    -add likes
-    -add profile pictures
-    -def do something about those buttons lol
-    -
+## 📌 Future Enhancements
+- Implement a **Like System**.
+- Add **Profile Pictures**.
+- Enhance the **user interface with modern UI frameworks**.
+- Optimize live chat for **better efficency**.
 
-
-
-}
+## 👨‍💻 Author
+Developed as a **Twitter-like system** with Java, MySQL, and real-time messaging capabilities.
