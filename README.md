@@ -22,8 +22,8 @@ This project is a **Twitter-like social media system** developed in **Java**, fe
 ### User Dashboard
 ![Main Menu](Resources/MainApp.jpg)
 
-### Tweet Interface
-![Register & Login](Resources/RegisterandLogin.jpg)
+### Dashboard Interface
+![Register & Login](Resources/Dashboard.jpg)
 
 ### Tweet Interface
 ![Register & Login](Resources/Tweets.jpg)
