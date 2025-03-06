@@ -75,4 +75,4 @@ This project is a **Twitter-like social media system** developed in **Java**, fe
 - Optimize live chat for **better efficency**.
 
 ## 👨‍💻 Author
-Developed as a **Twitter-like system** with Java, MySQL, and real-time messaging capabilities.
+@Tears 💧 (https://github.com/Ohtears)
